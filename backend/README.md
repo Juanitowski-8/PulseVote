@@ -28,6 +28,28 @@ npm run prisma:seed
 | `npm run prisma:generate` | Genera Prisma Client |
 | `npm run prisma:migrate` | Aplica migraciones |
 | `npm run prisma:seed` | Datos iniciales |
+| `npm run test` | Tests de integración (Vitest + Supertest) |
+| `npm run test:watch` | Tests en modo watch |
+
+## Tests automatizados
+
+Suite de **integración** contra la API real (sin levantar `server.ts`).
+
+**Requisitos:**
+
+1. PostgreSQL activo (Docker Compose en puerto **5433**).
+2. `npm run prisma:migrate` y `npm run prisma:seed` ejecutados.
+3. `.env` con `DATABASE_URL` y `JWT_SECRET` válidos.
+
+```bash
+cd backend
+npm install
+npm run test
+```
+
+**Cubre:** health, login admin/user, 401 sin token, crear poll (admin), 403 user crea poll, voto único, 409 duplicado, 403 admin vota.
+
+Los polls de prueba usan el prefijo `[TEST]` y se eliminan al finalizar la suite.
 
 ## Usuarios de prueba (seed)
 

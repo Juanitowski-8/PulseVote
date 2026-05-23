@@ -226,6 +226,14 @@ npm run build
 npm start
 ```
 
+**Tests de integración (opcional):**
+
+```bash
+npm run test
+```
+
+Requiere PostgreSQL activo, `prisma:migrate` y `prisma:seed`. Ver [backend/README.md](backend/README.md).
+
 ### 4. Frontend
 
 En **otra terminal**, desde la raíz del monorepo:
