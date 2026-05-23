@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/pulsevote-logo.svg" width="96" height="96" alt="PulseVote logo" />
+  <img src="assets/pulsevote-logo.svg" width="96" height="96" alt="PulseVote logo" />
 </p>
 
 <h1 align="center">PulseVote</h1>
@@ -189,7 +189,7 @@ backend/
     ├── schemas/           # Esquemas Zod de entrada (login, register, poll, vote)
     ├── types/             # Tipos TypeScript compartidos en el API
     ├── utils/             # JWT, password, AppError, envelope de respuesta
-    ├── docs/              # Anotaciones Swagger (paths, schemas)
+    ├── docs/              # Anotaciones OpenAPI Swagger (paths, schemas)
     ├── app.ts
     └── server.ts
 ```
@@ -546,7 +546,6 @@ IA se usó como apoyo para estructura inicial, componentes UI, validaciones y bo
 |---------|-----------|
 | [GUIA-ENTREVISTA.md](GUIA-ENTREVISTA.md) | Guía para la entrevista técnica |
 | [CHECKLIST-ENTREGA.md](CHECKLIST-ENTREGA.md) | Checklist de prueba ordenada |
-| [docs/ESTADO-SISTEMA.md](docs/ESTADO-SISTEMA.md) | Estado técnico detallado |
 | [backend/README.md](backend/README.md) | Notas del API |
 
 ---
@@ -571,7 +570,7 @@ IA se usó como apoyo para estructura inicial, componentes UI, validaciones y bo
 Desarrollado por **Juan Esteban Camargo Vergara** — prueba técnica **PulseVote**.
 
 <p align="center">
-  <img src="docs/assets/pulsevote-logo.svg" width="48" height="48" alt="PulseVote" />
+  <img src="assets/pulsevote-logo.svg" width="48" height="48" alt="PulseVote" />
   <br />
   <strong>PulseVote</strong> · Desarrollado por <strong>Juan Esteban Camargo Vergara</strong>
   <br />

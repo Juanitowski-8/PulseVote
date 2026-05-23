@@ -174,4 +174,4 @@ Marcar al cerrar la entrega:
 
 ---
 
-**PulseVote** · [README.md](README.md) · [docs/GUIA-ENTREVISTA.md](docs/GUIA-ENTREVISTA.md) · [docs/ESTADO-SISTEMA.md](docs/ESTADO-SISTEMA.md)
+**PulseVote** · [README.md](README.md) · [GUIA-ENTREVISTA.md](GUIA-ENTREVISTA.md)
