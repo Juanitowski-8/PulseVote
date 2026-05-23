@@ -1,67 +1,104 @@
 # PulseVote
 
-**Plataforma web full-stack de encuestas en tiempo real.**
+**PulseVote** es una plataforma web full-stack de encuestas en tiempo real. Permite que administradores creen, editen y gestionen encuestas, mientras que usuarios pueden votar una sola vez por encuesta. Los resultados se visualizan en un dashboard con actualización automática mediante polling.
 
-Los administradores crean y gestionan encuestas. Los usuarios participan con **un voto por encuesta**. El **dashboard** muestra métricas y resultados que se actualizan automáticamente mediante **polling** cada 3 segundos.
+El proyecto fue desarrollado como prueba técnica full-stack, priorizando arquitectura clara, autenticación segura, roles, validaciones, experiencia de usuario, documentación y facilidad de ejecución local.
 
-> Prueba técnica full-stack · Repositorio: [github.com/Juanitowski-8/PulseVote](https://github.com/Juanitowski-8/PulseVote)
+> Repositorio: [github.com/Juanitowski-8/PulseVote](https://github.com/Juanitowski-8/PulseVote)
 
 ---
 
-## Tabla de contenidos
+## Tabla de contenido
 
-- [Demo y flujo del producto](#demo-y-flujo-del-producto)
-- [Funcionalidades](#funcionalidades)
+- [Descripción general](#descripción-general)
+- [Funcionalidades principales](#funcionalidades-principales)
 - [Stack tecnológico](#stack-tecnológico)
-- [Usuarios de prueba](#usuarios-de-prueba)
-- [Arquitectura del monorepo](#arquitectura-del-monorepo)
-- [Estructura de carpetas](#estructura-de-carpetas)
+- [Arquitectura](#arquitectura)
+- [Modelo de datos](#modelo-de-datos)
 - [Requisitos previos](#requisitos-previos)
-- [Cómo correr el proyecto desde cero](#cómo-correr-el-proyecto-desde-cero)
+- [Cómo correr el proyecto localmente](#cómo-correr-el-proyecto-localmente)
+- [Usuarios de prueba](#usuarios-de-prueba)
+- [URLs útiles](#urls-útiles)
 - [Variables de entorno](#variables-de-entorno)
 - [Endpoints principales](#endpoints-principales)
+- [Tests](#tests)
 - [Decisiones técnicas](#decisiones-técnicas)
-- [Trade-offs](#trade-offs)
+- [Trade-offs y mejoras futuras](#trade-offs-y-mejoras-futuras)
 - [Uso de IA](#uso-de-ia)
-- [Pruebas manuales](#pruebas-manuales)
-- [Mejoras futuras](#mejoras-futuras)
+- [Checklist de prueba manual](#checklist-de-prueba-manual)
+- [Troubleshooting](#troubleshooting)
 - [Documentación adicional](#documentación-adicional)
+- [Estado del proyecto](#estado-del-proyecto)
 - [Autor](#autor)
 
 ---
 
-## Demo y flujo del producto
+## Descripción general
 
-1. **Landing** (`/`) — presentación del producto y acceso a login.
-2. **Admin** inicia sesión → gestiona encuestas en `/admin/polls` (crear, editar, activar/desactivar, eliminar) y consulta el **dashboard** en `/dashboard`.
-3. **Usuario** inicia sesión → ve encuestas **activas** en `/user/polls`, vota una vez y recibe confirmación o error si intenta repetir.
-4. El **dashboard** refresca métricas y gráficos sin recargar la página (polling HTTP).
+PulseVote resuelve un flujo completo de encuestas en tiempo real:
+
+1. Un administrador inicia sesión.
+2. El administrador crea encuestas con múltiples opciones.
+3. Los usuarios inician sesión y votan en encuestas activas.
+4. Cada usuario solo puede votar una vez por encuesta.
+5. El dashboard muestra métricas y resultados actualizándose automáticamente sin recargar la página.
+
+La aplicación está dividida en dos partes principales:
 
 ```text
-  ADMIN                         USER
-    │                             │
-    ├─ CRUD encuestas             ├─ Ver activas
-    ├─ Dashboard (métricas)       ├─ Votar (1 vez)
-    └─ Resultados en vivo         └─ Estado "ya votaste"
+/backend   API REST con Express, TypeScript, Prisma y PostgreSQL
+/frontend  Aplicación React con TypeScript, Vite, Tailwind CSS y Recharts
 ```
 
 ---
 
-## Funcionalidades
+## Funcionalidades principales
 
-| Área | Detalle |
-|------|---------|
-| **Autenticación** | Login con JWT; sesión restaurada con `GET /auth/me`; logout en cliente |
-| **Roles** | `ADMIN` y `USER`; rutas protegidas en frontend y middleware en backend |
-| **Encuestas (ADMIN)** | Crear, listar, editar, eliminar; activar/desactivar |
-| **Votación (USER)** | Voto sobre encuestas activas; validación de opción |
-| **Voto único** | Restricción en aplicación + `@@unique([userId, pollId])` en PostgreSQL |
-| **Dashboard** | Resumen de métricas y resultados por encuesta (Recharts) |
-| **Tiempo real** | Polling cada **3 s** en dashboard (sin WebSocket) |
-| **Validaciones** | Zod en backend; validación de formularios en frontend |
-| **API docs** | Swagger/OpenAPI en `/api/docs` |
-| **Base de datos** | PostgreSQL en Docker; Prisma migrate + seed |
-| **UX** | Estados de carga, vacío y error; diseño oscuro premium; toggle día/noche en app |
+### Autenticación y autorización
+
+- Login con JWT.
+- Roles:
+  - `ADMIN`: puede crear, editar, eliminar y listar encuestas.
+  - `USER`: puede ver encuestas activas y votar.
+- Rutas protegidas en backend y frontend.
+- Restauración de sesión mediante `GET /api/auth/me`.
+
+### Encuestas
+
+- Crear encuestas con pregunta, descripción y múltiples opciones.
+- Editar, eliminar y activar/desactivar encuestas.
+- Listar encuestas según el rol.
+- Consultar resultados por encuesta.
+
+### Votación
+
+- Los usuarios votan en encuestas activas.
+- Un usuario no puede votar dos veces en la misma encuesta.
+- Validación en backend y restricción en base de datos:
+
+```prisma
+@@unique([userId, pollId])
+```
+
+### Dashboard
+
+- Métricas generales y resultados por encuesta.
+- Gráficas con Recharts.
+- Polling cada 3 segundos.
+- Estados de carga, error y vacío.
+
+### UI/UX
+
+- Diseño responsive.
+- Modo claro y oscuro con persistencia en `localStorage`.
+- Paleta premium verde, landing con fondo animado.
+- Code splitting por rutas (Vite).
+- Estados visuales: loading, error, empty state, feedback.
+
+### Documentación
+
+- Swagger/OpenAPI en `/api/docs`.
+- README completo y guías en `/docs`.
 
 ---
 
@@ -69,108 +106,113 @@ Los administradores crean y gestionan encuestas. Los usuarios participan con **u
 
 ### Frontend
 
-- React · TypeScript · Vite  
-- Tailwind CSS · Recharts · React Router DOM  
-- Axios · Context API para auth y tema  
+- React · TypeScript · Vite
+- Tailwind CSS · Recharts · React Router DOM
+- Lucide React · Vitest · React Testing Library
 
 ### Backend
 
-- Node.js · Express · TypeScript  
-- Prisma ORM · PostgreSQL  
-- JWT · bcrypt · Zod  
-- Swagger (swagger-jsdoc + swagger-ui-express)  
+- Node.js · Express · TypeScript
+- Prisma ORM · PostgreSQL
+- JWT · bcrypt · Zod · Swagger/OpenAPI
+- Supertest · Vitest
 
 ### Infraestructura local
 
-- **Docker Compose** — PostgreSQL 16 en puerto **5433** (evita conflicto con instalaciones locales en 5432)
+- Docker · Docker Compose (PostgreSQL)
 
 ---
 
-## Usuarios de prueba
+## Arquitectura
 
-Creados por `npm run prisma:seed`:
-
-| Rol | Email | Contraseña |
-|-----|-------|------------|
-| **Admin** | `admin@pulsevote.app` | `Admin123!` |
-| **User** | `user@pulsevote.app` | `User123!` |
-
-En la pantalla de login hay accesos rápidos para rellenar estas credenciales.
-
----
-
-## Arquitectura del monorepo
+### Backend
 
 ```text
-PulseVote/
-├── backend/          # API REST (Express + Prisma)
-├── frontend/         # SPA React (Vite)
-├── docs/             # Estado del sistema y checklist de entrega
-├── scripts/          # Helpers para levantar PostgreSQL (PowerShell/CMD)
-├── docker-compose.yml
-└── README.md
+backend/
+  prisma/
+  src/
+    config/
+    controllers/
+    middlewares/
+    routes/
+    schemas/
+    services/
+    types/
+    utils/
+    app.ts
+    server.ts
 ```
 
-**Comunicación:** el frontend llama a la API con `VITE_API_URL`. CORS permite `FRONTEND_URL` (oficial: `http://localhost:5173`) o, opcionalmente, varias URLs en `FRONTEND_URLS` separadas por coma.
+```text
+Request → Route → Middlewares → Controller → Service → Prisma → Response
+```
 
-**Capas backend:** `routes` → `controllers` → `services` → Prisma → PostgreSQL.
+### Frontend
 
-**Capas frontend:** `pages` → `hooks` / `services` → API; `ProtectedRoute` + `AuthContext` para sesión y roles.
+```text
+frontend/
+  src/
+    components/
+    context/
+    hooks/
+    layouts/
+    pages/
+    routes/
+    services/
+    types/
+    utils/
+```
+
+```text
+Page → Components → Hooks/Context → Services → API
+```
 
 ---
 
-## Estructura de carpetas
+## Modelo de datos
 
-### Backend (`/backend`)
+### User
 
-| Carpeta / archivo | Responsabilidad |
-|-------------------|-----------------|
-| `src/config/` | Variables de entorno, Prisma client, Swagger |
-| `src/controllers/` | HTTP: parsear request, delegar a services, responder |
-| `src/services/` | Lógica de negocio (auth, polls, votes, dashboard) |
-| `src/routes/` | Definición de rutas y middlewares por módulo |
-| `src/middlewares/` | JWT, roles, validación Zod, errores globales |
-| `src/schemas/` | Esquemas Zod de entrada |
-| `src/utils/` | JWT, passwords, respuestas estándar, `AppError` |
-| `src/types/` | Tipos TypeScript compartidos |
-| `src/docs/` | Anotaciones OpenAPI (paths y schemas) |
-| `prisma/` | `schema.prisma`, migraciones, `seed.ts` |
+- `id`, `name`, `email`, `passwordHash`, `role`, timestamps  
+- Roles: `ADMIN` | `USER`
 
-### Frontend (`/frontend`)
+### Poll
 
-| Carpeta | Responsabilidad |
-|---------|-----------------|
-| `src/components/` | UI reutilizable (auth, polls, dashboard, layout, states) |
-| `src/pages/` | Vistas por ruta (Welcome, Login, Admin, User, Dashboard) |
-| `src/layouts/` | `AppLayout`, `AuthLayout` |
-| `src/services/` | Cliente Axios, auth y polls |
-| `src/hooks/` | `useAuth`, `usePolls`, `usePolling` |
-| `src/context/` | Auth y tema |
-| `src/types/` | Modelos TypeScript alineados con la API |
-| `src/routes/` | `AppRoutes`, `ProtectedRoute` |
-| `src/mocks/` | Datos locales si `VITE_USE_MOCKS=true` |
-| `src/lib/` | Tokens de diseño (`design-tokens.ts`) |
+- `id`, `question`, `description`, `isActive`, `createdById`, timestamps
+
+### PollOption
+
+- `id`, `text`, `pollId`, timestamps
+
+### Vote
+
+- `id`, `userId`, `pollId`, `optionId`, `createdAt`
+- `@@unique([userId, pollId])` — voto único garantizado en BD
 
 ---
 
 ## Requisitos previos
 
-- **Node.js** 18 o superior  
-- **npm** 9+  
-- **Docker Desktop** (para PostgreSQL)  
-- Puertos libres: **3000** (API), **5173** (frontend, fijo), **5433** (PostgreSQL en Docker)
+- Node.js >= 18
+- npm >= 9
+- Docker Desktop
+- Git
 
-### Puertos locales (oficiales)
-
-| Servicio | URL / host | Notas |
-|----------|------------|--------|
-| **Frontend (Vite)** | http://localhost:5173 | `strictPort: true` — no usar 5174 como URL oficial |
-| **Backend (API)** | http://localhost:3000 | Health: `/api/health` · Swagger: `/api/docs` |
-| **PostgreSQL (Docker)** | localhost:5433 | Mapeo `5433:5432` para no chocar con Postgres local en 5432 |
+Puertos libres: **3000** (API), **5173** (frontend, fijo), **5433** (PostgreSQL en Docker)
 
 ---
 
-## Cómo correr el proyecto desde cero
+## Cómo correr el proyecto localmente
+
+Necesitas **tres servicios** activos:
+
+| Servicio | Puerto | Descripción |
+|----------|--------|-------------|
+| PostgreSQL | 5433 | Docker Compose |
+| Backend API | 3000 | Express + Prisma |
+| Frontend | 5173 | React + Vite (`strictPort: true`) |
+
+> Docker solo levanta la base de datos. Backend y frontend corren en terminales separadas.
 
 ### 1. Clonar el repositorio
 
@@ -179,45 +221,29 @@ git clone https://github.com/Juanitowski-8/PulseVote.git
 cd PulseVote
 ```
 
-**Desde la raíz del monorepo** puedes instalar y compilar todo (recomendado):
+**Opcional — desde la raíz (monorepo con npm workspaces):**
 
 ```bash
 npm install
+npm run db:setup
 npm run build
 ```
 
-Scripts útiles en la raíz:
-
 | Comando | Descripción |
 |---------|-------------|
-| `npm install` | Instala dependencias de `frontend` y `backend` |
-| `npm run build` | Build de frontend + backend |
-| `npm run build:frontend` | Solo frontend |
-| `npm run build:backend` | Solo backend |
-| `npm run dev:frontend` | Vite en http://localhost:5173 |
 | `npm run dev:backend` | API en http://localhost:3000 |
-| `npm run test` | Tests de ambos paquetes |
-| `npm run db:setup` | `prisma generate` + migrate + seed (requiere PostgreSQL) |
-
-> Si prefieres, sigue usando `cd frontend` o `cd backend` como antes; los comandos anteriores son equivalentes.
+| `npm run dev:frontend` | App en http://localhost:5173 |
+| `npm run test` | Tests frontend + backend |
+| `npm run build` | Build de ambos paquetes |
 
 ### 2. Levantar PostgreSQL
 
-**Opción recomendada — Docker Compose:**
-
 ```bash
 docker compose up -d
+docker ps
 ```
 
-Verifica que el contenedor `pulsevote-postgres` esté en ejecución (`docker compose ps`).
-
-**Alternativa — script (Windows):**
-
-```powershell
-.\scripts\start-postgres.ps1
-```
-
-> La base de datos escucha en **localhost:5433** (mapeo `5433:5432` del contenedor).
+PostgreSQL en **localhost:5433** (`5433:5432`) para no chocar con Postgres local en 5432.
 
 ### 3. Backend
 
@@ -228,7 +254,7 @@ cd backend
 **Windows (PowerShell):**
 
 ```powershell
-copy .env.example .env
+Copy-Item .env.example .env
 ```
 
 **Linux / macOS:**
@@ -236,8 +262,6 @@ copy .env.example .env
 ```bash
 cp .env.example .env
 ```
-
-Edita `.env` si necesitas otro `JWT_SECRET` (mínimo 16 caracteres). Luego:
 
 ```bash
 npm install
@@ -247,32 +271,17 @@ npm run prisma:seed
 npm run dev
 ```
 
-Deberías ver: `PulseVote API en http://localhost:3000`
+Verificar: http://localhost:3000/api/health
 
-**Build de producción (opcional):**
-
-```bash
-npm run build
-npm start
+```json
+{ "status": "ok", "service": "pulsevote-api" }
 ```
 
-**Tests backend (integración):** requiere PostgreSQL activo — ver [backend/README.md](backend/README.md).
-
-```bash
-cd backend
-npm run test
-```
-
-**Tests frontend (componentes):**
-
-```bash
-cd frontend
-npm run test
-```
+> No cierres esta terminal.
 
 ### 4. Frontend
 
-En **otra terminal**, desde la raíz del monorepo:
+En **otra terminal**:
 
 ```bash
 cd frontend
@@ -280,7 +289,7 @@ cd frontend
 
 ```powershell
 # Windows
-copy .env.example .env
+Copy-Item .env.example .env
 ```
 
 ```bash
@@ -288,73 +297,43 @@ copy .env.example .env
 cp .env.example .env
 ```
 
-Contenido recomendado de `frontend/.env`:
-
-```env
-VITE_API_URL=http://localhost:3000/api
-VITE_USE_MOCKS=false
-```
-
 ```bash
 npm install
 npm run dev
 ```
 
-El frontend debe abrir en **http://localhost:5173** (puerto fijo). Si Vite indica que **5173 está ocupado**, no continúes en 5174: libera el puerto (ver [Troubleshooting](#troubleshooting-local)) o cierra la terminal anterior donde corría Vite.
+Abrir: **http://localhost:5173**
 
-### 5. URLs
-
-| Recurso | URL |
-|---------|-----|
-| **Frontend** | http://localhost:5173 |
-| **API (base)** | http://localhost:3000/api |
-| **Health** | http://localhost:3000/api/health |
-| **Swagger** | http://localhost:3000/api/docs |
-
-### 6. Verificación rápida
-
-```bash
-curl http://localhost:3000/api/health
-```
-
-Respuesta esperada: `{"status":"ok","service":"pulsevote-api"}`
+> Vite usa puerto fijo 5173. Si está ocupado, libera el puerto (ver [Troubleshooting](#troubleshooting)).
 
 ---
 
-## Troubleshooting local
+## Usuarios de prueba
 
-### "Port 5173 is already in use"
+### Administrador
 
-Vite está configurado con `strictPort: true` y **no** cambiará automáticamente a 5174. Libera el puerto antes de volver a `npm run dev`.
-
-**Windows (PowerShell):**
-
-```powershell
-netstat -ano | findstr :5173
-taskkill /PID <PID> /F
+```text
+Email: admin@pulsevote.app
+Password: Admin123!
 ```
 
-**Alternativa:** cierra la terminal donde seguía corriendo Vite o detén el proceso con `Ctrl + C`.
+### Usuario
 
-No uses **http://localhost:5174** como URL oficial: el backend solo permite CORS desde **http://localhost:5173** por defecto.
-
-### `ERR_CONNECTION_REFUSED` en http://localhost:3000/api/health
-
-El backend no está en ejecución. En otra terminal:
-
-```bash
-cd backend
-npm run dev
+```text
+Email: user@pulsevote.app
+Password: User123!
 ```
 
-(o desde la raíz: `npm run dev:backend`).
+---
 
-### Error de CORS en el navegador
+## URLs útiles
 
-1. Confirma que el frontend corre en **http://localhost:5173** (no 5174).
-2. En `backend/.env`, verifica `FRONTEND_URL=http://localhost:5173`.
-3. Reinicia el backend tras cambiar `.env`.
-4. Solo si necesitas otro puerto en desarrollo, usa `FRONTEND_URLS` (separado por coma) en `backend/.env`.
+| Recurso | URL |
+|---------|-----|
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:3000/api |
+| Health | http://localhost:3000/api/health |
+| Swagger | http://localhost:3000/api/docs |
 
 ---
 
@@ -362,177 +341,275 @@ npm run dev
 
 ### Backend (`backend/.env`)
 
-| Variable | Descripción | Ejemplo |
-|----------|-------------|---------|
-| `DATABASE_URL` | Conexión Prisma a PostgreSQL | `postgresql://pulsevote_user:pulsevote_password@localhost:5433/pulsevote?schema=public` |
-| `JWT_SECRET` | Secreto para firmar tokens (≥16 caracteres) | `change_me_to_a_long_random_secret` |
-| `JWT_EXPIRES_IN` | Caducidad del token | `24h` |
-| `PORT` | Puerto del servidor Express | `3000` |
-| `FRONTEND_URL` | Origen principal permitido por CORS | `http://localhost:5173` |
-| `FRONTEND_URLS` | (Opcional) Varios orígenes separados por coma | `http://localhost:5173,http://localhost:5174` |
-
-Plantilla: `backend/.env.example`
+```env
+DATABASE_URL=postgresql://pulsevote_user:pulsevote_password@localhost:5433/pulsevote?schema=public
+JWT_SECRET=change_me_to_a_long_random_secret
+JWT_EXPIRES_IN=24h
+PORT=3000
+FRONTEND_URL=http://localhost:5173
+# Opcional: FRONTEND_URLS=http://localhost:5173,http://localhost:5174
+```
 
 ### Frontend (`frontend/.env`)
 
-| Variable | Descripción | Ejemplo |
-|----------|-------------|---------|
-| `VITE_API_URL` | URL base de la API | `http://localhost:3000/api` |
-| `VITE_USE_MOCKS` | `true` = datos en localStorage sin backend; `false` = API real | `false` |
-
-Plantilla: `frontend/.env.example`
-
-> Los archivos `.env` están en `.gitignore` y **no deben subirse** al repositorio.
+```env
+VITE_API_URL=http://localhost:3000/api
+VITE_USE_MOCKS=false
+```
 
 ---
 
 ## Endpoints principales
 
-Prefijo base: `/api`
+### Formato de respuesta
+
+Éxito:
+
+```json
+{
+  "success": true,
+  "message": "Operation completed successfully",
+  "data": {}
+}
+```
+
+Error:
+
+```json
+{
+  "success": false,
+  "message": "Error message",
+  "error": { "code": "ERROR_CODE", "message": "Error message" }
+}
+```
 
 ### Auth
 
-| Método | Ruta | Descripción | Rol |
-|--------|------|-------------|-----|
-| `POST` | `/auth/login` | Login; devuelve JWT y usuario | Público |
-| `GET` | `/auth/me` | Usuario autenticado actual | Autenticado |
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| POST | `/api/auth/login` | Iniciar sesión |
+| GET | `/api/auth/me` | Usuario autenticado |
 
 ### Polls
 
-| Método | Ruta | Descripción | Rol |
-|--------|------|-------------|-----|
-| `GET` | `/polls` | Listar (`?active=true` para solo activas) | Autenticado |
-| `GET` | `/polls/:id` | Detalle de encuesta | Autenticado |
-| `POST` | `/polls` | Crear encuesta | **ADMIN** |
-| `PUT` | `/polls/:id` | Actualizar encuesta | **ADMIN** |
-| `DELETE` | `/polls/:id` | Eliminar encuesta | **ADMIN** |
-| `GET` | `/polls/:id/results` | Resultados agregados | Autenticado |
+| Método | Endpoint | Rol | Descripción |
+|--------|----------|-----|-------------|
+| GET | `/api/polls` | ADMIN / USER | Listar |
+| GET | `/api/polls/:id` | ADMIN / USER | Detalle |
+| POST | `/api/polls` | ADMIN | Crear |
+| PUT | `/api/polls/:id` | ADMIN | Editar |
+| DELETE | `/api/polls/:id` | ADMIN | Eliminar |
+| GET | `/api/polls/:id/results` | ADMIN / USER | Resultados |
 
 ### Votes
 
-| Método | Ruta | Descripción | Rol |
-|--------|------|-------------|-----|
-| `POST` | `/polls/:id/vote` | Registrar voto (`{ "optionId": "..." }`) | **USER** |
+| Método | Endpoint | Rol | Descripción |
+|--------|----------|-----|-------------|
+| POST | `/api/polls/:id/vote` | USER | Votar |
 
 ### Dashboard
 
-| Método | Ruta | Descripción | Rol |
-|--------|------|-------------|-----|
-| `GET` | `/dashboard/summary` | Métricas y listado resumido | ADMIN / USER* |
-| `GET` | `/dashboard/polls/:id/results` | Resultados detallados para gráficos | ADMIN / USER* |
+| Método | Endpoint | Rol | Descripción |
+|--------|----------|-----|-------------|
+| GET | `/api/dashboard/summary` | ADMIN | Métricas |
+| GET | `/api/dashboard/polls/:id/results` | ADMIN | Resultados para gráficas |
 
-\* El backend expone dashboard a ambos roles con datos adaptados; en el **frontend**, la ruta `/dashboard` está reservada al **ADMIN**.
+### Health
 
-### Salud y documentación
+| Método | Endpoint |
+|--------|----------|
+| GET | `/api/health` |
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `GET` | `/health` | Health check |
-| — | `/docs` | Interfaz Swagger UI |
+### Swagger
 
-**Formato de respuesta:** auth, vote y dashboard usan envelope `{ success, message?, data }`. Errores: `{ success: false, error: { code, message } }`. Algunos endpoints de polls devuelven el recurso directamente.
+1. Login en `/api/docs`
+2. Copiar JWT
+3. **Authorize** → `Bearer <token>`
+4. Probar endpoints protegidos
 
-Detalle completo e interactivo: **http://localhost:3000/api/docs**
+---
+
+## Tests
+
+### Backend
+
+Requiere PostgreSQL activo con migrate + seed.
+
+```bash
+docker compose up -d
+cd backend
+npm run prisma:migrate
+npm run prisma:seed
+npm run test
+```
+
+Cubre: health, auth, roles, CRUD polls, voto, voto duplicado (409).
+
+### Frontend
+
+```bash
+cd frontend
+npm run test
+```
+
+Cubre: login, componentes, rutas protegidas, theme toggle.
+
+### Builds
+
+```bash
+# Desde la raíz
+npm run build
+
+# O por paquete
+cd backend && npm run build
+cd frontend && npm run build
+```
 
 ---
 
 ## Decisiones técnicas
 
-| Decisión | Motivo |
-|----------|--------|
-| **Node + Express + TypeScript** | Ecosistema maduro, tipado en API y alineación con el frontend TS |
-| **Prisma** | Migraciones declarativas, tipos generados y DX rápida para PostgreSQL |
-| **PostgreSQL** | Integridad relacional, `UNIQUE` para voto único y consultas analíticas del dashboard |
-| **JWT** | Stateless para API REST; suficiente para el alcance de la prueba |
-| **Zod** | Validación de entrada tipada y mensajes coherentes en el middleware |
-| **Polling (3 s)** | Implementación simple y predecible frente a WebSocket/SSE en el tiempo disponible |
-| **Controller / Service / Routes** | Separación de responsabilidades: HTTP vs negocio vs wiring |
-| **`@@unique([userId, pollId])`** | Garantía en BD ante condiciones de carrera, además de comprobar en servicio |
-| **bcrypt** | Hash de contraseñas en seed y login |
-| **Swagger** | Facilita revisión por evaluadores y pruebas sin leer todo el código |
-| **Monorepo** | Un solo clone para frontend + backend + Docker |
+- **Node.js + Express + TypeScript** — desarrollo ágil y código tipado.
+- **Prisma** — migraciones y cliente tipado.
+- **PostgreSQL** — relaciones y restricción única de votos.
+- **JWT** — auth stateless con roles en token.
+- **Zod** — validación de entrada en backend.
+- **Polling 3s** — tiempo real sin WebSockets (simple y estable).
+- **Voto único** — servicio + `@@unique([userId, pollId])`.
+- **Code splitting** — rutas lazy y chunk de Recharts separado.
+- **Tema claro/oscuro** — CSS variables + clase `.dark` en `<html>`.
 
 ---
 
-## Trade-offs
+## Trade-offs y mejoras futuras
 
-Se priorizó **flujo funcional completo**, **arquitectura clara** y **README evaluable** dentro del plazo de una prueba técnica.
+### Trade-offs
 
-| Tema | Enfoque actual | Mejora posible |
-|------|----------------|----------------|
-| Tiempo real | Polling HTTP cada 3 s | WebSocket o SSE |
-| Sesión | JWT con expiración fija | Refresh tokens |
-| Tests | Pruebas manuales documentadas | Tests E2E / integración automatizados |
-| Deploy | Solo local con Docker DB | CI/CD y hosting (Railway, Vercel, etc.) |
-| Exportación | — | Export CSV/PDF de resultados |
-| Analítica | Dashboard básico | Históricos, filtros por fecha |
-| Mocks | `VITE_USE_MOCKS` para demo sin API | Mantener solo para desarrollo offline |
+- Polling en lugar de WebSocket.
+- JWT sin refresh tokens.
+- Docker solo para PostgreSQL; FE/BE con npm.
+- Tests de integración/unitarios, sin E2E completo.
+
+### Mejoras futuras
+
+- WebSocket o SSE.
+- Refresh tokens.
+- E2E (Playwright).
+- CI/CD y deploy (Vercel + Render/Railway).
+- Export CSV, filtros avanzados, auditoría.
 
 ---
 
 ## Uso de IA
 
-Este proyecto se desarrolló con **apoyo de herramientas de IA** (Cursor) para:
-
-- Estructura inicial de carpetas y boilerplate  
-- Componentes de UI y estilos base  
-- Revisión de integración frontend–backend y mensajes de error  
-- Documentación (README, Swagger, checklists)
-
-**Trabajo humano posterior:** revisión de código, ajustes de arquitectura, pruebas manuales de auth, roles, CRUD, votos (incluido 409 por duplicado), dashboard y correcciones de UX.
-
-Estoy preparado para **explicar cualquier módulo en entrevista** y para **implementar cambios en vivo** sobre esta base.
+IA como apoyo para estructura, componentes, validaciones, documentación y diseño. Código revisado, probado con builds y tests. Preparado para explicar decisiones en entrevista.
 
 ---
 
-## Pruebas manuales
+## Checklist de prueba manual
 
-Checklist detallado: **[docs/CHECKLIST-ENTREGA.md](docs/CHECKLIST-ENTREGA.md)**
+### Setup
 
-Resumen:
+- [ ] `docker compose up -d`
+- [ ] Migraciones + seed
+- [ ] Backend en :3000
+- [ ] `/api/health` OK
+- [ ] Frontend en :5173
 
-- [ ] Login **admin** → `/admin/polls`  
-- [ ] Crear y editar encuesta (mínimo 2 opciones)  
-- [ ] Activar / desactivar y eliminar encuesta  
-- [ ] Abrir **dashboard** → métricas y gráfica se actualizan  
-- [ ] Login **user** → ver solo encuestas activas  
-- [ ] Votar → éxito; votar otra vez → mensaje claro (409)  
-- [ ] User no accede a rutas de admin  
-- [ ] Probar endpoints en **Swagger**  
-- [ ] Apagar backend → frontend muestra error de conexión legible  
+### Admin
+
+- [ ] Login admin
+- [ ] CRUD encuestas
+- [ ] Dashboard y gráficas
+- [ ] Logout
+
+### User
+
+- [ ] Login user
+- [ ] Votar una vez
+- [ ] Segundo voto → error
+- [ ] Resultados
+
+### Seguridad
+
+- [ ] Sin token → 401
+- [ ] User no crea polls
+- [ ] Admin no vota (si aplica)
+
+### UI
+
+- [ ] Modo claro / oscuro
+- [ ] Polling sin recargar página
 
 ---
 
-## Mejoras futuras
+## Troubleshooting
 
-- WebSocket / SSE para resultados en vivo sin polling  
-- Refresh tokens y rotación de sesión  
-- Suite de tests (unitarios + integración + E2E)  
-- Exportación de resultados (CSV)  
-- Notificaciones al cerrar encuesta o alcanzar umbral de votos  
-- Analítica avanzada (tendencias, comparativas)  
-- Despliegue automatizado (Docker full-stack, CI)  
+### `ERR_CONNECTION_REFUSED` en `localhost:3000`
+
+```bash
+cd backend
+npm run dev
+```
+
+### `Port 5173 is already in use`
+
+Vite no cambia a 5174 (`strictPort: true`). Libera el puerto:
+
+```powershell
+netstat -ano | findstr :5173
+taskkill /PID <PID> /F
+```
+
+O cierra la terminal anterior de Vite (`Ctrl + C`).
+
+### Error de CORS
+
+- Frontend en **http://localhost:5173**
+- `FRONTEND_URL=http://localhost:5173` en `backend/.env`
+- Reinicia el backend
+
+### Error de base de datos
+
+```bash
+docker compose up -d
+cd backend
+npm run prisma:migrate
+npm run prisma:seed
+```
+
+### Frontend sin datos
+
+Verifica http://localhost:3000/api/health y que `VITE_USE_MOCKS=false`.
 
 ---
 
 ## Documentación adicional
 
-| Documento | Contenido |
-|-----------|-----------|
-| [docs/HISTORIAL-PROMPTS-Y-COMMITS.md](docs/HISTORIAL-PROMPTS-Y-COMMITS.md) | Trazabilidad prompts → cambios → commits (revisión empresa) |
-| [docs/GUIA-ENTREVISTA.md](docs/GUIA-ENTREVISTA.md) | Guía para defender el proyecto y cambios en vivo |
-| [docs/ESTADO-SISTEMA.md](docs/ESTADO-SISTEMA.md) | Estado técnico y decisiones del proyecto |
-| [docs/CHECKLIST-ENTREGA.md](docs/CHECKLIST-ENTREGA.md) | Checklist paso a paso para evaluación |
-| [backend/README.md](backend/README.md) | Detalle específico de la API |
+| Archivo | Contenido |
+|---------|-----------|
+| [docs/GUIA-ENTREVISTA.md](docs/GUIA-ENTREVISTA.md) | Guía para presentar el proyecto |
+| [docs/CHECKLIST-ENTREGA.md](docs/CHECKLIST-ENTREGA.md) | Checklist de entrega |
+| [docs/ESTADO-SISTEMA.md](docs/ESTADO-SISTEMA.md) | Estado técnico |
+| [backend/README.md](backend/README.md) | Detalle del API |
+
+---
+
+## Estado del proyecto
+
+- API REST con envelope estándar
+- JWT + roles
+- CRUD encuestas + voto único
+- Dashboard con polling
+- Swagger, migraciones, seed
+- Frontend React + tema claro/oscuro
+- Tests backend (9) y frontend (10)
+- README y guías de documentación
 
 ---
 
 ## Autor
 
-**Juan** — PulseVote (prueba técnica full-stack)
+Desarrollado por **Juan**.
 
----
-
-## Licencia
-
-Proyecto académico / prueba técnica. Uso según indicaciones del evaluador.
+**PulseVote** · [github.com/Juanitowski-8/PulseVote](https://github.com/Juanitowski-8/PulseVote)
