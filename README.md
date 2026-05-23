@@ -6,10 +6,27 @@ El proyecto fue desarrollado como prueba técnica full-stack, priorizando arquit
 
 > Repositorio: [github.com/Juanitowski-8/PulseVote](https://github.com/Juanitowski-8/PulseVote)
 
+### Inicio rápido
+
+```bash
+# Terminal 1 — base de datos
+docker compose up -d
+
+# Terminal 2 — API (desde la raíz del monorepo)
+npm run db:setup
+npm run dev:backend
+
+# Terminal 3 — frontend
+npm run dev:frontend
+```
+
+Luego abre http://localhost:5173 e inicia sesión con las [cuentas de prueba](#usuarios-de-prueba).
+
 ---
 
 ## Tabla de contenido
 
+- [Inicio rápido](#inicio-rápido)
 - [Descripción general](#descripción-general)
 - [Funcionalidades principales](#funcionalidades-principales)
 - [Stack tecnológico](#stack-tecnológico)
