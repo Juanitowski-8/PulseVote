@@ -180,6 +180,10 @@
     color: rgb(var(--text-main));
   }
 
+  .dark .landing-title {
+    text-shadow: 0 0 48px rgb(var(--primary) / 0.18);
+  }
+
   .landing-subtitle {
     font-size: clamp(1.125rem, 2.5vw, 1.375rem);
     font-weight: 500;
@@ -202,13 +206,30 @@
     font-weight: 600;
     color: rgb(var(--primary-foreground));
     background: rgb(var(--primary));
+    box-shadow: 0 4px 14px rgb(var(--primary) / 0.22);
     transition:
       background-color 0.2s ease,
+      box-shadow 0.2s ease,
       transform 0.15s ease;
+  }
+
+  .dark .landing-btn-primary {
+    box-shadow:
+      0 0 22px rgb(var(--primary) / 0.45),
+      0 0 44px rgb(var(--primary) / 0.18),
+      0 4px 16px rgb(0 0 0 / 0.35);
   }
 
   .landing-btn-primary:hover {
     background: rgb(var(--primary-medium));
+    box-shadow: 0 6px 20px rgb(var(--primary) / 0.32);
+  }
+
+  .dark .landing-btn-primary:hover {
+    box-shadow:
+      0 0 28px rgb(var(--primary) / 0.55),
+      0 0 52px rgb(var(--primary) / 0.22),
+      0 4px 16px rgb(0 0 0 / 0.35);
   }
 
   .landing-btn-primary:active {
@@ -237,7 +258,13 @@
   .landing-surface-card {
     border-radius: 1rem;
     border: 1px solid rgb(var(--border));
-    background-color: rgb(var(--surface));
+    background-color: rgb(var(--surface) / 0.92);
+    backdrop-filter: blur(8px);
+  }
+
+  .dark .landing-surface-card {
+    background-color: rgb(var(--surface) / 0.78);
+    box-shadow: 0 0 0 1px rgb(var(--primary) / 0.04);
   }
 
   .pv-muted {
@@ -252,8 +279,48 @@
     color: rgb(var(--text-main));
   }
 
+  /* ——— Fondo landing (grid + auroras) ——— */
+  .pv-landing-grid {
+    background-image:
+      linear-gradient(to right, rgb(var(--primary) / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--primary) / 0.05) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 95% 80% at 50% 35%, black 15%, transparent 72%);
+  }
+
+  .dark .pv-landing-grid {
+    background-image:
+      linear-gradient(to right, rgb(var(--primary) / 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--primary) / 0.1) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 100% 85% at 48% 32%, black 10%, transparent 78%);
+  }
+
+  .pv-landing-vignette {
+    background: radial-gradient(
+      ellipse 120% 90% at 50% 45%,
+      rgb(var(--background) / 0.55) 0%,
+      transparent 52%
+    );
+  }
+
+  .dark .pv-landing-vignette {
+    background:
+      radial-gradient(
+        ellipse 130% 100% at 50% 48%,
+        rgb(0 0 0 / 0.45) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse 90% 70% at 50% 40%,
+        rgb(var(--background) / 0.35) 0%,
+        transparent 65%
+      );
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .pv-aurora {
+    .pv-aurora,
+    .pv-landing-aurora {
       animation: none !important;
     }
   }

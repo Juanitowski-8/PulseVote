@@ -1,3 +1,5 @@
+# PostgreSQL local para PulseVote
+# Host: localhost:5433  →  contenedor:5432
 services:
   postgres:
     image: postgres:16

@@ -111,7 +111,7 @@ PulseVote/
 └── README.md
 ```
 
-**Comunicación:** el frontend llama a la API con `VITE_API_URL`. CORS permite solo `FRONTEND_URL` (por defecto `http://localhost:5173`).
+**Comunicación:** el frontend llama a la API con `VITE_API_URL`. CORS permite `FRONTEND_URL` (oficial: `http://localhost:5173`) o, opcionalmente, varias URLs en `FRONTEND_URLS` separadas por coma.
 
 **Capas backend:** `routes` → `controllers` → `services` → Prisma → PostgreSQL.
 
@@ -158,7 +158,15 @@ PulseVote/
 - **Node.js** 18 o superior  
 - **npm** 9+  
 - **Docker Desktop** (para PostgreSQL)  
-- Puertos libres: **3000** (API), **5173** (frontend), **5433** (PostgreSQL en Docker)
+- Puertos libres: **3000** (API), **5173** (frontend, fijo), **5433** (PostgreSQL en Docker)
+
+### Puertos locales (oficiales)
+
+| Servicio | URL / host | Notas |
+|----------|------------|--------|
+| **Frontend (Vite)** | http://localhost:5173 | `strictPort: true` — no usar 5174 como URL oficial |
+| **Backend (API)** | http://localhost:3000 | Health: `/api/health` · Swagger: `/api/docs` |
+| **PostgreSQL (Docker)** | localhost:5433 | Mapeo `5433:5432` para no chocar con Postgres local en 5432 |
 
 ---
 
@@ -292,6 +300,8 @@ npm install
 npm run dev
 ```
 
+El frontend debe abrir en **http://localhost:5173** (puerto fijo). Si Vite indica que **5173 está ocupado**, no continúes en 5174: libera el puerto (ver [Troubleshooting](#troubleshooting-local)) o cierra la terminal anterior donde corría Vite.
+
 ### 5. URLs
 
 | Recurso | URL |
@@ -311,6 +321,43 @@ Respuesta esperada: `{"status":"ok","service":"pulsevote-api"}`
 
 ---
 
+## Troubleshooting local
+
+### "Port 5173 is already in use"
+
+Vite está configurado con `strictPort: true` y **no** cambiará automáticamente a 5174. Libera el puerto antes de volver a `npm run dev`.
+
+**Windows (PowerShell):**
+
+```powershell
+netstat -ano | findstr :5173
+taskkill /PID <PID> /F
+```
+
+**Alternativa:** cierra la terminal donde seguía corriendo Vite o detén el proceso con `Ctrl + C`.
+
+No uses **http://localhost:5174** como URL oficial: el backend solo permite CORS desde **http://localhost:5173** por defecto.
+
+### `ERR_CONNECTION_REFUSED` en http://localhost:3000/api/health
+
+El backend no está en ejecución. En otra terminal:
+
+```bash
+cd backend
+npm run dev
+```
+
+(o desde la raíz: `npm run dev:backend`).
+
+### Error de CORS en el navegador
+
+1. Confirma que el frontend corre en **http://localhost:5173** (no 5174).
+2. En `backend/.env`, verifica `FRONTEND_URL=http://localhost:5173`.
+3. Reinicia el backend tras cambiar `.env`.
+4. Solo si necesitas otro puerto en desarrollo, usa `FRONTEND_URLS` (separado por coma) en `backend/.env`.
+
+---
+
 ## Variables de entorno
 
 ### Backend (`backend/.env`)
@@ -321,7 +368,8 @@ Respuesta esperada: `{"status":"ok","service":"pulsevote-api"}`
 | `JWT_SECRET` | Secreto para firmar tokens (≥16 caracteres) | `change_me_to_a_long_random_secret` |
 | `JWT_EXPIRES_IN` | Caducidad del token | `24h` |
 | `PORT` | Puerto del servidor Express | `3000` |
-| `FRONTEND_URL` | Origen permitido por CORS | `http://localhost:5173` |
+| `FRONTEND_URL` | Origen principal permitido por CORS | `http://localhost:5173` |
+| `FRONTEND_URLS` | (Opcional) Varios orígenes separados por coma | `http://localhost:5173,http://localhost:5174` |
 
 Plantilla: `backend/.env.example`
 

@@ -12,7 +12,7 @@ export function createApp() {
 
   app.use(
     cors({
-      origin: env.FRONTEND_URL,
+      origin: env.corsOrigins,
       credentials: true,
     }),
   )
