@@ -1,5 +1,7 @@
 # Checklist de entrega técnica — PulseVote
 
+> **Versión recomendada para evaluación:** [CHECKLIST-ENTREGA.md](../CHECKLIST-ENTREGA.md) en la raíz del repositorio.
+
 Usar este documento para validar el proyecto de punta a punta antes de la demo o evaluación.
 
 ## Requisitos previos

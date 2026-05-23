@@ -47,7 +47,7 @@ npm install
 npm run test
 ```
 
-**Cubre:** health, login admin/user, 401 sin token, crear poll (admin), 403 user crea poll, voto único, 409 duplicado, 403 admin vota.
+**Cubre:** health, register, login admin/user, admin solo ve sus polls, user ve todas, 401 sin token, crear poll (admin), 403 user crea poll, voto único, 409 duplicado, 403 admin vota.
 
 Los polls de prueba usan el prefijo `[TEST]` y se eliminan al finalizar la suite.
 

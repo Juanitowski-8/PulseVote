@@ -7,7 +7,7 @@ if errorlevel 1 (
   exit /b 1
 )
 echo.
-echo PostgreSQL listo en localhost:5432
+echo PostgreSQL listo en localhost:5433
 echo   Usuario: pulsevote_user
 echo   Password: pulsevote_password
 echo   Base de datos: pulsevote

@@ -100,12 +100,11 @@ PulseVote/
 
 ### 🟡 Parcial / deuda técnica frontend
 
-- Servicios **no parsean** por completo el envelope `{ success, message, data }` del backend en auth.
-- `authService.me()` espera `User` plano; backend devuelve envelope.
-- Keys en `localStorage`: `pulsevote_token` / `pulsevote_user` (migración automática desde `verdicta_*` si existían).
+- Servicios usan `unwrapData` para el envelope `{ success, message, data }` del backend.
+- Keys en `localStorage`: `pulsevote_token` / `pulsevote_user` (migración automática desde claves legacy si existían).
 - Dashboard polling en mock **simula** votos aleatorios; con API real deben ser datos reales.
 - Componentes legacy aún en repo sin uso en landing actual: `DaybreakHeroVisual`, `LivePreviewMock` (sustituidos por diseño premium).
-- Sin tests, sin Storybook, sin i18n.
+- Tests frontend con Vitest (rutas, auth, theme); sin Storybook ni i18n.
 - Toggle día/noche no altera la landing (paleta landing siempre oscura premium).
 
 ### Rutas frontend
@@ -114,9 +113,10 @@ PulseVote/
 |------|-----|--------|
 | `/` | Público | ✅ Landing premium |
 | `/login` | Público | ✅ |
-| `/admin/polls` | ADMIN | ✅ (mock por defecto) |
-| `/user/polls` | USER | ✅ (mock por defecto) |
-| `/dashboard` | ADMIN | ✅ (mock por defecto) |
+| `/register` | Público | ✅ |
+| `/admin/polls` | ADMIN | ✅ (`VITE_USE_MOCKS=false` → API real) |
+| `/user/polls` | USER | ✅ |
+| `/dashboard` | ADMIN | ✅ |
 | `*` | 404 | ✅ |
 
 ---
@@ -128,7 +128,7 @@ PulseVote/
 | Módulo | Descripción |
 |--------|-------------|
 | **Arquitectura** | routes → middlewares → controllers → services → Prisma |
-| **Auth** | `POST /api/auth/login`, `GET /api/auth/me` |
+| **Auth** | `POST /api/auth/login`, `POST /api/auth/register`, `GET /api/auth/me` |
 | **JWT** | `authenticate` + `authorizeRoles` |
 | **Polls** | CRUD + list + detalle + resultados |
 | **Votes** | `POST /api/polls/:id/vote` con restricción única |
@@ -161,7 +161,7 @@ PulseVote/
 | GET | `/api/health` | No | — |
 | POST | `/api/auth/login` | No | — |
 | GET | `/api/auth/me` | JWT | cualquiera |
-| GET | `/api/polls` | JWT | ambos (USER solo activas) |
+| GET | `/api/polls` | JWT | ADMIN: solo propias; USER: todas |
 | GET | `/api/polls/:id` | JWT | ambos |
 | POST | `/api/polls` | JWT | ADMIN |
 | PUT | `/api/polls/:id` | JWT | ADMIN |
@@ -171,15 +171,19 @@ PulseVote/
 | GET | `/api/dashboard/summary` | JWT | ADMIN |
 | GET | `/api/dashboard/polls/:id/results` | JWT | ADMIN |
 
-### ❌ Pendiente backend
+### ❌ Pendiente backend (mejoras futuras)
 
-- Swagger / OpenAPI (`/api/docs`)
-- Registro de usuarios público
 - Refresh token
 - Rate limiting
-- Tests (unit / integración)
-- CI/CD
+- CI/CD en pipeline
 - Paginación y filtros avanzados en listados
+
+### ✅ Ya disponible (no pendiente)
+
+- Swagger / OpenAPI en `/api/docs` (Bearer)
+- Registro público `POST /api/auth/register` (rol USER)
+- Tests de integración (`npm run test` en `backend/`)
+- Scope admin por `createdById` en polls y dashboard
 
 ---
 
@@ -430,7 +434,7 @@ cd frontend && npm run build
 ## 14. Historial de entregas (contexto)
 
 1. Análisis de arquitectura y plan de implementación  
-2. Frontend completo con mocks (Verdicta → PulseVote)  
+2. Frontend completo con mocks opcionales (`VITE_USE_MOCKS`)  
 3. Backend base (Express, Prisma, JWT, CRUD, votos, dashboard)  
 4. Módulo auth/autorización refinado  
 5. Subida a GitHub + flujo de commits  

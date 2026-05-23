@@ -423,7 +423,7 @@ npm run prisma:seed
 npm run test
 ```
 
-Cubre entre otros: health, register, login, listado admin acotado, user ve todas las polls, CRUD, voto, 409 duplicado, 403 por rol.
+Cubre entre otros: health, register, login, listado admin acotado, user ve todas las polls, CRUD, voto, 409 duplicado, 403 por rol (~14 tests de integración).
 
 ```bash
 cd backend
@@ -438,7 +438,7 @@ npm run test
 npm run build
 ```
 
-Cubre: rutas protegidas, componentes de auth, theme toggle, etc.
+Cubre: rutas protegidas, componentes de auth, theme toggle, etc. (~10 tests).
 
 ### Desde la raíz
 
@@ -508,8 +508,8 @@ Cada decisión prioriza **entregar la prueba técnica de forma estable y explica
 
 | Archivo | Contenido |
 |---------|-----------|
-| [docs/GUIA-ENTREVISTA.md](docs/GUIA-ENTREVISTA.md) | Guía para presentar el proyecto |
-| [docs/CHECKLIST-ENTREGA.md](docs/CHECKLIST-ENTREGA.md) | Checklist de entrega |
+| [GUIA-ENTREVISTA.md](GUIA-ENTREVISTA.md) | Guía para la entrevista técnica |
+| [CHECKLIST-ENTREGA.md](CHECKLIST-ENTREGA.md) | Checklist de prueba ordenada |
 | [docs/ESTADO-SISTEMA.md](docs/ESTADO-SISTEMA.md) | Estado técnico detallado |
 | [backend/README.md](backend/README.md) | Notas del API |
 
@@ -523,8 +523,8 @@ Cada decisión prioriza **entregar la prueba técnica de forma estable y explica
 - Voto único (servicio + `@@unique`)
 - Dashboard admin con polling ~3 s
 - Swagger en `/api/docs`
-- Tests: integración backend + unitarios frontend
-- Tema claro/oscuro, landing, code splitting
+- Tests: ~14 integración backend + ~10 frontend (Vitest)
+- Tema claro/oscuro (`ThemeToggle` + `ThemeContext`), landing, code splitting
 
 **No incluido (mejoras futuras):** deploy productivo, WebSocket, refresh tokens, E2E Playwright.
 

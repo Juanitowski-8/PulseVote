@@ -1,5 +1,7 @@
 # Guía de entrevista técnica — PulseVote
 
+> **Versión recomendada para evaluación:** [GUIA-ENTREVISTA.md](../GUIA-ENTREVISTA.md) en la raíz del repositorio.
+
 Documento para **estudiar y defender** el proyecto en entrevista: explicar arquitectura, decisiones y hacer **cambios en vivo** con seguridad.
 
 ---
@@ -24,7 +26,7 @@ Permite a un equipo **crear encuestas**, **recoger votos** y **ver resultados ag
 
 1. Admin hace **login** → JWT.
 2. Crea encuesta con opciones en PostgreSQL (Prisma).
-3. User hace login → ve solo encuestas **activas**.
+3. User hace login → ve **todas** las encuestas; vota solo en las **activas**.
 4. User elige opción → `POST /polls/:id/vote` → validaciones + insert en `Vote`.
 5. Admin abre **dashboard** → cada 3 s pide summary y resultados → gráficos Recharts.
 
@@ -393,7 +395,7 @@ IA ayudó en boilerplate y UI; yo revisé integración, probé manualmente auth/
 1. USER/ADMIN → POST /auth/login
 2. FE guarda token → Authorization en cada request
 3. ADMIN → POST /polls (opciones nested create)
-4. USER → GET /polls?active=true (hasVoted en lista)
+4. USER → GET /polls (todas; hasVoted en lista)
 5. USER → POST /polls/:id/vote { optionId }
 6. BE valida → INSERT Vote → GET results → responde
 7. ADMIN → GET /dashboard/summary + GET /dashboard/polls/:id/results

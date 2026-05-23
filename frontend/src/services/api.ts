@@ -6,10 +6,11 @@ const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api'
 export const TOKEN_KEY = 'pulsevote_token'
 export const USER_KEY = 'pulsevote_user'
 
+/** Claves legacy en localStorage (compatibilidad con builds anteriores del proyecto). */
 const LEGACY_TOKEN_KEY = 'verdicta_token'
 const LEGACY_USER_KEY = 'verdicta_user'
 
-/** Migra sesión guardada con keys antiguas. */
+/** Migra sesión guardada con claves antiguas hacia pulsevote_*. */
 export function migrateLegacyStorageKeys() {
   const legacyToken = localStorage.getItem(LEGACY_TOKEN_KEY)
   const legacyUser = localStorage.getItem(LEGACY_USER_KEY)

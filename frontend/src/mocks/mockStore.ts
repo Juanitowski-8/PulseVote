@@ -3,6 +3,7 @@ import type { Poll, PollFormData, PollResults, DashboardSummary } from '@/types/
 import type { Vote } from '@/types/poll'
 
 const STORAGE_KEY = 'pulsevote_mock_data'
+/** Clave legacy en localStorage (compatibilidad con datos mock antiguos). */
 const LEGACY_STORAGE_KEY = 'verdicta_mock_data'
 
 interface MockData {
