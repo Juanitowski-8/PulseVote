@@ -1,4 +1,4 @@
-import { BarChart2, MoreVertical, Pencil, Power, Trash2 } from 'lucide-react'
+import { BarChart2, Pencil, Power, Trash2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -27,7 +27,7 @@ export function PollCard({
   onVoteClick,
 }: PollCardProps) {
   return (
-    <Card className="transition-shadow hover:shadow-md">
+    <Card className="transition-colors hover:border-primary/25">
       <CardHeader className="flex flex-row items-start justify-between gap-4 pb-2">
         <div className="min-w-0 flex-1">
           <div className="mb-2 flex flex-wrap gap-2">
@@ -38,10 +38,10 @@ export function PollCard({
               <Badge variant="secondary">Ya votaste</Badge>
             )}
           </div>
-          <CardTitle className="text-base leading-snug">{poll.question}</CardTitle>
+          <CardTitle className="text-base leading-snug text-foreground">{poll.question}</CardTitle>
         </div>
         {variant === 'admin' && (
-          <div className="flex shrink-0 gap-1">
+          <div className="flex shrink-0 gap-0.5">
             {onViewResults && (
               <Button variant="ghost" size="icon" onClick={onViewResults} aria-label="Ver resultados">
                 <BarChart2 className="h-4 w-4" />
@@ -64,9 +64,6 @@ export function PollCard({
             )}
           </div>
         )}
-        {variant === 'user' && (
-          <MoreVertical className="h-4 w-4 shrink-0 text-muted-foreground opacity-0" aria-hidden />
-        )}
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">
@@ -77,6 +74,7 @@ export function PollCard({
             className="mt-4 w-full sm:w-auto"
             onClick={onVoteClick}
             disabled={hasVoted || !poll.isActive}
+            variant={hasVoted ? 'secondary' : 'default'}
           >
             {hasVoted ? 'Voto registrado' : 'Participar'}
           </Button>

@@ -28,11 +28,11 @@ export function HowItWorks() {
   return (
     <section className="relative border-t border-[#12382B]">
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
-        <div className="mb-14 text-center">
+        <div className="mb-14 max-w-2xl">
           <h2 className="text-2xl font-semibold tracking-tight text-[#F3FFF8] sm:text-3xl">
             ¿Cómo funciona?
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-[#8FA99B]">
+          <p className="mt-3 text-[#8FA99B]">
             Un flujo simple en tres pasos: crear, votar y ver resultados en tiempo real.
           </p>
         </div>
@@ -42,7 +42,7 @@ export function HowItWorks() {
             <li key={step}>
               <article className="landing-surface-card flex h-full flex-col p-6">
                 <div className="mb-4 flex items-center justify-between">
-                  <span className="text-xs font-medium uppercase tracking-wider text-[#00B86B]">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#00B86B]">
                     {role === 'LIVE' ? 'Tiempo real' : `Rol ${role}`}
                   </span>
                   <span className="font-mono text-sm text-[#8FA99B]">{step}</span>

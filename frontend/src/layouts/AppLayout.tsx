@@ -21,7 +21,7 @@ export function AppLayout() {
       {mobileOpen && (
         <button
           type="button"
-          className="fixed inset-0 z-40 bg-foreground/30 lg:hidden"
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
           aria-label="Cerrar menú"
           onClick={() => setMobileOpen(false)}
         />

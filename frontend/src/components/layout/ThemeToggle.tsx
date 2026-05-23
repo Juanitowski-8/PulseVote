@@ -16,19 +16,17 @@ export function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       className={cn(
-        'fixed bottom-4 z-[100] flex h-12 w-12 items-center justify-center rounded-full border shadow-lg transition-all duration-300',
+        'fixed bottom-4 z-[100] flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-md transition hover:bg-muted hover:text-foreground',
         inApp ? 'left-4 lg:left-[17.5rem]' : 'left-4',
-        'border-border bg-card text-foreground hover:scale-105 hover:shadow-xl',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-        'dark:border-white/20 dark:bg-black dark:text-emerald-300 dark:hover:bg-white/10',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
       )}
       aria-label={theme === 'dark' ? 'Activar modo día' : 'Activar modo nocturno'}
       title={theme === 'dark' ? 'Modo día' : 'Modo nocturno'}
     >
       {theme === 'dark' ? (
-        <Sun className="h-5 w-5 text-amber-400" aria-hidden />
+        <Sun className="h-4 w-4" aria-hidden />
       ) : (
-        <Moon className="h-5 w-5 text-primary" aria-hidden />
+        <Moon className="h-4 w-4" aria-hidden />
       )}
     </button>
   )

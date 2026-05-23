@@ -68,15 +68,18 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
       )}
 
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email" className="text-[#F3FFF8]">
+          Email
+        </Label>
         <Input
           id="email"
           type="email"
           autoComplete="email"
-          placeholder="tu@empresa.com"
+          placeholder="nombre@empresa.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           aria-invalid={!!fieldErrors.email}
+          className="border-[#12382B] bg-[#0B241B] text-[#F3FFF8] placeholder:text-[#8FA99B]"
         />
         {fieldErrors.email && (
           <p className="text-xs text-destructive">{fieldErrors.email}</p>
@@ -84,7 +87,9 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password">Contraseña</Label>
+        <Label htmlFor="password" className="text-[#F3FFF8]">
+          Contraseña
+        </Label>
         <Input
           id="password"
           type="password"
@@ -93,17 +98,14 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           aria-invalid={!!fieldErrors.password}
+          className="border-[#12382B] bg-[#0B241B] text-[#F3FFF8] placeholder:text-[#8FA99B]"
         />
         {fieldErrors.password && (
           <p className="text-xs text-destructive">{fieldErrors.password}</p>
         )}
       </div>
 
-      <Button
-        type="submit"
-        className="h-10 w-full rounded-full bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-emerald-600 dark:hover:bg-emerald-500"
-        disabled={isSubmitting}
-      >
+      <Button type="submit" className="h-10 w-full" disabled={isSubmitting}>
         {isSubmitting ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
@@ -114,30 +116,26 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
         )}
       </Button>
 
-      <div className="rounded-lg border border-border/80 bg-muted/40 p-4">
-        <p className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+      <div className="rounded-lg border border-[#12382B] bg-[#0B241B]/80 p-4">
+        <p className="mb-3 text-xs font-medium uppercase tracking-wide text-[#8FA99B]">
           Cuentas de prueba
         </p>
-        <div className="space-y-2 text-sm">
+        <div className="grid gap-2 sm:grid-cols-2">
           <button
             type="button"
-            className="w-full rounded-md border border-border bg-card px-3 py-2 text-left transition hover:border-primary/40 hover:bg-primary/5"
+            className="rounded-lg border border-[#12382B] bg-[#071A14] px-3 py-2.5 text-left text-sm transition hover:border-[#00B86B]/50"
             onClick={() => fillDemo('admin@pulsevote.app', 'Admin123!')}
           >
-            <span className="font-medium text-foreground">Admin</span>
-            <span className="mt-0.5 block text-xs text-muted-foreground">
-              admin@pulsevote.app · Admin123!
-            </span>
+            <span className="font-medium text-[#F3FFF8]">Admin</span>
+            <span className="mt-0.5 block text-xs text-[#8FA99B]">admin@pulsevote.app</span>
           </button>
           <button
             type="button"
-            className="w-full rounded-md border border-border bg-card px-3 py-2 text-left transition hover:border-primary/40 hover:bg-primary/5"
+            className="rounded-lg border border-[#12382B] bg-[#071A14] px-3 py-2.5 text-left text-sm transition hover:border-[#00B86B]/50"
             onClick={() => fillDemo('user@pulsevote.app', 'User123!')}
           >
-            <span className="font-medium text-foreground">Usuario</span>
-            <span className="mt-0.5 block text-xs text-muted-foreground">
-              user@pulsevote.app · User123!
-            </span>
+            <span className="font-medium text-[#F3FFF8]">Usuario</span>
+            <span className="mt-0.5 block text-xs text-[#8FA99B]">user@pulsevote.app</span>
           </button>
         </div>
       </div>

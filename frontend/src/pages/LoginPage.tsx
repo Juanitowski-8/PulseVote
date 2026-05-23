@@ -27,15 +27,15 @@ export function LoginPage() {
   }
 
   return (
-    <Card className="border-neutral-200/80 bg-white shadow-lg shadow-neutral-200/50 dark:border-white/10 dark:bg-neutral-950 dark:shadow-none">
-      <CardHeader className="text-center sm:text-left">
-        <CardTitle className="text-xl font-semibold text-neutral-900 dark:text-white">Iniciar sesión</CardTitle>
-        <CardDescription className="text-neutral-600 dark:text-neutral-400">
+    <Card className="landing-surface-card border-[#12382B] bg-[#071A14] shadow-none">
+      <CardHeader className="space-y-1 pb-2 text-center sm:text-left">
+        <CardTitle className="text-xl font-semibold text-[#F3FFF8]">Iniciar sesión</CardTitle>
+        <CardDescription className="text-[#8FA99B]">
           {preset === 'admin'
-            ? 'Accede al panel de administración para crear encuestas y ver el dashboard.'
+            ? 'Panel de administración: encuestas y dashboard en vivo.'
             : preset === 'user'
               ? 'Accede para votar en las encuestas activas.'
-              : 'Accede para gestionar encuestas o participar en las activas.'}
+              : 'Gestiona encuestas o participa en las activas.'}
         </CardDescription>
       </CardHeader>
       <CardContent>

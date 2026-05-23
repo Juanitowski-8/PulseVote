@@ -2,8 +2,21 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ——— PulseVote design tokens ——— */
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --color-pv-bg: #020d0a;
+  --color-pv-surface: #071a14;
+  --color-pv-surface-soft: #0b241b;
+  --color-pv-border: #12382b;
+  --color-pv-primary: #00f58a;
+  --color-pv-primary-medium: #00b86b;
+  --color-pv-primary-dark: #006b45;
+  --color-pv-text: #f3fff8;
+  --color-pv-text-muted: #8fa99b;
+  --color-pv-danger: #ef4444;
+  --color-pv-warning: #f59e0b;
 
   --color-background: #f6f9f7;
   --color-foreground: #0c1a14;
@@ -13,21 +26,21 @@
   --color-muted-foreground: #5a6b62;
   --color-border: #d4e4db;
   --color-input: #d4e4db;
-  --color-primary: #0b6b52;
-  --color-primary-foreground: #ecfdf5;
+  --color-primary: #006b45;
+  --color-primary-foreground: #f3fff8;
   --color-secondary: #e8f0ec;
   --color-secondary-foreground: #134e3a;
-  --color-accent: #10b981;
-  --color-accent-foreground: #052e1f;
-  --color-destructive: #dc2626;
+  --color-accent: #00b86b;
+  --color-accent-foreground: #020d0a;
+  --color-destructive: #ef4444;
   --color-destructive-foreground: #fef2f2;
-  --color-ring: #0b6b52;
-  --color-sidebar: #0a1512;
-  --color-sidebar-foreground: #d1e8df;
-  --color-sidebar-muted: #6b8f7d;
-  --color-sidebar-accent: #134e3a;
-  --color-success: #059669;
-  --color-warning: #d97706;
+  --color-ring: #00b86b;
+  --color-sidebar: #071a14;
+  --color-sidebar-foreground: #f3fff8;
+  --color-sidebar-muted: #8fa99b;
+  --color-sidebar-accent: #0b241b;
+  --color-success: #00b86b;
+  --color-warning: #f59e0b;
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
@@ -35,27 +48,28 @@
   --radius-xl: 1rem;
 }
 
-/* Modo nocturno — negro puro + acentos verdes (estilo Daybreak) */
 .dark {
-  --color-background: #000000;
-  --color-foreground: #f0fdf4;
-  --color-card: #0a0a0a;
-  --color-card-foreground: #e8f0ec;
-  --color-muted: #111111;
-  --color-muted-foreground: #a3a3a3;
-  --color-border: #262626;
-  --color-input: #262626;
-  --color-primary: #10b981;
-  --color-primary-foreground: #052e1f;
-  --color-secondary: #171717;
-  --color-secondary-foreground: #6ee7b7;
-  --color-accent: #34d399;
-  --color-accent-foreground: #ecfdf5;
-  --color-ring: #10b981;
-  --color-sidebar: #000000;
-  --color-sidebar-foreground: #d1e8df;
-  --color-sidebar-muted: #737373;
-  --color-sidebar-accent: #14532d;
+  --color-background: #020d0a;
+  --color-foreground: #f3fff8;
+  --color-card: #071a14;
+  --color-card-foreground: #f3fff8;
+  --color-muted: #0b241b;
+  --color-muted-foreground: #8fa99b;
+  --color-border: #12382b;
+  --color-input: #12382b;
+  --color-primary: #00f58a;
+  --color-primary-foreground: #020d0a;
+  --color-secondary: #0b241b;
+  --color-secondary-foreground: #f3fff8;
+  --color-accent: #00b86b;
+  --color-accent-foreground: #f3fff8;
+  --color-ring: #00b86b;
+  --color-sidebar: #071a14;
+  --color-sidebar-foreground: #f3fff8;
+  --color-sidebar-muted: #8fa99b;
+  --color-sidebar-accent: #0b241b;
+  --color-destructive: #ef4444;
+  --color-success: #00f58a;
 }
 
 @layer base {
@@ -68,33 +82,16 @@
   }
 
   body {
-    @apply min-h-screen bg-background font-sans text-foreground transition-colors duration-300;
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgb(16 185 129 / 0.08), transparent),
-      radial-gradient(ellipse 60% 40% at 100% 100%, rgb(11 107 82 / 0.05), transparent);
+    @apply min-h-screen bg-background font-sans text-foreground transition-colors duration-200;
   }
 
   .dark body {
-    background-color: #000000;
-    background-image: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .led-orb,
-    .led-grid,
-    .led-grid-perspective,
-    .led-aurora,
-    .led-beam,
-    .led-sun-glow,
-    .led-sun-core,
-    .led-code-stream,
-    .led-horizon,
-    .animate-pulsevote-float,
-    .animate-pulsevote-float-delayed,
-    .animate-pulsevote-float-slow,
-    .landing-premium-noise {
-      animation: none !important;
-    }
+    background-color: var(--color-pv-bg);
+    background-image: radial-gradient(
+      ellipse 70% 45% at 50% -8%,
+      rgb(0 245 138 / 0.05),
+      transparent 55%
+    );
   }
 
   #root {
@@ -108,38 +105,53 @@
 
 @layer utilities {
   .glass-card {
-    @apply rounded-xl border border-border/80 bg-card/90 shadow-sm backdrop-blur-sm;
+    @apply rounded-xl border border-border bg-card;
+    box-shadow: 0 1px 0 rgb(243 255 248 / 0.04);
   }
 
-  .text-gradient-brand {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  .dark .glass-card {
+    box-shadow: none;
   }
 
-  /* ——— Landing premium (paleta fija #020D0A) ——— */
+  /* ——— Landing (paleta fija) ——— */
   .landing-page {
-    background-color: #020d0a;
-    color: #f3fff8;
+    background-color: var(--color-pv-bg);
+    color: var(--color-pv-text);
   }
 
   .landing-badge {
     display: inline-flex;
     align-items: center;
     border-radius: 9999px;
-    border: 1px solid #12382b;
-    background-color: #0b241b;
+    border: 1px solid var(--color-pv-border);
+    background-color: var(--color-pv-surface-soft);
     padding: 0.35rem 0.85rem;
     font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #8fa99b;
+    color: var(--color-pv-text-muted);
   }
 
-  .landing-brand-text {
-    background: linear-gradient(180deg, #f3fff8 0%, #00f58a 55%, #00b86b 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  .landing-title {
+    font-size: clamp(2.75rem, 6vw, 4.25rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--color-pv-text);
+  }
+
+  .landing-subtitle {
+    font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--color-pv-text);
+  }
+
+  .landing-lead {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-pv-text-muted);
   }
 
   .landing-btn-primary {
@@ -148,16 +160,16 @@
     justify-content: center;
     gap: 0.375rem;
     border-radius: 0.625rem;
-    font-weight: 500;
-    color: #020d0a;
-    background: linear-gradient(180deg, #00f58a 0%, #00b86b 100%);
+    font-weight: 600;
+    color: var(--color-pv-bg);
+    background: var(--color-pv-primary);
     transition:
-      filter 0.2s ease,
-      transform 0.2s ease;
+      background-color 0.2s ease,
+      transform 0.15s ease;
   }
 
   .landing-btn-primary:hover {
-    filter: brightness(1.06);
+    background: var(--color-pv-primary-medium);
   }
 
   .landing-btn-primary:active {
@@ -169,389 +181,31 @@
     align-items: center;
     justify-content: center;
     border-radius: 0.625rem;
-    border: 1px solid #12382b;
-    background-color: #071a14;
+    border: 1px solid var(--color-pv-border);
+    background-color: var(--color-pv-surface);
     font-weight: 500;
-    color: #f3fff8;
+    color: var(--color-pv-text);
     transition:
       border-color 0.2s ease,
       background-color 0.2s ease;
   }
 
   .landing-btn-secondary:hover {
-    border-color: #00b86b;
-    background-color: #0b241b;
-  }
-
-  .landing-premium-noise {
-    opacity: 0.14;
-    mix-blend-mode: soft-light;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 180px 180px;
-  }
-
-  @keyframes pulsevote-float {
-    0%,
-    100% {
-      transform: translate3d(-50%, 0, 0) scale(1);
-      opacity: 0.7;
-    }
-    50% {
-      transform: translate3d(-46%, 24px, 0) scale(1.06);
-      opacity: 0.95;
-    }
-  }
-
-  @keyframes pulsevote-float-delayed {
-    0%,
-    100% {
-      transform: translate3d(0, 0, 0) scale(1);
-      opacity: 0.55;
-    }
-    50% {
-      transform: translate3d(-28px, -24px, 0) scale(1.08);
-      opacity: 0.85;
-    }
-  }
-
-  @keyframes pulsevote-float-slow {
-    0%,
-    100% {
-      transform: translate3d(0, 0, 0) scale(1);
-      opacity: 0.45;
-    }
-    50% {
-      transform: translate3d(32px, -16px, 0) scale(1.06);
-      opacity: 0.72;
-    }
-  }
-
-  .animate-pulsevote-float {
-    animation: pulsevote-float 14s ease-in-out infinite;
-  }
-
-  .animate-pulsevote-float-delayed {
-    animation: pulsevote-float-delayed 18s ease-in-out infinite;
-  }
-
-  .animate-pulsevote-float-slow {
-    animation: pulsevote-float-slow 22s ease-in-out infinite;
+    border-color: var(--color-pv-primary-medium);
+    background-color: var(--color-pv-surface-soft);
   }
 
   .landing-surface-card {
     border-radius: 1rem;
-    border: 1px solid #12382b;
-    background-color: #071a14;
-    backdrop-filter: blur(16px);
-    box-shadow:
-      0 0 0 1px rgba(0, 245, 138, 0.06),
-      0 24px 48px rgba(0, 0, 0, 0.4),
-      0 0 48px rgba(0, 245, 138, 0.04);
+    border: 1px solid var(--color-pv-border);
+    background-color: var(--color-pv-surface);
   }
 
-  .led-glass-card {
-    backdrop-filter: blur(12px);
+  .pv-muted {
+    color: var(--color-pv-text-muted);
   }
 
-  .dark .led-glass-card {
-    box-shadow:
-      0 0 0 1px rgba(77, 255, 145, 0.08),
-      0 8px 32px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(77, 255, 145, 0.06);
-  }
-
-  .led-button-outline {
-    border-color: rgba(77, 255, 145, 0.45);
-    background: rgba(0, 0, 0, 0.35);
-    box-shadow: 0 0 20px rgba(77, 255, 145, 0.12);
-    transition: all 0.3s ease;
-  }
-
-  .led-button-outline:hover {
-    border-color: #4dff91;
-    background: rgba(77, 255, 145, 0.08);
-    box-shadow: 0 0 28px rgba(77, 255, 145, 0.25);
-  }
-
-  /* Título hero — gradiente LED animado */
-  .text-gradient-daybreak {
-    background: linear-gradient(
-      120deg,
-      #ffffff 0%,
-      #a7ffeb 12%,
-      #4dff91 28%,
-      #00ff88 42%,
-      #10b981 55%,
-      #047857 72%,
-      #022c22 88%,
-      #000000 100%
-    );
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: led-title-shimmer 8s ease-in-out infinite;
-    filter: drop-shadow(0 0 28px rgba(77, 255, 145, 0.35));
-  }
-
-  /* ——— Fondo premium LED en movimiento ——— */
-  .led-aurora {
-    background:
-      radial-gradient(ellipse 55% 45% at 20% 30%, rgba(134, 59, 255, 0.14), transparent 55%),
-      radial-gradient(ellipse 50% 40% at 80% 25%, rgba(71, 191, 255, 0.1), transparent 50%),
-      radial-gradient(ellipse 70% 50% at 50% 80%, rgba(77, 255, 145, 0.2), transparent 60%);
-    animation: led-aurora-shift 14s ease-in-out infinite;
-  }
-
-  .led-grid-perspective {
-    background-image:
-      linear-gradient(rgba(77, 255, 145, 0.12) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(77, 255, 145, 0.08) 1px, transparent 1px);
-    background-size: 56px 28px;
-    transform: perspective(420px) rotateX(62deg);
-    transform-origin: center bottom;
-    mask-image: linear-gradient(to top, black 15%, transparent 88%);
-    animation: led-grid-perspective-scroll 12s linear infinite;
-    opacity: 0.55;
-  }
-
-  .led-beam {
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(77, 255, 145, 0.04) 35%,
-      rgba(77, 255, 145, 0.18) 50%,
-      rgba(77, 255, 145, 0.04) 65%,
-      transparent 100%
-    );
-    opacity: 0.5;
-    animation: led-beam-sweep 9s ease-in-out infinite;
-  }
-
-  .led-beam-2 {
-    animation-delay: -4.5s;
-    animation-duration: 11s;
-  }
-
-  .led-orb {
-    background: radial-gradient(
-      circle,
-      rgba(77, 255, 145, 0.55) 0%,
-      rgba(16, 185, 129, 0.25) 35%,
-      transparent 70%
-    );
-    filter: blur(70px);
-    animation: led-orb-float 18s ease-in-out infinite;
-    opacity: 0.85;
-  }
-
-  .led-orb-1 { animation-duration: 22s; }
-  .led-orb-2 { animation-delay: -4s; animation-duration: 19s; }
-  .led-orb-3 { animation-delay: -8s; animation-duration: 24s; }
-  .led-orb-4 { animation-delay: -12s; animation-duration: 16s; opacity: 0.6; }
-
-  .led-horizon {
-    background: radial-gradient(
-      ellipse 80% 60% at 50% 100%,
-      rgba(0, 255, 136, 0.35) 0%,
-      rgba(16, 185, 129, 0.15) 40%,
-      transparent 70%
-    );
-    animation: led-horizon-pulse 6s ease-in-out infinite;
-  }
-
-  .led-grid {
-    background-image:
-      linear-gradient(rgba(77, 255, 145, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(77, 255, 145, 0.06) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%);
-    animation: led-grid-drift 20s linear infinite;
-  }
-
-  .led-noise {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  .led-sun-glow {
-    background: radial-gradient(
-      ellipse 100% 80% at 50% 100%,
-      rgba(77, 255, 145, 0.9) 0%,
-      rgba(0, 255, 136, 0.5) 30%,
-      transparent 65%
-    );
-    filter: blur(20px);
-    animation: led-sun-pulse 4s ease-in-out infinite;
-  }
-
-  .led-sun-core {
-    background: linear-gradient(
-      to top,
-      #4dff91 0%,
-      #00ff88 25%,
-      #10b981 55%,
-      transparent 100%
-    );
-    box-shadow:
-      0 0 40px rgba(77, 255, 145, 0.8),
-      0 0 80px rgba(0, 255, 136, 0.4),
-      inset 0 -10px 30px rgba(255, 255, 255, 0.15);
-    animation: led-sun-core-pulse 4s ease-in-out infinite;
-  }
-
-  .led-horizon-line {
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(77, 255, 145, 0.2) 15%,
-      #4dff91 50%,
-      rgba(77, 255, 145, 0.2) 85%,
-      transparent 100%
-    );
-    box-shadow:
-      0 0 12px #4dff91,
-      0 0 24px rgba(0, 255, 136, 0.6);
-    animation: led-line-flicker 3s ease-in-out infinite;
-  }
-
-  .led-code-column {
-    mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
-  }
-
-  .led-code-stream {
-    animation: led-code-fall linear infinite;
-  }
-
-  @keyframes led-aurora-shift {
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-      opacity: 0.85;
-    }
-    33% {
-      transform: translate(4%, -3%) scale(1.06);
-      opacity: 1;
-    }
-    66% {
-      transform: translate(-3%, 2%) scale(0.98);
-      opacity: 0.9;
-    }
-  }
-
-  @keyframes led-grid-perspective-scroll {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: 0 56px;
-    }
-  }
-
-  @keyframes led-beam-sweep {
-    0%,
-    100% {
-      opacity: 0.15;
-      transform: translateX(0) scaleY(0.9);
-    }
-    50% {
-      opacity: 0.65;
-      transform: translateX(12px) scaleY(1.05);
-    }
-  }
-
-  @keyframes led-code-fall {
-    0% {
-      transform: translateY(-55%);
-    }
-    100% {
-      transform: translateY(0%);
-    }
-  }
-
-  @keyframes led-orb-float {
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
-    25% {
-      transform: translate(8%, -6%) scale(1.08);
-    }
-    50% {
-      transform: translate(-5%, 4%) scale(0.95);
-    }
-    75% {
-      transform: translate(4%, 8%) scale(1.05);
-    }
-  }
-
-  @keyframes led-horizon-pulse {
-    0%,
-    100% {
-      opacity: 0.7;
-      transform: scaleX(1);
-    }
-    50% {
-      opacity: 1;
-      transform: scaleX(1.05);
-    }
-  }
-
-  @keyframes led-grid-drift {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(48px);
-    }
-  }
-
-  @keyframes led-sun-pulse {
-    0%,
-    100% {
-      opacity: 0.75;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1.08);
-    }
-  }
-
-  @keyframes led-sun-core-pulse {
-    0%,
-    100% {
-      opacity: 0.88;
-      filter: brightness(1);
-    }
-    50% {
-      opacity: 1;
-      filter: brightness(1.35);
-    }
-  }
-
-  @keyframes led-line-flicker {
-    0%,
-    100% {
-      opacity: 0.9;
-    }
-    50% {
-      opacity: 1;
-    }
-    52% {
-      opacity: 0.75;
-    }
-    54% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes led-title-shimmer {
-    0%,
-    100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
+  .pv-border {
+    border-color: var(--color-pv-border);
   }
 }

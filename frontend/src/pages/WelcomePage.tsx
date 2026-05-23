@@ -31,44 +31,44 @@ export function WelcomePage() {
   }
 
   return (
-    <div className="landing-page relative flex min-h-screen flex-col overflow-hidden text-[#F3FFF8]">
+    <div className="landing-page relative flex min-h-screen flex-col overflow-hidden">
       <AnimatedPremiumBackground />
       <WelcomeNavbar />
 
       <main className="relative z-10 flex-1">
         <section
           id="producto"
-          className="relative mx-auto max-w-6xl px-4 pb-20 pt-14 sm:px-6 sm:pb-28 sm:pt-20"
+          className="mx-auto max-w-6xl px-4 pb-20 pt-12 sm:px-6 sm:pb-28 sm:pt-16 lg:pt-20"
         >
-          <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-            <span className="landing-badge">Real-time polling platform</span>
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-14 xl:gap-16">
+            <div className="mx-auto max-w-xl text-center lg:mx-0 lg:max-w-none lg:text-left">
+              <span className="landing-badge">Real-time polling platform</span>
 
-            <h1 className="mt-8 text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl">
-              <span className="landing-brand-text">PulseVote</span>
-            </h1>
+              <h1 className="landing-title mt-6">PulseVote</h1>
 
-            <p className="mt-6 max-w-xl text-lg font-medium leading-snug text-[#F3FFF8] sm:text-xl">
-              Encuestas en tiempo real para equipos que deciden con datos.
-            </p>
+              <p className="landing-subtitle mt-5">
+                Encuestas en tiempo real para equipos que deciden con datos.
+              </p>
 
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#8FA99B]">
-              Crea encuestas, recibe votos y analiza resultados en vivo desde un dashboard claro y
-              profesional.
-            </p>
+              <p className="landing-lead mt-4 max-w-lg lg:max-w-md">
+                Crea encuestas, recibe votos y analiza resultados en vivo desde un dashboard claro
+                y profesional.
+              </p>
 
-            <div className="mt-10 flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center">
-              <Link to="/login" className="landing-btn-primary h-11 px-8 text-[15px]">
-                Comenzar ahora
-                <ArrowUpRight className="h-4 w-4" aria-hidden />
-              </Link>
-              <Link to="/login" className="landing-btn-secondary h-11 px-8 text-[15px]">
-                Iniciar sesión
-              </Link>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
+                <Link to="/login" className="landing-btn-primary h-11 px-7 text-[15px]">
+                  Comenzar ahora
+                  <ArrowUpRight className="h-4 w-4" aria-hidden />
+                </Link>
+                <Link to="/login" className="landing-btn-secondary h-11 px-7 text-[15px]">
+                  Iniciar sesión
+                </Link>
+              </div>
             </div>
-          </div>
 
-          <div className="relative mt-16 sm:mt-20">
-            <HeroDashboardPreview />
+            <div className="w-full lg:pt-2">
+              <HeroDashboardPreview />
+            </div>
           </div>
         </section>
 
@@ -79,14 +79,18 @@ export function WelcomePage() {
           <RoleEntryCards />
         </div>
 
-        <section className="border-t border-[#12382B] px-4 py-16 text-center sm:px-6 sm:py-20">
-          <h2 className="text-2xl font-semibold tracking-tight text-[#F3FFF8]">Listo para entrar</h2>
-          <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-[#8FA99B] sm:text-base">
-            Inicia sesión con las cuentas de demo o las credenciales de tu organización.
-          </p>
-          <Link to="/login" className="landing-btn-primary mt-8 inline-flex h-11 px-8 text-[15px]">
-            Iniciar sesión
-          </Link>
+        <section className="border-t border-[#12382B] px-4 py-16 sm:px-6 sm:py-20">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-2xl font-semibold tracking-tight text-[#F3FFF8] sm:text-3xl">
+              Listo para entrar
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-[#8FA99B] sm:text-base">
+              Inicia sesión con las cuentas de demo o las credenciales de tu organización.
+            </p>
+            <Link to="/login" className="landing-btn-primary mt-8 inline-flex h-11 px-8 text-[15px]">
+              Iniciar sesión
+            </Link>
+          </div>
         </section>
       </main>
 

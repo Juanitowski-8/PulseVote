@@ -14,13 +14,10 @@ const pollOptions = [
 
 export function HeroDashboardPreview() {
   return (
-    <div className="mx-auto w-full max-w-4xl">
+    <div className="w-full">
       <div className="mb-3 grid gap-3 sm:grid-cols-3">
         {stats.map(({ label, value, hint, icon: Icon }) => (
-          <div
-            key={label}
-            className="landing-surface-card px-4 py-3.5"
-          >
+          <div key={label} className="landing-surface-card px-4 py-3.5">
             <div className="flex items-center justify-between gap-2">
               <p className="text-xs font-medium text-[#8FA99B]">{label}</p>
               <Icon className="h-3.5 w-3.5 text-[#00B86B]" aria-hidden />
@@ -31,10 +28,10 @@ export function HeroDashboardPreview() {
         ))}
       </div>
 
-      <div className="landing-surface-card overflow-hidden rounded-2xl shadow-[0_32px_100px_-24px_rgba(0,245,138,0.12)]">
+      <div className="landing-surface-card overflow-hidden rounded-2xl">
         <div className="flex items-center justify-between border-b border-[#12382B] px-5 py-3.5">
           <div>
-            <p className="text-[11px] font-medium uppercase tracking-wider text-[#8FA99B]">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-[#8FA99B]">
               Dashboard · Tiempo real
             </p>
             <p className="mt-0.5 text-sm font-medium text-[#F3FFF8]">
@@ -52,14 +49,14 @@ export function HeroDashboardPreview() {
             {pollOptions.map((opt) => (
               <div key={opt.label}>
                 <div className="mb-1.5 flex justify-between text-xs">
-                  <span className="text-[#F3FFF8]">{opt.label}</span>
+                  <span className="font-medium text-[#F3FFF8]">{opt.label}</span>
                   <span className="tabular-nums text-[#8FA99B]">
                     {opt.pct}% · {opt.votes}
                   </span>
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-[#0B241B]">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#00B86B] to-[#00F58A]"
+                    className="h-full rounded-full bg-[#00B86B]"
                     style={{ width: `${opt.pct}%` }}
                   />
                 </div>
@@ -73,8 +70,8 @@ export function HeroDashboardPreview() {
               {pollOptions.map((opt) => (
                 <div key={opt.label} className="flex flex-col items-center gap-1">
                   <div
-                    className="w-7 rounded-t-sm bg-gradient-to-t from-[#006B45] to-[#00F58A]"
-                    style={{ height: `${opt.pct * 0.9}px` }}
+                    className="w-7 rounded-t-sm bg-[#00B86B]"
+                    style={{ height: `${Math.max(opt.pct * 0.9, 12)}px` }}
                   />
                   <span className="text-[10px] text-[#8FA99B]">{opt.pct}%</span>
                 </div>

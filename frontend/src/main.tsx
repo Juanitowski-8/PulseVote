@@ -3,14 +3,13 @@ import { createRoot } from 'react-dom/client'
 import App from '@/App'
 import '@/index.css'
 
-// Evita flash al cargar: aplica tema guardado antes del primer render
 try {
   const stored = localStorage.getItem('pulsevote-theme')
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-  const isDark = stored === 'dark' || (stored !== 'light' && prefersDark)
-  if (isDark) document.documentElement.classList.add('dark')
+  const isDark = stored !== 'light' && (stored === 'dark' || prefersDark)
+  document.documentElement.classList.toggle('dark', isDark)
 } catch {
-  /* ignore */
+  document.documentElement.classList.add('dark')
 }
 
 createRoot(document.getElementById('root')!).render(

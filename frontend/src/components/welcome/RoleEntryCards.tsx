@@ -35,8 +35,10 @@ export function RoleEntryCards() {
   return (
     <section className="relative border-t border-[#12382B]">
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
-        <div className="mb-12 text-center">
-          <h2 className="text-2xl font-semibold tracking-tight text-[#F3FFF8]">¿Qué quieres hacer?</h2>
+        <div className="mb-12 max-w-2xl">
+          <h2 className="text-2xl font-semibold tracking-tight text-[#F3FFF8] sm:text-3xl">
+            ¿Qué quieres hacer?
+          </h2>
           <p className="mt-3 text-[#8FA99B]">
             Elige tu rol e inicia sesión para entrar directo a tu espacio.
           </p>
@@ -44,7 +46,10 @@ export function RoleEntryCards() {
 
         <div className="grid gap-5 md:grid-cols-2">
           {roles.map(({ icon: Icon, title, description, actions, cta, preset }) => (
-            <article key={preset} className="landing-surface-card flex flex-col p-6 transition-colors hover:border-[#00B86B]/40">
+            <article
+              key={preset}
+              className="landing-surface-card flex flex-col p-6 transition-colors hover:border-[#00B86B]/35"
+            >
               <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-[#12382B] bg-[#0B241B]">
                 <Icon className="h-5 w-5 text-[#00B86B]" aria-hidden />
               </div>
@@ -52,7 +57,7 @@ export function RoleEntryCards() {
               <p className="mt-2 text-sm leading-relaxed text-[#8FA99B]">{description}</p>
               <ul className="mt-5 space-y-2.5">
                 {actions.map((action) => (
-                  <li key={action} className="flex items-center gap-2.5 text-sm text-[#F3FFF8]/90">
+                  <li key={action} className="flex items-center gap-2.5 text-sm text-[#F3FFF8]">
                     <Check className="h-3.5 w-3.5 shrink-0 text-[#00B86B]" aria-hidden />
                     {action}
                   </li>

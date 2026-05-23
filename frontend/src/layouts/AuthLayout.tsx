@@ -1,12 +1,16 @@
 import { Link, Outlet } from 'react-router-dom'
+import { PulseVoteBrand } from '@/components/brand/PulseVoteLogo'
+import { AnimatedPremiumBackground } from '@/components/layout/AnimatedPremiumBackground'
 import { WelcomeNavbar } from '@/components/layout/WelcomeNavbar'
 
 export function AuthLayout() {
   return (
     <div className="landing-page relative flex min-h-screen flex-col">
+      <AnimatedPremiumBackground />
       <WelcomeNavbar />
-      <div className="flex flex-1 flex-col items-center justify-center px-4 py-10 sm:py-14">
-        <div className="mb-6 w-full max-w-md text-center">
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 py-10 sm:py-14">
+        <div className="mb-8 flex w-full max-w-md flex-col items-center gap-4">
+          <PulseVoteBrand logoSize={40} nameClassName="text-xl font-semibold text-[#F3FFF8]" />
           <Link
             to="/"
             className="text-sm text-[#8FA99B] transition-colors hover:text-[#F3FFF8]"
