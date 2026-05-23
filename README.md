@@ -226,13 +226,19 @@ npm run build
 npm start
 ```
 
-**Tests de integración (opcional):**
+**Tests backend (integración):** requiere PostgreSQL activo — ver [backend/README.md](backend/README.md).
 
 ```bash
+cd backend
 npm run test
 ```
 
-Requiere PostgreSQL activo, `prisma:migrate` y `prisma:seed`. Ver [backend/README.md](backend/README.md).
+**Tests frontend (componentes):**
+
+```bash
+cd frontend
+npm run test
+```
 
 ### 4. Frontend
 
