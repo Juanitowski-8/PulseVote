@@ -1,4 +1,3 @@
-import { useId } from 'react'
 import { cn } from '@/utils/cn'
 
 export type PulseVoteLogoProps = {
@@ -9,78 +8,52 @@ export type PulseVoteLogoProps = {
   glow?: boolean
 }
 
-/**
- * Isotipo minimalista: hoja de encuesta.
- * Hoja estilizada + líneas de formulario + marca de voto.
- */
+/** Isotipo ultra minimalista: hoja de encuesta (contorno + 2 líneas + check). */
 export function PulseVoteLogo({
   className,
   showText = true,
   size = 42,
   textClassName,
-  glow = true,
+  glow = false,
 }: PulseVoteLogoProps) {
-  const uid = useId().replace(/:/g, '')
-  const gradientId = `pv-grad-${uid}`
-
   return (
     <div className={cn('flex items-center gap-3', className)}>
       <svg
         width={size}
         height={size}
-        viewBox="0 0 120 120"
+        viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className={cn(
-          'shrink-0',
-          glow && 'drop-shadow-[0_0_10px_rgba(0,245,138,0.14)]',
+          'shrink-0 text-[#00F58A]',
+          glow && 'drop-shadow-[0_0_14px_rgba(0,245,138,0.2)]',
         )}
         aria-hidden
       >
-        <defs>
-          <linearGradient id={gradientId} x1="30" y1="20" x2="90" y2="100">
-            <stop offset="0%" stopColor="#00F58A" />
-            <stop offset="55%" stopColor="#00B86B" />
-            <stop offset="100%" stopColor="#006B45" />
-          </linearGradient>
-        </defs>
-
         <rect
-          x="10"
-          y="10"
-          width="100"
-          height="100"
-          rx="22"
-          fill="#071A14"
-          stroke={`url(#${gradientId})`}
-          strokeWidth="2"
-          strokeOpacity="0.7"
+          x="4.5"
+          y="3"
+          width="15"
+          height="18"
+          rx="2.5"
+          stroke="currentColor"
+          strokeWidth="1.6"
         />
-
-        {/* Hoja / ficha de encuesta */}
-        <path
-          d="M38 34C38 34 42 28 60 28C78 28 82 34 82 34V88C82 88 78 94 60 94C42 94 38 88 38 88V34Z"
-          fill={`url(#${gradientId})`}
-          fillOpacity="0.12"
+        <line x1="8" y1="8.5" x2="16" y2="8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <line
+          x1="8"
+          y1="12"
+          x2="13.5"
+          y2="12"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          opacity="0.45"
         />
         <path
-          d="M42 38C42 38 46 32 60 32C74 32 78 38 78 38V84C78 84 74 90 60 90C46 90 42 84 42 84V38Z"
-          stroke={`url(#${gradientId})`}
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-        />
-
-        {/* Líneas de encuesta */}
-        <line x1="48" y1="48" x2="72" y2="48" stroke={`url(#${gradientId})`} strokeWidth="3" strokeLinecap="round" opacity="0.55" />
-        <line x1="48" y1="58" x2="68" y2="58" stroke={`url(#${gradientId})`} strokeWidth="3" strokeLinecap="round" opacity="0.4" />
-        <line x1="48" y1="68" x2="64" y2="68" stroke={`url(#${gradientId})`} strokeWidth="3" strokeLinecap="round" opacity="0.3" />
-
-        {/* Voto / selección */}
-        <circle cx="52" cy="78" r="5" stroke={`url(#${gradientId})`} strokeWidth="2" fill="none" opacity="0.5" />
-        <path
-          d="M62 76L66 80L76 70"
-          stroke={`url(#${gradientId})`}
-          strokeWidth="3"
+          d="M8 16.5l2 2 5.5-5.5"
+          stroke="currentColor"
+          strokeWidth="1.6"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
