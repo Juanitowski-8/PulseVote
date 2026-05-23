@@ -84,11 +84,20 @@ const pollInclude = {
   _count: { select: { votes: true } },
 } as const
 
+function assertAdminOwnsPoll(poll: { createdById: string }, adminId: string) {
+  if (poll.createdById !== adminId) {
+    throw new AppError('No autorizado', 403, 'FORBIDDEN')
+  }
+}
+
 export const pollService = {
   async listPolls(role: Role, userId: string, activeOnly?: boolean) {
     const where =
-      role === 'USER' || activeOnly
-        ? { isActive: true }
+      role === 'ADMIN'
+        ? {
+            createdById: userId,
+            ...(activeOnly ? { isActive: true } : {}),
+          }
         : {}
 
     const polls = await prisma.poll.findMany({
@@ -124,13 +133,8 @@ export const pollService = {
       throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
     }
 
-    if (role === 'USER' && !poll.isActive) {
-      const voted = await prisma.vote.findUnique({
-        where: { userId_pollId: { userId, pollId: id } },
-      })
-      if (!voted) {
-        throw new AppError('Encuesta no disponible', 404, 'POLL_NOT_FOUND')
-      }
+    if (role === 'ADMIN') {
+      assertAdminOwnsPoll(poll, userId)
     }
 
     const hasVoted = await prisma.vote.findUnique({
@@ -157,7 +161,7 @@ export const pollService = {
     return mapPollWithCounts(poll)
   },
 
-  async updatePoll(id: string, data: UpdatePollInput) {
+  async updatePoll(id: string, data: UpdatePollInput, userId: string, role: Role) {
     const existing = await prisma.poll.findUnique({
       where: { id },
       include: { options: true },
@@ -165,6 +169,10 @@ export const pollService = {
 
     if (!existing) {
       throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
+    }
+
+    if (role === 'ADMIN') {
+      assertAdminOwnsPoll(existing, userId)
     }
 
     // Actualiza opciones existentes por id; crea nuevas sin id
@@ -207,10 +215,13 @@ export const pollService = {
     return mapPollWithCounts(updated!)
   },
 
-  async deletePoll(id: string) {
+  async deletePoll(id: string, userId: string, role: Role) {
     const existing = await prisma.poll.findUnique({ where: { id } })
     if (!existing) {
       throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
+    }
+    if (role === 'ADMIN') {
+      assertAdminOwnsPoll(existing, userId)
     }
     await prisma.poll.delete({ where: { id } })
   },
@@ -228,6 +239,10 @@ export const pollService = {
     const poll = await prisma.poll.findUnique({ where: { id: pollId } })
     if (!poll) {
       throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
+    }
+
+    if (role === 'ADMIN') {
+      assertAdminOwnsPoll(poll, userId)
     }
 
     if (role === 'USER') {

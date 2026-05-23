@@ -41,17 +41,30 @@ function averageVotesPerPoll(totalVotes: number, totalPolls: number): number {
   return Math.round((totalVotes / totalPolls) * 10) / 10
 }
 
-async function getAdminSummary(): Promise<AdminDashboardSummary> {
-  const [totalPolls, activePolls, totalVotes, totalUsers, allPolls] = await Promise.all([
-    prisma.poll.count(),
-    prisma.poll.count({ where: { isActive: true } }),
-    prisma.vote.count(),
-    prisma.user.count(),
+async function getAdminSummary(adminUserId: string): Promise<AdminDashboardSummary> {
+  const ownPollWhere = { createdById: adminUserId }
+
+  const [totalPolls, activePolls, allPolls, voteAgg, voterRows] = await Promise.all([
+    prisma.poll.count({ where: ownPollWhere }),
+    prisma.poll.count({ where: { ...ownPollWhere, isActive: true } }),
     prisma.poll.findMany({
+      where: ownPollWhere,
       select: pollListSelect,
       orderBy: { updatedAt: 'desc' },
     }),
+    prisma.vote.aggregate({
+      where: { poll: ownPollWhere },
+      _count: { _all: true },
+    }),
+    prisma.vote.findMany({
+      where: { poll: ownPollWhere },
+      select: { userId: true },
+      distinct: ['userId'],
+    }),
   ])
+
+  const totalVotes = voteAgg._count._all
+  const totalUsers = voterRows.length
 
   const inactivePolls = totalPolls - activePolls
 
@@ -127,19 +140,27 @@ async function getUserSummary(userId: string): Promise<UserDashboardSummary> {
 export const dashboardService = {
   async getSummary(role: Role, userId: string) {
     if (role === 'ADMIN') {
-      return getAdminSummary()
+      return getAdminSummary(userId)
     }
     return getUserSummary(userId)
   },
 
-  async getPollResults(pollId: string): Promise<DashboardPollResults> {
+  async getPollResults(
+    pollId: string,
+    role: Role,
+    userId: string,
+  ): Promise<DashboardPollResults> {
     const poll = await prisma.poll.findUnique({
       where: { id: pollId },
-      select: { id: true },
+      select: { id: true, createdById: true },
     })
 
     if (!poll) {
       throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
+    }
+
+    if (role === 'ADMIN' && poll.createdById !== userId) {
+      throw new AppError('No autorizado', 403, 'FORBIDDEN')
     }
 
     const results = await pollService.getPollResults(pollId)

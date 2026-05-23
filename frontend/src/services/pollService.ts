@@ -1,5 +1,7 @@
 import * as mockStore from '@/mocks/mockStore'
+import { getStoredSession } from '@/services/authService'
 import { api, USE_MOCKS, unwrapData } from '@/services/api'
+import type { Role } from '@/types/auth'
 import type { ApiSuccessResponse } from '@/types/api'
 import type {
   AdminDashboardSummary,
@@ -77,6 +79,12 @@ function mapAdminDashboard(data: AdminDashboardSummary): DashboardSummary {
   }
 }
 
+function getMockScope(): { role?: Role; userId?: string } | undefined {
+  const session = getStoredSession()
+  if (!session) return undefined
+  return { role: session.user.role, userId: session.user.id }
+}
+
 function buildPollPayload(payload: PollFormData) {
   return {
     question: payload.question,
@@ -93,7 +101,7 @@ export const pollService = {
   async getPolls(activeOnly = false): Promise<Poll[]> {
     if (USE_MOCKS) {
       await delay()
-      return mockStore.getAllPolls(activeOnly)
+      return mockStore.getAllPolls(activeOnly, getMockScope())
     }
     const res = await api.get<ApiSuccessResponse<ApiPoll[]>>('/polls', {
       params: activeOnly ? { active: true } : undefined,
@@ -116,7 +124,9 @@ export const pollService = {
   async createPoll(payload: PollFormData): Promise<Poll> {
     if (USE_MOCKS) {
       await delay(500)
-      return mockStore.createPoll(payload, 'usr_admin')
+      const session = getStoredSession()
+      const createdById = session?.user.id ?? 'usr_admin'
+      return mockStore.createPoll(payload, createdById)
     }
     const res = await api.post<ApiSuccessResponse<ApiPoll>>('/polls', buildPollPayload(payload))
     return mapPollFromApi(unwrapData<ApiPoll>(res))
@@ -125,7 +135,8 @@ export const pollService = {
   async updatePoll(id: string, payload: PollFormData): Promise<Poll> {
     if (USE_MOCKS) {
       await delay(500)
-      return mockStore.updatePoll(id, payload)
+      const scope = getMockScope()
+      return mockStore.updatePoll(id, payload, scope?.userId, scope?.role)
     }
     const res = await api.put<ApiSuccessResponse<ApiPoll>>(`/polls/${id}`, buildPollPayload(payload))
     return mapPollFromApi(unwrapData<ApiPoll>(res))
@@ -134,7 +145,8 @@ export const pollService = {
   async deletePoll(id: string): Promise<void> {
     if (USE_MOCKS) {
       await delay(400)
-      mockStore.deletePoll(id)
+      const scope = getMockScope()
+      mockStore.deletePoll(id, scope?.userId, scope?.role)
       return
     }
     await api.delete(`/polls/${id}`)
@@ -180,7 +192,7 @@ export const pollService = {
   async getDashboardSummary(): Promise<DashboardSummary> {
     if (USE_MOCKS) {
       await delay(200)
-      return mockStore.getDashboardSummary()
+      return mockStore.getDashboardSummary(getMockScope()?.userId)
     }
     const res = await api.get<ApiSuccessResponse<AdminDashboardSummary>>('/dashboard/summary')
     const data = unwrapData<AdminDashboardSummary>(res)

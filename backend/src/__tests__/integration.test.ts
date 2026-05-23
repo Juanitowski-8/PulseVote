@@ -16,6 +16,7 @@ const TEST_REGISTER_EMAIL = 'integration-register@pulsevote.test'
 const TEST_REGISTER_PASSWORD = 'RegisterTest123!'
 
 let adminToken = ''
+let adminId = ''
 let userToken = ''
 let testPollId = ''
 let testOptionId = ''
@@ -94,6 +95,7 @@ describe('PulseVote API — integration', () => {
     expect(res.body.data.token).toBeTruthy()
 
     adminToken = res.body.data.token
+    adminId = res.body.data.user.id
   })
 
   it('POST /api/auth/login — user returns token and role USER', async () => {
@@ -107,6 +109,35 @@ describe('PulseVote API — integration', () => {
     expect(res.body.data.token).toBeTruthy()
 
     userToken = res.body.data.token
+  })
+
+  it('GET /api/polls — admin only sees polls they created', async () => {
+    expect(adminId).toBeTruthy()
+
+    const res = await request(app)
+      .get('/api/polls')
+      .set(authHeader(adminToken))
+      .expect(200)
+
+    expect(res.body.success).toBe(true)
+    expect(res.body.data.length).toBeGreaterThan(0)
+    for (const poll of res.body.data) {
+      expect(poll.createdById).toBe(adminId)
+    }
+  })
+
+  it('GET /api/polls — user sees all polls in the system', async () => {
+    const adminRes = await request(app)
+      .get('/api/polls')
+      .set(authHeader(adminToken))
+      .expect(200)
+
+    const userRes = await request(app)
+      .get('/api/polls')
+      .set(authHeader(userToken))
+      .expect(200)
+
+    expect(userRes.body.data.length).toBeGreaterThanOrEqual(adminRes.body.data.length)
   })
 
   it('GET /api/polls — without token returns 401', async () => {

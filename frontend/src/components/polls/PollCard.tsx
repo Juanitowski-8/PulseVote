@@ -76,7 +76,7 @@ export function PollCard({
             disabled={hasVoted || !poll.isActive}
             variant={hasVoted ? 'secondary' : 'default'}
           >
-            {hasVoted ? 'Voto registrado' : 'Participar'}
+            {hasVoted ? 'Voto registrado' : poll.isActive ? 'Participar' : 'Encuesta cerrada'}
           </Button>
         )}
       </CardContent>

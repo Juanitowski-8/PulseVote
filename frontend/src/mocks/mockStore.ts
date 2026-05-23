@@ -61,9 +61,20 @@ export function resetMockStore() {
   persist()
 }
 
-export function getAllPolls(activeOnly = false): Poll[] {
+export type PollListScope = {
+  role?: 'ADMIN' | 'USER'
+  userId?: string
+}
+
+export function getAllPolls(activeOnly = false, scope?: PollListScope): Poll[] {
   const { polls } = getData()
-  const list = activeOnly ? polls.filter((p) => p.isActive) : polls
+  let list = [...polls]
+  if (scope?.role === 'ADMIN' && scope.userId) {
+    list = list.filter((p) => p.createdById === scope.userId)
+  }
+  if (activeOnly) {
+    list = list.filter((p) => p.isActive)
+  }
   return list.map(recalcTotals)
 }
 
@@ -102,12 +113,21 @@ export function createPoll(data: PollFormData, createdById: string): Poll {
   return poll
 }
 
-export function updatePoll(id: string, data: PollFormData): Poll {
+function assertMockPollOwner(poll: Poll, userId: string) {
+  if (poll.createdById !== userId) {
+    throw new Error('No autorizado')
+  }
+}
+
+export function updatePoll(id: string, data: PollFormData, userId?: string, role?: string): Poll {
   const dataStore = getData()
   const index = dataStore.polls.findIndex((p) => p.id === id)
   if (index === -1) throw new Error('Encuesta no encontrada')
 
   const existing = dataStore.polls[index]
+  if (role === 'ADMIN' && userId) {
+    assertMockPollOwner(existing, userId)
+  }
   const updated = recalcTotals({
     ...existing,
     question: data.question.trim(),
@@ -127,8 +147,13 @@ export function updatePoll(id: string, data: PollFormData): Poll {
   return updated
 }
 
-export function deletePoll(id: string): void {
+export function deletePoll(id: string, userId?: string, role?: string): void {
   const dataStore = getData()
+  const poll = dataStore.polls.find((p) => p.id === id)
+  if (!poll) throw new Error('Encuesta no encontrada')
+  if (role === 'ADMIN' && userId) {
+    assertMockPollOwner(poll, userId)
+  }
   dataStore.polls = dataStore.polls.filter((p) => p.id !== id)
   dataStore.votes = dataStore.votes.filter((v) => v.pollId !== id)
   persist()
@@ -186,8 +211,10 @@ export function getPollResults(pollId: string): PollResults {
   }
 }
 
-export function getDashboardSummary(): DashboardSummary {
-  const polls = getAllPolls()
+export function getDashboardSummary(adminUserId?: string): DashboardSummary {
+  const polls = adminUserId
+    ? getAllPolls(false, { role: 'ADMIN', userId: adminUserId })
+    : getAllPolls()
   const totalVotes = polls.reduce((s, p) => s + p.totalVotes, 0)
   const activePolls = polls.filter((p) => p.isActive).length
   const averageParticipation =

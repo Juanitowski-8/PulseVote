@@ -24,7 +24,7 @@ import type { Poll } from '@/types/poll'
 
 export function UserPollsPage() {
   const { user } = useAuth()
-  const { polls, isLoading, error, fetchPolls } = usePolls({ activeOnly: true })
+  const { polls, isLoading, error, fetchPolls } = usePolls({ activeOnly: false })
   const [selectedPoll, setSelectedPoll] = useState<Poll | null>(null)
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null)
   const [voteError, setVoteError] = useState<string | null>(null)
@@ -54,6 +54,7 @@ export function UserPollsPage() {
   }
 
   const openVoteDialog = (poll: Poll) => {
+    if (!poll.isActive) return
     setSelectedPoll(poll)
     setSelectedOptionId(null)
     setVoteError(null)
@@ -85,8 +86,8 @@ export function UserPollsPage() {
   return (
     <SectionContainer>
       <PageHeader
-        title="Encuestas activas"
-        description="Participa en las encuestas disponibles. Solo puedes votar una vez por encuesta."
+        title="Todas las encuestas"
+        description="Puedes ver todas las preguntas publicadas. Solo puedes votar en las activas y una vez por encuesta."
       />
 
       {voteSuccess && (
@@ -98,13 +99,13 @@ export function UserPollsPage() {
         </Alert>
       )}
 
-      {isLoading && <LoadingState message="Cargando encuestas activas..." />}
+      {isLoading && <LoadingState message="Cargando encuestas..." />}
       {!isLoading && error && <ErrorState message={error} onRetry={fetchPolls} />}
       {!isLoading && !error && polls.length === 0 && (
         <EmptyState
           icon={Vote}
-          title="No hay encuestas activas"
-          description="Vuelve más tarde. El administrador publicará nuevas encuestas pronto."
+          title="No hay encuestas"
+          description="Aún no se ha publicado ninguna pregunta. Vuelve más tarde."
         />
       )}
       {!isLoading && !error && polls.length > 0 && (

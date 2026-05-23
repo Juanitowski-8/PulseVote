@@ -88,7 +88,7 @@ export function AdminPollsPage() {
     <SectionContainer>
       <PageHeader
         title="Gestión de encuestas"
-        description="Crea, edita y controla el estado de las encuestas. Los usuarios solo ven las activas."
+        description="Solo ves y gestionas las encuestas que tú has creado. Los participantes ven todas las publicadas."
         action={
           <Button onClick={openCreate}>
             <Plus className="h-4 w-4" />

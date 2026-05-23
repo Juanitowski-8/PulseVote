@@ -20,7 +20,11 @@ export const dashboardController = {
       throw new AppError('No autenticado', 401, 'UNAUTHORIZED')
     }
 
-    const data = await dashboardService.getPollResults(getParamId(req.params.id))
+    const data = await dashboardService.getPollResults(
+      getParamId(req.params.id),
+      req.user.role,
+      req.user.id,
+    )
     sendDataSuccess(res, data)
   }),
 }

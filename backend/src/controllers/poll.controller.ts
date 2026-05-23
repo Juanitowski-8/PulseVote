@@ -31,13 +31,18 @@ export const pollController = {
 
   update: asyncHandler(async (req: Request, res: Response) => {
     if (!req.user) throw new AppError('No autenticado', 401, 'UNAUTHORIZED')
-    const poll = await pollService.updatePoll(getParamId(req.params.id), req.body as PollInput)
+    const poll = await pollService.updatePoll(
+      getParamId(req.params.id),
+      req.body as PollInput,
+      req.user.id,
+      req.user.role,
+    )
     sendApiSuccess(res, 'Poll updated successfully', poll)
   }),
 
   remove: asyncHandler(async (req: Request, res: Response) => {
     if (!req.user) throw new AppError('No autenticado', 401, 'UNAUTHORIZED')
-    await pollService.deletePoll(getParamId(req.params.id))
+    await pollService.deletePoll(getParamId(req.params.id), req.user.id, req.user.role)
     sendApiSuccess(res, 'Poll deleted successfully', null)
   }),
 
