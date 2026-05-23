@@ -508,7 +508,7 @@ npm run test
 <p align="center">
   <img src="docs/assets/pulsevote-logo.svg" width="48" height="48" alt="PulseVote" />
   <br />
-  <strong>PulseVote</strong> · Desarrollado por <strong>Juan</strong>
+  <strong>PulseVote</strong> · Desarrollado por <strong>Juan Esteban Camargo Vergara</strong>
   <br />
   <a href="https://github.com/Juanitowski-8/PulseVote">github.com/Juanitowski-8/PulseVote</a>
 </p>
