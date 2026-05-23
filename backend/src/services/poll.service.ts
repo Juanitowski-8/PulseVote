@@ -34,7 +34,10 @@ async function buildPollResults(pollId: string): Promise<PollResults> {
       optionId: opt.id,
       text: opt.text,
       votes: opt._count.votes,
-      percentage: totalVotes === 0 ? 0 : (opt._count.votes / totalVotes) * 100,
+      percentage:
+        totalVotes === 0
+          ? 0
+          : Math.round((opt._count.votes / totalVotes) * 1000) / 10,
     })),
   }
 }
@@ -208,6 +211,11 @@ export const pollService = {
       throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
     }
     await prisma.poll.delete({ where: { id } })
+  },
+
+  /** Resultados agregados de una encuesta (reutilizable tras votar). */
+  async getPollResults(pollId: string) {
+    return buildPollResults(pollId)
   },
 
   async getResultsAdmin(pollId: string) {

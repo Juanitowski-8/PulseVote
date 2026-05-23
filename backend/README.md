@@ -39,3 +39,35 @@ npm run prisma:seed
 ## Health check
 
 `GET http://localhost:3000/api/health`
+
+## Votación — `POST /api/polls/:id/vote`
+
+Solo rol **USER**. Body: `{ "optionId": "<id-opcion>" }`.
+
+```bash
+# 1) Login USER
+curl -s -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d "{\"email\":\"user@pulsevote.app\",\"password\":\"User123!\"}"
+
+# 2) Listar encuestas activas (copiar poll id y option id)
+curl -s http://localhost:3000/api/polls \
+  -H "Authorization: Bearer <TOKEN>"
+
+# 3) Votar
+curl -s -X POST http://localhost:3000/api/polls/<POLL_ID>/vote \
+  -H "Authorization: Bearer <TOKEN>" \
+  -H "Content-Type: application/json" \
+  -d "{\"optionId\":\"<OPTION_ID>\"}"
+```
+
+| Caso | HTTP | Código |
+|------|------|--------|
+| Voto correcto | 201 | — |
+| Sin token | 401 | `UNAUTHORIZED` |
+| ADMIN vota | 403 | `FORBIDDEN` |
+| `optionId` vacío | 400 | `VALIDATION_ERROR` |
+| Poll inexistente | 404 | `POLL_NOT_FOUND` |
+| Poll inactiva | 400 | `POLL_NOT_ACTIVE` |
+| Opción de otra encuesta | 400 | `INVALID_OPTION` |
+| Segundo voto misma encuesta | 409 | `ALREADY_VOTED` |

@@ -22,7 +22,22 @@ export function errorMiddleware(
 
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === 'P2002') {
-      return sendError(res, 409, 'DUPLICATE_ENTRY', 'El recurso ya existe')
+      const targets = err.meta?.target
+      const isPollVoteUnique =
+        Array.isArray(targets) &&
+        targets.includes('userId') &&
+        targets.includes('pollId')
+
+      if (isPollVoteUnique) {
+        return sendError(
+          res,
+          409,
+          'ALREADY_VOTED',
+          'You have already voted in this poll',
+        )
+      }
+
+      return sendError(res, 409, 'DUPLICATE_ENTRY', 'Resource already exists')
     }
     if (err.code === 'P2025') {
       return sendError(res, 404, 'NOT_FOUND', 'Recurso no encontrado')
