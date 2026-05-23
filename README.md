@@ -435,6 +435,7 @@ Resumen:
 
 | Documento | Contenido |
 |-----------|-----------|
+| [docs/HISTORIAL-PROMPTS-Y-COMMITS.md](docs/HISTORIAL-PROMPTS-Y-COMMITS.md) | Trazabilidad prompts → cambios → commits (revisión empresa) |
 | [docs/GUIA-ENTREVISTA.md](docs/GUIA-ENTREVISTA.md) | Guía para defender el proyecto y cambios en vivo |
 | [docs/ESTADO-SISTEMA.md](docs/ESTADO-SISTEMA.md) | Estado técnico y decisiones del proyecto |
 | [docs/CHECKLIST-ENTREGA.md](docs/CHECKLIST-ENTREGA.md) | Checklist paso a paso para evaluación |
