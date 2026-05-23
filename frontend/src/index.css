@@ -89,13 +89,15 @@
     .led-sun-core,
     .led-code-stream,
     .led-horizon,
-    .landing-base-gradient,
-    .landing-green-wash,
-    .landing-neon-mesh,
-    .landing-neon-blob,
-    .landing-neon-core,
-    .landing-neon-sweep,
-    .landing-neon-rim,
+    .landing-galaxy-deep,
+    .landing-galaxy-spiral,
+    .landing-nebula,
+    .landing-galaxy-core,
+    .landing-galaxy-ring,
+    .landing-stars-far,
+    .landing-stars-near,
+    .landing-galaxy-aurora,
+    .landing-brand-text,
     .landing-grain {
       animation: none !important;
     }
@@ -119,33 +121,48 @@
     @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
   }
 
-  /* ——— Landing premium (base verde luminosa, no negro) ——— */
+  /* ——— Landing premium — galaxia neón ——— */
   .landing-page {
-    background-color: #062818;
+    background-color: #030a14;
     color: #f3fff8;
+  }
+
+  .landing-galaxy-root {
+    background-color: #030a14;
   }
 
   .landing-badge {
     display: inline-flex;
     align-items: center;
     border-radius: 9999px;
-    border: 1px solid rgba(0, 245, 138, 0.22);
-    background: rgba(11, 36, 27, 0.75);
+    border: 1px solid rgba(120, 255, 220, 0.35);
+    background: rgba(8, 40, 55, 0.55);
     padding: 0.35rem 0.85rem;
     font-size: 0.6875rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #b8ffda;
-    box-shadow: 0 0 24px rgba(0, 245, 138, 0.08);
-    backdrop-filter: blur(8px);
+    color: #d4fff0;
+    box-shadow:
+      0 0 32px rgba(0, 255, 200, 0.15),
+      inset 0 0 20px rgba(0, 255, 200, 0.05);
+    backdrop-filter: blur(12px);
   }
 
   .landing-brand-text {
-    background: linear-gradient(180deg, #f3fff8 0%, #00f58a 55%, #00b86b 100%);
+    background: linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #b8fff0 25%,
+      #00f58a 55%,
+      #00d4ff 85%,
+      #7bffb8 100%
+    );
+    background-size: 100% 200%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    animation: landing-title-shimmer 8s ease-in-out infinite;
   }
 
   .landing-btn-primary {
@@ -184,294 +201,395 @@
     align-items: center;
     justify-content: center;
     border-radius: 0.625rem;
-    border: 1px solid #12382b;
-    background-color: #071a14;
+    border: 1px solid rgba(120, 255, 220, 0.28);
+    background: rgba(6, 30, 42, 0.5);
     font-weight: 500;
-    color: #f3fff8;
+    color: #e8fff8;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 24px rgba(0, 255, 200, 0.06);
     transition:
       border-color 0.2s ease,
-      background-color 0.2s ease;
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .landing-btn-secondary:hover {
-    border-color: #00b86b;
-    background-color: #0b241b;
+    border-color: rgba(0, 255, 200, 0.5);
+    background: rgba(8, 45, 58, 0.65);
+    box-shadow: 0 0 36px rgba(0, 255, 200, 0.12);
   }
 
-  /* ——— Landing: neón premium + grain + movimiento ——— */
-  .landing-base-gradient {
-    background: linear-gradient(
-      145deg,
-      #0a4a32 0%,
-      #0d5c3d 22%,
-      #083d28 48%,
-      #0f6b47 72%,
-      #062818 100%
-    );
-    background-size: 200% 200%;
-    animation: landing-base-shift 18s ease-in-out infinite alternate;
-  }
-
-  .landing-green-wash {
-    background: radial-gradient(
-      ellipse 120% 90% at 50% 35%,
-      rgba(120, 255, 160, 0.28) 0%,
-      rgba(0, 200, 120, 0.12) 45%,
-      rgba(6, 40, 24, 0.05) 100%
-    );
-    animation: landing-wash-pulse 14s ease-in-out infinite;
-  }
-
-  .landing-neon-mesh {
-    mix-blend-mode: screen;
-    opacity: 0.95;
+  /* ——— Galaxia neón: cosmos + estrellas + nebulosas ——— */
+  .landing-galaxy-deep {
     background:
-      radial-gradient(ellipse 100% 80% at 5% 8%, rgba(210, 255, 90, 0.75) 0%, rgba(0, 255, 160, 0.25) 40%, transparent 68%),
-      radial-gradient(ellipse 95% 75% at 96% 94%, rgba(80, 255, 200, 0.65) 0%, rgba(0, 220, 140, 0.2) 42%, transparent 70%),
-      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0, 255, 180, 0.35) 0%, transparent 65%),
-      radial-gradient(ellipse 50% 40% at 78% 12%, rgba(180, 255, 120, 0.4) 0%, transparent 58%);
-    animation: landing-neon-mesh-flow 22s ease-in-out infinite alternate;
+      radial-gradient(ellipse 130% 95% at 50% 28%, #0e4a5c 0%, #0a3040 30%, #061c2a 58%, #030a14 100%),
+      radial-gradient(ellipse 60% 45% at 88% 15%, rgba(140, 90, 255, 0.2) 0%, transparent 55%),
+      radial-gradient(ellipse 55% 50% at 8% 88%, rgba(0, 255, 200, 0.18) 0%, transparent 52%);
+    animation: galaxy-deep-breathe 24s ease-in-out infinite alternate;
   }
 
-  .landing-neon-blob {
+  .landing-galaxy-spiral {
     border-radius: 50%;
-    filter: blur(90px);
+    filter: blur(72px);
+    mix-blend-mode: screen;
+    opacity: 0.85;
+  }
+
+  .landing-galaxy-spiral-a {
+    background: conic-gradient(
+      from 0deg at 50% 48%,
+      transparent 0deg,
+      rgba(0, 255, 220, 0.12) 50deg,
+      rgba(200, 255, 120, 0.28) 95deg,
+      rgba(255, 255, 255, 0.08) 130deg,
+      transparent 170deg,
+      rgba(0, 200, 255, 0.14) 230deg,
+      rgba(120, 255, 180, 0.22) 300deg,
+      transparent 360deg
+    );
+    animation: galaxy-spiral-spin 100s linear infinite;
+  }
+
+  .landing-galaxy-spiral-b {
+    background: conic-gradient(
+      from 180deg at 48% 52%,
+      transparent 0deg,
+      rgba(180, 120, 255, 0.1) 70deg,
+      rgba(0, 255, 180, 0.2) 140deg,
+      transparent 200deg,
+      rgba(255, 240, 180, 0.08) 280deg,
+      transparent 360deg
+    );
+    opacity: 0.65;
+    animation: galaxy-spiral-spin-rev 140s linear infinite;
+  }
+
+  .landing-nebula {
+    border-radius: 50%;
+    filter: blur(88px);
+    mix-blend-mode: screen;
     will-change: transform, opacity;
   }
 
-  .landing-neon-blob-tl {
-    background: radial-gradient(
-      circle at 45% 45%,
-      rgba(230, 255, 120, 0.85) 0%,
-      rgba(0, 255, 170, 0.45) 38%,
-      rgba(0, 160, 100, 0.15) 62%,
-      transparent 78%
-    );
-    animation: landing-neon-drift-tl 16s ease-in-out infinite;
-  }
-
-  .landing-neon-blob-br {
-    background: radial-gradient(
-      circle at 50% 50%,
-      rgba(100, 255, 210, 0.8) 0%,
-      rgba(0, 255, 180, 0.42) 36%,
-      rgba(0, 180, 110, 0.18) 60%,
-      transparent 78%
-    );
-    animation: landing-neon-drift-br 19s ease-in-out infinite;
-  }
-
-  .landing-neon-blob-mid {
+  .landing-nebula-emerald {
     background: radial-gradient(
       circle,
-      rgba(0, 255, 200, 0.45) 0%,
-      rgba(0, 200, 130, 0.2) 50%,
+      rgba(180, 255, 220, 0.9) 0%,
+      rgba(0, 255, 180, 0.5) 32%,
+      rgba(0, 140, 100, 0.2) 58%,
+      transparent 75%
+    );
+    animation: galaxy-nebula-drift-a 22s ease-in-out infinite;
+  }
+
+  .landing-nebula-cyan {
+    background: radial-gradient(
+      circle,
+      rgba(120, 255, 255, 0.85) 0%,
+      rgba(0, 220, 255, 0.45) 35%,
+      rgba(0, 120, 160, 0.15) 60%,
+      transparent 78%
+    );
+    animation: galaxy-nebula-drift-b 26s ease-in-out infinite;
+  }
+
+  .landing-nebula-lime {
+    background: radial-gradient(
+      circle,
+      rgba(230, 255, 130, 0.7) 0%,
+      rgba(0, 255, 160, 0.35) 45%,
       transparent 72%
     );
     filter: blur(100px);
-    animation: landing-neon-drift-mid 14s ease-in-out infinite;
+    animation: galaxy-nebula-drift-c 18s ease-in-out infinite;
   }
 
-  .landing-neon-blob-tr {
+  .landing-nebula-violet {
     background: radial-gradient(
       circle,
-      rgba(200, 255, 100, 0.5) 0%,
-      transparent 70%
+      rgba(180, 140, 255, 0.55) 0%,
+      rgba(100, 60, 200, 0.2) 50%,
+      transparent 72%
     );
-    filter: blur(70px);
-    animation: landing-neon-drift-tr 20s ease-in-out infinite;
+    filter: blur(75px);
+    animation: galaxy-nebula-drift-d 30s ease-in-out infinite;
   }
 
-  .landing-neon-core {
+  .landing-nebula-teal {
     background: radial-gradient(
-      ellipse 100% 85% at 50% 50%,
-      rgba(180, 255, 200, 0.45) 0%,
-      rgba(0, 255, 170, 0.22) 45%,
+      circle,
+      rgba(0, 255, 200, 0.5) 0%,
+      rgba(0, 180, 140, 0.2) 55%,
       transparent 75%
     );
-    filter: blur(56px);
-    mix-blend-mode: screen;
-    animation: landing-neon-core-pulse 10s ease-in-out infinite;
+    animation: galaxy-nebula-drift-e 20s ease-in-out infinite;
   }
 
-  .landing-neon-sweep {
+  .landing-galaxy-core {
+    background: radial-gradient(
+      ellipse 100% 90% at 50% 50%,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(200, 255, 240, 0.35) 12%,
+      rgba(0, 255, 200, 0.2) 35%,
+      rgba(0, 180, 255, 0.08) 55%,
+      transparent 72%
+    );
+    filter: blur(40px);
+    mix-blend-mode: screen;
+    animation: galaxy-core-pulse 12s ease-in-out infinite;
+  }
+
+  .landing-galaxy-ring {
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      transparent 42%,
+      rgba(0, 255, 200, 0.06) 48%,
+      rgba(200, 255, 150, 0.14) 52%,
+      rgba(0, 255, 220, 0.05) 58%,
+      transparent 68%
+    );
+    filter: blur(8px);
+    animation: galaxy-ring-rotate 50s linear infinite;
+    opacity: 0.8;
+  }
+
+  .landing-stars-far {
+    opacity: 0.7;
+    background-image:
+      radial-gradient(1px 1px at 5% 8%, rgba(255, 255, 255, 0.8), transparent),
+      radial-gradient(1px 1px at 12% 35%, rgba(200, 255, 255, 0.6), transparent),
+      radial-gradient(1.5px 1.5px at 18% 72%, rgba(255, 255, 255, 0.9), transparent),
+      radial-gradient(1px 1px at 25% 18%, rgba(180, 255, 220, 0.7), transparent),
+      radial-gradient(1px 1px at 32% 55%, rgba(255, 255, 255, 0.5), transparent),
+      radial-gradient(1px 1px at 38% 88%, rgba(200, 240, 255, 0.65), transparent),
+      radial-gradient(1.5px 1.5px at 45% 12%, rgba(255, 255, 255, 0.85), transparent),
+      radial-gradient(1px 1px at 52% 42%, rgba(255, 255, 255, 0.55), transparent),
+      radial-gradient(1px 1px at 58% 68%, rgba(180, 255, 255, 0.7), transparent),
+      radial-gradient(1px 1px at 65% 25%, rgba(255, 255, 255, 0.6), transparent),
+      radial-gradient(1.5px 1.5px at 72% 78%, rgba(255, 255, 255, 0.9), transparent),
+      radial-gradient(1px 1px at 78% 38%, rgba(200, 255, 240, 0.65), transparent),
+      radial-gradient(1px 1px at 85% 15%, rgba(255, 255, 255, 0.75), transparent),
+      radial-gradient(1px 1px at 92% 52%, rgba(180, 220, 255, 0.6), transparent),
+      radial-gradient(1px 1px at 8% 58%, rgba(255, 255, 255, 0.5), transparent),
+      radial-gradient(1px 1px at 48% 82%, rgba(255, 255, 255, 0.7), transparent),
+      radial-gradient(1px 1px at 88% 92%, rgba(200, 255, 255, 0.8), transparent),
+      radial-gradient(1px 1px at 95% 28%, rgba(255, 255, 255, 0.55), transparent);
+    background-size: 100% 100%;
+    animation: galaxy-stars-drift-far 100s linear infinite;
+  }
+
+  .landing-stars-near {
+    opacity: 0.9;
+    background-image:
+      radial-gradient(2px 2px at 15% 22%, rgba(255, 255, 255, 1), transparent),
+      radial-gradient(1.5px 1.5px at 28% 48%, rgba(200, 255, 255, 0.95), transparent),
+      radial-gradient(2px 2px at 42% 15%, rgba(255, 255, 255, 0.9), transparent),
+      radial-gradient(1.5px 1.5px at 55% 62%, rgba(180, 255, 240, 1), transparent),
+      radial-gradient(2px 2px at 68% 32%, rgba(255, 255, 255, 0.95), transparent),
+      radial-gradient(1.5px 1.5px at 82% 58%, rgba(200, 255, 255, 0.9), transparent),
+      radial-gradient(2px 2px at 22% 75%, rgba(255, 255, 255, 1), transparent),
+      radial-gradient(1.5px 1.5px at 75% 82%, rgba(220, 255, 255, 0.95), transparent);
+    animation:
+      galaxy-stars-drift-near 60s linear infinite,
+      galaxy-stars-twinkle 4s ease-in-out infinite;
+  }
+
+  .landing-galaxy-aurora {
     background: linear-gradient(
-      118deg,
+      125deg,
       transparent 0%,
-      rgba(220, 255, 120, 0.12) 38%,
-      rgba(0, 255, 200, 0.28) 50%,
-      rgba(220, 255, 120, 0.12) 62%,
+      rgba(0, 255, 220, 0.06) 30%,
+      rgba(200, 255, 120, 0.14) 50%,
+      rgba(120, 180, 255, 0.08) 70%,
       transparent 100%
     );
-    background-size: 280% 280%;
+    background-size: 300% 300%;
     mix-blend-mode: screen;
-    animation: landing-neon-sweep 12s ease-in-out infinite;
-  }
-
-  .landing-neon-rim {
-    background: linear-gradient(
-      180deg,
-      rgba(160, 255, 200, 0.25) 0%,
-      rgba(0, 255, 160, 0.08) 40%,
-      transparent 100%
-    );
-    animation: landing-neon-rim-pulse 8s ease-in-out infinite;
+    animation: galaxy-aurora-flow 16s ease-in-out infinite;
   }
 
   .landing-grain {
-    opacity: 0.22;
+    opacity: 0.18;
     mix-blend-mode: soft-light;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-size: 160px 160px;
     animation: landing-grain-shift 6s steps(8) infinite;
   }
 
-  .landing-vignette {
+  .landing-vignette-cosmos {
     background: radial-gradient(
-      ellipse 90% 80% at 50% 45%,
+      ellipse 85% 75% at 50% 42%,
       transparent 0%,
-      rgba(4, 50, 32, 0.15) 70%,
-      rgba(3, 35, 22, 0.45) 100%
+      rgba(3, 12, 22, 0.2) 65%,
+      rgba(2, 8, 16, 0.55) 100%
     );
   }
 
   .landing-surface-card {
     border-radius: 1rem;
-    border: 1px solid rgba(0, 245, 138, 0.14);
+    border: 1px solid rgba(120, 255, 220, 0.2);
     background: linear-gradient(
       165deg,
-      rgba(7, 26, 20, 0.92) 0%,
-      rgba(4, 14, 11, 0.88) 100%
+      rgba(8, 32, 42, 0.75) 0%,
+      rgba(4, 18, 28, 0.65) 100%
     );
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(20px) saturate(1.2);
     box-shadow:
-      0 0 0 1px rgba(0, 245, 138, 0.06),
-      0 24px 48px rgba(0, 0, 0, 0.45),
-      0 0 60px rgba(0, 245, 138, 0.04);
+      0 0 0 1px rgba(0, 255, 200, 0.08),
+      0 24px 56px rgba(0, 20, 40, 0.5),
+      0 0 80px rgba(0, 255, 200, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
-  @keyframes landing-base-shift {
-    0% {
+  @keyframes landing-title-shimmer {
+    0%,
+    100% {
       background-position: 0% 0%;
     }
-    100% {
-      background-position: 100% 100%;
-    }
-  }
-
-  @keyframes landing-wash-pulse {
-    0%,
-    100% {
-      opacity: 0.75;
-      transform: scale(1);
-    }
     50% {
-      opacity: 1;
-      transform: scale(1.03);
+      background-position: 0% 100%;
     }
   }
 
-  @keyframes landing-neon-drift-tr {
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-      opacity: 0.7;
-    }
-    50% {
-      transform: translate(-8%, 6%) scale(1.1);
-      opacity: 1;
-    }
-  }
-
-  @keyframes landing-neon-mesh-flow {
+  @keyframes galaxy-deep-breathe {
     0% {
-      transform: scale(1) translate(0, 0);
-      filter: hue-rotate(0deg) brightness(1);
-    }
-    50% {
-      transform: scale(1.04) translate(1.5%, 1%);
-      filter: hue-rotate(6deg) brightness(1.08);
+      filter: brightness(1) saturate(1);
     }
     100% {
-      transform: scale(1.02) translate(-1%, -0.5%);
-      filter: hue-rotate(-4deg) brightness(1.04);
+      filter: brightness(1.12) saturate(1.15);
     }
   }
 
-  @keyframes landing-neon-drift-tl {
+  @keyframes galaxy-spiral-spin {
+    from {
+      transform: rotate(0deg) scale(1);
+    }
+    to {
+      transform: rotate(360deg) scale(1.02);
+    }
+  }
+
+  @keyframes galaxy-spiral-spin-rev {
+    from {
+      transform: rotate(360deg) scale(1.05);
+    }
+    to {
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  @keyframes galaxy-nebula-drift-a {
     0%,
     100% {
       transform: translate(0, 0) scale(1);
-      opacity: 0.88;
     }
-    33% {
-      transform: translate(6%, 4%) scale(1.12);
+    50% {
+      transform: translate(8%, 6%) scale(1.15);
+    }
+  }
+
+  @keyframes galaxy-nebula-drift-b {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-9%, -7%) scale(1.18);
+    }
+  }
+
+  @keyframes galaxy-nebula-drift-c {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(0.95);
+      opacity: 0.75;
+    }
+    50% {
+      transform: translate(5%, -6%) scale(1.12);
       opacity: 1;
     }
-    66% {
-      transform: translate(2%, 7%) scale(1.05);
+  }
+
+  @keyframes galaxy-nebula-drift-d {
+    0%,
+    100% {
+      transform: translate(0, 0);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translate(-6%, 8%);
       opacity: 0.95;
     }
   }
 
-  @keyframes landing-neon-drift-br {
+  @keyframes galaxy-nebula-drift-e {
     0%,
     100% {
       transform: translate(0, 0) scale(1);
-      opacity: 0.85;
     }
-    40% {
-      transform: translate(-7%, -5%) scale(1.14);
-      opacity: 1;
-    }
-    70% {
-      transform: translate(-3%, -8%) scale(1.08);
-      opacity: 0.92;
+    50% {
+      transform: translate(7%, 5%) scale(1.1);
     }
   }
 
-  @keyframes landing-neon-drift-mid {
+  @keyframes galaxy-core-pulse {
     0%,
     100% {
-      transform: translate(0, 0) scale(0.9);
-      opacity: 0.4;
+      opacity: 0.75;
+      transform: translateX(-50%) scale(0.94);
     }
     50% {
-      transform: translate(4%, -4%) scale(1.15);
+      opacity: 1;
+      transform: translateX(-50%) scale(1.08);
+    }
+  }
+
+  @keyframes galaxy-ring-rotate {
+    from {
+      transform: translateX(-50%) rotate(0deg);
+    }
+    to {
+      transform: translateX(-50%) rotate(360deg);
+    }
+  }
+
+  @keyframes galaxy-stars-drift-far {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(-3%, -2%);
+    }
+  }
+
+  @keyframes galaxy-stars-drift-near {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(-5%, -3%);
+    }
+  }
+
+  @keyframes galaxy-stars-twinkle {
+    0%,
+    100% {
       opacity: 0.75;
     }
-  }
-
-  @keyframes landing-neon-core-pulse {
-    0%,
-    100% {
-      opacity: 0.65;
-      transform: translateX(-50%) scale(0.96);
-    }
     50% {
       opacity: 1;
-      transform: translateX(-50%) scale(1.06);
     }
   }
 
-  @keyframes landing-neon-sweep {
+  @keyframes galaxy-aurora-flow {
     0%,
     100% {
-      background-position: 120% 40%;
-      opacity: 0.5;
-    }
-    50% {
-      background-position: -20% 60%;
-      opacity: 1;
-    }
-  }
-
-  @keyframes landing-neon-rim-pulse {
-    0%,
-    100% {
+      background-position: 100% 50%;
       opacity: 0.6;
     }
     50% {
+      background-position: 0% 50%;
       opacity: 1;
     }
   }

@@ -1,33 +1,39 @@
-/** Fondo premium — base verde luminosa, neón en movimiento (sin negro plano) */
+/** Galaxia neón premium — cosmos verde/cyan con estrellas y nebulosas en movimiento */
 export function LandingAmbient() {
   return (
     <div
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#062818]"
+      className="landing-galaxy-root pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       aria-hidden
     >
-      {/* Base: degradado verde profundo animado (rellena toda la pantalla) */}
-      <div className="landing-base-gradient absolute inset-0" />
+      {/* Espacio profundo */}
+      <div className="landing-galaxy-deep absolute inset-0" />
 
-      {/* Tinte verde lima en toda la superficie */}
-      <div className="landing-green-wash absolute inset-0" />
+      {/* Brazos espirales de la galaxia */}
+      <div className="landing-galaxy-spiral landing-galaxy-spiral-a absolute inset-[-40%]" />
+      <div className="landing-galaxy-spiral landing-galaxy-spiral-b absolute inset-[-35%]" />
 
-      {/* Mesh neón animado */}
-      <div className="landing-neon-mesh absolute inset-0" />
+      {/* Nebulosas de gas neón */}
+      <div className="landing-nebula landing-nebula-emerald absolute -left-[15%] -top-[20%] h-[100vmin] w-[100vmin]" />
+      <div className="landing-nebula landing-nebula-cyan absolute -bottom-[30%] -right-[12%] h-[105vmin] w-[105vmin]" />
+      <div className="landing-nebula landing-nebula-lime absolute left-[18%] top-[32%] h-[70vmin] w-[70vmin]" />
+      <div className="landing-nebula landing-nebula-violet absolute -right-[5%] top-[5%] h-[55vmin] w-[55vmin]" />
+      <div className="landing-nebula landing-nebula-teal absolute bottom-[10%] left-[35%] h-[60vmin] w-[60vmin]" />
 
-      {/* Blobs neón grandes */}
-      <div className="landing-neon-blob landing-neon-blob-tl absolute -left-[18%] -top-[22%] h-[95vmin] w-[95vmin]" />
-      <div className="landing-neon-blob landing-neon-blob-br absolute -bottom-[28%] -right-[14%] h-[100vmin] w-[100vmin]" />
-      <div className="landing-neon-blob landing-neon-blob-mid absolute left-[22%] top-[38%] h-[65vmin] w-[65vmin]" />
-      <div className="landing-neon-blob landing-neon-blob-tr absolute -right-[8%] top-[8%] h-[50vmin] w-[50vmin]" />
+      {/* Núcleo galáctico */}
+      <div className="landing-galaxy-core absolute left-1/2 top-[38%] h-[min(70vmin,560px)] w-[min(90vw,820px)] -translate-x-1/2" />
 
-      {/* Núcleo detrás del hero */}
-      <div className="landing-neon-core absolute left-1/2 top-[40%] h-[55vmin] w-[min(95vw,800px)] -translate-x-1/2" />
+      {/* Anillo de polvo luminoso */}
+      <div className="landing-galaxy-ring absolute left-1/2 top-[42%] h-[80vmin] w-[80vmin] -translate-x-1/2" />
 
-      <div className="landing-neon-sweep absolute inset-0" />
-      <div className="landing-neon-rim absolute inset-x-0 top-0 h-[45vh]" />
+      {/* Campo de estrellas */}
+      <div className="landing-stars-far absolute inset-0" />
+      <div className="landing-stars-near absolute inset-0" />
+
+      {/* Aurora cósmica */}
+      <div className="landing-galaxy-aurora absolute inset-0" />
 
       <div className="landing-grain absolute inset-0" />
-      <div className="landing-vignette absolute inset-0" />
+      <div className="landing-vignette-cosmos absolute inset-0" />
     </div>
   )
 }
