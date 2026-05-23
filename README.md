@@ -171,6 +171,28 @@ git clone https://github.com/Juanitowski-8/PulseVote.git
 cd PulseVote
 ```
 
+**Desde la raíz del monorepo** puedes instalar y compilar todo (recomendado):
+
+```bash
+npm install
+npm run build
+```
+
+Scripts útiles en la raíz:
+
+| Comando | Descripción |
+|---------|-------------|
+| `npm install` | Instala dependencias de `frontend` y `backend` |
+| `npm run build` | Build de frontend + backend |
+| `npm run build:frontend` | Solo frontend |
+| `npm run build:backend` | Solo backend |
+| `npm run dev:frontend` | Vite en http://localhost:5173 |
+| `npm run dev:backend` | API en http://localhost:3000 |
+| `npm run test` | Tests de ambos paquetes |
+| `npm run db:setup` | `prisma generate` + migrate + seed (requiere PostgreSQL) |
+
+> Si prefieres, sigue usando `cd frontend` o `cd backend` como antes; los comandos anteriores son equivalentes.
+
 ### 2. Levantar PostgreSQL
 
 **Opción recomendada — Docker Compose:**
