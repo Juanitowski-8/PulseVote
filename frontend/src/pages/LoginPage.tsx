@@ -27,10 +27,10 @@ export function LoginPage() {
   }
 
   return (
-    <Card className="landing-surface-card border-[#12382B] bg-[#071A14] shadow-none">
+    <Card className="landing-surface-card shadow-sm">
       <CardHeader className="space-y-1 pb-2 text-center sm:text-left">
-        <CardTitle className="text-xl font-semibold text-[#F3FFF8]">Iniciar sesión</CardTitle>
-        <CardDescription className="text-[#8FA99B]">
+        <CardTitle className="text-xl font-semibold text-pv-main">Iniciar sesión</CardTitle>
+        <CardDescription className="text-pv-muted">
           {preset === 'admin'
             ? 'Panel de administración: encuestas y dashboard en vivo.'
             : preset === 'user'

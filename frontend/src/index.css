@@ -1,75 +1,86 @@
 @import 'tailwindcss';
 
+/* darkMode: class — la variante dark depende de .dark en <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ——— PulseVote design tokens ——— */
+/* ——— Tokens RGB (canales sin rgb()) ——— */
+:root {
+  --background: 247 251 248;
+  --surface: 255 255 255;
+  --surface-soft: 238 248 241;
+  --border: 214 231 220;
+  --primary: 0 143 90;
+  --primary-medium: 0 168 107;
+  --primary-dark: 0 95 61;
+  --text-main: 7 26 20;
+  --text-muted: 82 102 91;
+  --muted-bg: 234 244 238;
+  --danger: 220 38 38;
+  --warning: 217 119 6;
+  --primary-foreground: 255 255 255;
+  --aurora: 0 143 90;
+}
+
+.dark {
+  --background: 2 13 10;
+  --surface: 7 26 20;
+  --surface-soft: 11 36 27;
+  --border: 18 56 43;
+  --primary: 0 245 138;
+  --primary-medium: 0 184 107;
+  --primary-dark: 0 107 69;
+  --text-main: 243 255 248;
+  --text-muted: 143 169 155;
+  --muted-bg: 11 36 27;
+  --danger: 239 68 68;
+  --warning: 245 158 11;
+  --primary-foreground: 2 13 10;
+  --aurora: 0 245 138;
+}
+
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-  --color-pv-bg: #020d0a;
-  --color-pv-surface: #071a14;
-  --color-pv-surface-soft: #0b241b;
-  --color-pv-border: #12382b;
-  --color-pv-primary: #00f58a;
-  --color-pv-primary-medium: #00b86b;
-  --color-pv-primary-dark: #006b45;
-  --color-pv-text: #f3fff8;
-  --color-pv-text-muted: #8fa99b;
-  --color-pv-danger: #ef4444;
-  --color-pv-warning: #f59e0b;
+  --color-pv-bg: rgb(var(--background));
+  --color-pv-surface: rgb(var(--surface));
+  --color-pv-surface-soft: rgb(var(--surface-soft));
+  --color-pv-border: rgb(var(--border));
+  --color-pv-primary: rgb(var(--primary));
+  --color-pv-primary-medium: rgb(var(--primary-medium));
+  --color-pv-primary-dark: rgb(var(--primary-dark));
+  --color-pv-text: rgb(var(--text-main));
+  --color-pv-text-muted: rgb(var(--text-muted));
+  --color-pv-danger: rgb(var(--danger));
+  --color-pv-warning: rgb(var(--warning));
 
-  --color-background: #f6f9f7;
-  --color-foreground: #0c1a14;
-  --color-card: #ffffff;
-  --color-card-foreground: #0c1a14;
-  --color-muted: #e8f0ec;
-  --color-muted-foreground: #5a6b62;
-  --color-border: #d4e4db;
-  --color-input: #d4e4db;
-  --color-primary: #006b45;
-  --color-primary-foreground: #f3fff8;
-  --color-secondary: #e8f0ec;
-  --color-secondary-foreground: #134e3a;
-  --color-accent: #00b86b;
-  --color-accent-foreground: #020d0a;
-  --color-destructive: #ef4444;
-  --color-destructive-foreground: #fef2f2;
-  --color-ring: #00b86b;
-  --color-sidebar: #071a14;
-  --color-sidebar-foreground: #f3fff8;
-  --color-sidebar-muted: #8fa99b;
-  --color-sidebar-accent: #0b241b;
-  --color-success: #00b86b;
-  --color-warning: #f59e0b;
+  --color-background: rgb(var(--background));
+  --color-foreground: rgb(var(--text-main));
+  --color-card: rgb(var(--surface));
+  --color-card-foreground: rgb(var(--text-main));
+  --color-muted: rgb(var(--muted-bg));
+  --color-muted-foreground: rgb(var(--text-muted));
+  --color-border: rgb(var(--border));
+  --color-input: rgb(var(--border));
+  --color-primary: rgb(var(--primary));
+  --color-primary-foreground: rgb(var(--primary-foreground));
+  --color-secondary: rgb(var(--surface-soft));
+  --color-secondary-foreground: rgb(var(--text-main));
+  --color-accent: rgb(var(--primary-medium));
+  --color-accent-foreground: rgb(var(--text-main));
+  --color-destructive: rgb(var(--danger));
+  --color-destructive-foreground: 255 255 255;
+  --color-ring: rgb(var(--primary-medium));
+  --color-sidebar: rgb(var(--surface));
+  --color-sidebar-foreground: rgb(var(--text-main));
+  --color-sidebar-muted: rgb(var(--text-muted));
+  --color-sidebar-accent: rgb(var(--surface-soft));
+  --color-success: rgb(var(--primary-medium));
+  --color-warning: rgb(var(--warning));
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
-}
-
-.dark {
-  --color-background: #020d0a;
-  --color-foreground: #f3fff8;
-  --color-card: #071a14;
-  --color-card-foreground: #f3fff8;
-  --color-muted: #0b241b;
-  --color-muted-foreground: #8fa99b;
-  --color-border: #12382b;
-  --color-input: #12382b;
-  --color-primary: #00f58a;
-  --color-primary-foreground: #020d0a;
-  --color-secondary: #0b241b;
-  --color-secondary-foreground: #f3fff8;
-  --color-accent: #00b86b;
-  --color-accent-foreground: #f3fff8;
-  --color-ring: #00b86b;
-  --color-sidebar: #071a14;
-  --color-sidebar-foreground: #f3fff8;
-  --color-sidebar-muted: #8fa99b;
-  --color-sidebar-accent: #0b241b;
-  --color-destructive: #ef4444;
-  --color-success: #00f58a;
 }
 
 @layer base {
@@ -79,17 +90,18 @@
 
   html {
     @apply antialiased scroll-smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
     @apply min-h-screen bg-background font-sans text-foreground transition-colors duration-200;
-  }
-
-  .dark body {
-    background-color: var(--color-pv-bg);
     background-image: radial-gradient(
       ellipse 70% 45% at 50% -8%,
-      rgb(0 245 138 / 0.05),
+      rgb(var(--aurora) / 0.08),
       transparent 55%
     );
   }
@@ -104,33 +116,60 @@
 }
 
 @layer utilities {
+  .bg-pv-background {
+    background-color: rgb(var(--background));
+  }
+
+  .bg-pv-surface {
+    background-color: rgb(var(--surface));
+  }
+
+  .bg-pv-surface-soft {
+    background-color: rgb(var(--surface-soft));
+  }
+
+  .text-pv-main {
+    color: rgb(var(--text-main));
+  }
+
+  .text-pv-muted {
+    color: rgb(var(--text-muted));
+  }
+
+  .text-pv-primary {
+    color: rgb(var(--primary));
+  }
+
+  .border-pv {
+    border-color: rgb(var(--border));
+  }
+
   .glass-card {
     @apply rounded-xl border border-border bg-card;
-    box-shadow: 0 1px 0 rgb(243 255 248 / 0.04);
+    box-shadow: 0 1px 2px rgb(7 26 20 / 0.04);
   }
 
   .dark .glass-card {
     box-shadow: none;
   }
 
-  /* ——— Landing (paleta fija) ——— */
   .landing-page {
-    background-color: var(--color-pv-bg);
-    color: var(--color-pv-text);
+    background-color: rgb(var(--background));
+    color: rgb(var(--text-main));
   }
 
   .landing-badge {
     display: inline-flex;
     align-items: center;
     border-radius: 9999px;
-    border: 1px solid var(--color-pv-border);
-    background-color: var(--color-pv-surface-soft);
+    border: 1px solid rgb(var(--border));
+    background-color: rgb(var(--surface-soft));
     padding: 0.35rem 0.85rem;
     font-size: 0.6875rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--color-pv-text-muted);
+    color: rgb(var(--text-muted));
   }
 
   .landing-title {
@@ -138,20 +177,20 @@
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.05;
-    color: var(--color-pv-text);
+    color: rgb(var(--text-main));
   }
 
   .landing-subtitle {
     font-size: clamp(1.125rem, 2.5vw, 1.375rem);
     font-weight: 500;
     line-height: 1.35;
-    color: var(--color-pv-text);
+    color: rgb(var(--text-main));
   }
 
   .landing-lead {
     font-size: 1rem;
     line-height: 1.65;
-    color: var(--color-pv-text-muted);
+    color: rgb(var(--text-muted));
   }
 
   .landing-btn-primary {
@@ -161,15 +200,15 @@
     gap: 0.375rem;
     border-radius: 0.625rem;
     font-weight: 600;
-    color: var(--color-pv-bg);
-    background: var(--color-pv-primary);
+    color: rgb(var(--primary-foreground));
+    background: rgb(var(--primary));
     transition:
       background-color 0.2s ease,
       transform 0.15s ease;
   }
 
   .landing-btn-primary:hover {
-    background: var(--color-pv-primary-medium);
+    background: rgb(var(--primary-medium));
   }
 
   .landing-btn-primary:active {
@@ -181,31 +220,41 @@
     align-items: center;
     justify-content: center;
     border-radius: 0.625rem;
-    border: 1px solid var(--color-pv-border);
-    background-color: var(--color-pv-surface);
+    border: 1px solid rgb(var(--border));
+    background-color: rgb(var(--surface));
     font-weight: 500;
-    color: var(--color-pv-text);
+    color: rgb(var(--text-main));
     transition:
       border-color 0.2s ease,
       background-color 0.2s ease;
   }
 
   .landing-btn-secondary:hover {
-    border-color: var(--color-pv-primary-medium);
-    background-color: var(--color-pv-surface-soft);
+    border-color: rgb(var(--primary-medium));
+    background-color: rgb(var(--surface-soft));
   }
 
   .landing-surface-card {
     border-radius: 1rem;
-    border: 1px solid var(--color-pv-border);
-    background-color: var(--color-pv-surface);
+    border: 1px solid rgb(var(--border));
+    background-color: rgb(var(--surface));
   }
 
   .pv-muted {
-    color: var(--color-pv-text-muted);
+    color: rgb(var(--text-muted));
   }
 
   .pv-border {
-    border-color: var(--color-pv-border);
+    border-color: rgb(var(--border));
+  }
+
+  .landing-brand-text {
+    color: rgb(var(--text-main));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pv-aurora {
+      animation: none !important;
+    }
   }
 }

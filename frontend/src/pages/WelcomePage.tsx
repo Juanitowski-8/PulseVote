@@ -79,12 +79,12 @@ export function WelcomePage() {
           <RoleEntryCards />
         </div>
 
-        <section className="border-t border-[#12382B] px-4 py-16 sm:px-6 sm:py-20">
+        <section className="border-t border-pv px-4 py-16 sm:px-6 sm:py-20">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-semibold tracking-tight text-[#F3FFF8] sm:text-3xl">
+            <h2 className="text-2xl font-semibold tracking-tight text-pv-main sm:text-3xl">
               Listo para entrar
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-[#8FA99B] sm:text-base">
+            <p className="mt-3 text-sm leading-relaxed text-pv-muted sm:text-base">
               Inicia sesión con las cuentas de demo o las credenciales de tu organización.
             </p>
             <Link to="/login" className="landing-btn-primary mt-8 inline-flex h-11 px-8 text-[15px]">
@@ -94,7 +94,7 @@ export function WelcomePage() {
         </section>
       </main>
 
-      <footer className="relative z-10 border-t border-[#12382B] py-8 text-center text-xs text-[#8FA99B]">
+      <footer className="relative z-10 border-t border-pv py-8 text-center text-xs text-pv-muted">
         PulseVote · Encuestas en tiempo real
       </footer>
     </div>

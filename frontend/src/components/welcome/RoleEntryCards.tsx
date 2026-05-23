@@ -33,13 +33,13 @@ const roles: Array<{
 
 export function RoleEntryCards() {
   return (
-    <section className="relative border-t border-[#12382B]">
+    <section className="relative border-t border-pv">
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
         <div className="mb-12 max-w-2xl">
-          <h2 className="text-2xl font-semibold tracking-tight text-[#F3FFF8] sm:text-3xl">
+          <h2 className="text-2xl font-semibold tracking-tight text-pv-main sm:text-3xl">
             ¿Qué quieres hacer?
           </h2>
-          <p className="mt-3 text-[#8FA99B]">
+          <p className="mt-3 text-pv-muted">
             Elige tu rol e inicia sesión para entrar directo a tu espacio.
           </p>
         </div>
@@ -48,17 +48,17 @@ export function RoleEntryCards() {
           {roles.map(({ icon: Icon, title, description, actions, cta, preset }) => (
             <article
               key={preset}
-              className="landing-surface-card flex flex-col p-6 transition-colors hover:border-[#00B86B]/35"
+              className="landing-surface-card flex flex-col p-6 transition-colors hover:border-primary/35"
             >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-[#12382B] bg-[#0B241B]">
-                <Icon className="h-5 w-5 text-[#00B86B]" aria-hidden />
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-pv bg-pv-surface-soft">
+                <Icon className="h-5 w-5 text-pv-primary" aria-hidden />
               </div>
-              <h3 className="text-xl font-semibold text-[#F3FFF8]">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-[#8FA99B]">{description}</p>
+              <h3 className="text-xl font-semibold text-pv-main">{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-pv-muted">{description}</p>
               <ul className="mt-5 space-y-2.5">
                 {actions.map((action) => (
-                  <li key={action} className="flex items-center gap-2.5 text-sm text-[#F3FFF8]">
-                    <Check className="h-3.5 w-3.5 shrink-0 text-[#00B86B]" aria-hidden />
+                  <li key={action} className="flex items-center gap-2.5 text-sm text-pv-main">
+                    <Check className="h-3.5 w-3.5 shrink-0 text-pv-primary" aria-hidden />
                     {action}
                   </li>
                 ))}

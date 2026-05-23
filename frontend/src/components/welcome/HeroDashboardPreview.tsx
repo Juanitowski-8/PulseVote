@@ -19,27 +19,27 @@ export function HeroDashboardPreview() {
         {stats.map(({ label, value, hint, icon: Icon }) => (
           <div key={label} className="landing-surface-card px-4 py-3.5">
             <div className="flex items-center justify-between gap-2">
-              <p className="text-xs font-medium text-[#8FA99B]">{label}</p>
-              <Icon className="h-3.5 w-3.5 text-[#00B86B]" aria-hidden />
+              <p className="text-xs font-medium text-pv-muted">{label}</p>
+              <Icon className="h-3.5 w-3.5 text-pv-primary" aria-hidden />
             </div>
-            <p className="mt-1 text-xl font-semibold tracking-tight text-[#F3FFF8]">{value}</p>
-            <p className="mt-0.5 text-[11px] text-[#8FA99B]">{hint}</p>
+            <p className="mt-1 text-xl font-semibold tracking-tight text-pv-main">{value}</p>
+            <p className="mt-0.5 text-[11px] text-pv-muted">{hint}</p>
           </div>
         ))}
       </div>
 
       <div className="landing-surface-card overflow-hidden rounded-2xl">
-        <div className="flex items-center justify-between border-b border-[#12382B] px-5 py-3.5">
+        <div className="flex items-center justify-between border-b border-pv px-5 py-3.5">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-[#8FA99B]">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-pv-muted">
               Dashboard · Tiempo real
             </p>
-            <p className="mt-0.5 text-sm font-medium text-[#F3FFF8]">
+            <p className="mt-0.5 text-sm font-medium text-pv-main">
               ¿Cómo actualizar resultados en vivo?
             </p>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#12382B] bg-[#0B241B] px-2.5 py-1 text-[11px] font-medium text-[#00F58A]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#00F58A]" aria-hidden />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-pv bg-pv-surface-soft px-2.5 py-1 text-[11px] font-medium text-pv-primary">
+            <span className="h-1.5 w-1.5 rounded-full bg-[rgb(var(--primary))]" aria-hidden />
             En vivo
           </span>
         </div>
@@ -49,14 +49,14 @@ export function HeroDashboardPreview() {
             {pollOptions.map((opt) => (
               <div key={opt.label}>
                 <div className="mb-1.5 flex justify-between text-xs">
-                  <span className="font-medium text-[#F3FFF8]">{opt.label}</span>
-                  <span className="tabular-nums text-[#8FA99B]">
+                  <span className="font-medium text-pv-main">{opt.label}</span>
+                  <span className="tabular-nums text-pv-muted">
                     {opt.pct}% · {opt.votes}
                   </span>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-[#0B241B]">
+                <div className="h-2 overflow-hidden rounded-full bg-pv-surface-soft">
                   <div
-                    className="h-full rounded-full bg-[#00B86B]"
+                    className="h-full rounded-full bg-[rgb(var(--primary-medium))]"
                     style={{ width: `${opt.pct}%` }}
                   />
                 </div>
@@ -64,16 +64,16 @@ export function HeroDashboardPreview() {
             ))}
           </div>
 
-          <div className="hidden rounded-xl border border-[#12382B] bg-[#0B241B] p-4 sm:flex sm:flex-col sm:justify-between">
-            <p className="text-xs font-medium text-[#8FA99B]">Distribución</p>
+          <div className="hidden rounded-xl border border-pv bg-pv-surface-soft p-4 sm:flex sm:flex-col sm:justify-between">
+            <p className="text-xs font-medium text-pv-muted">Distribución</p>
             <div className="mt-3 flex items-end justify-center gap-2">
               {pollOptions.map((opt) => (
                 <div key={opt.label} className="flex flex-col items-center gap-1">
                   <div
-                    className="w-7 rounded-t-sm bg-[#00B86B]"
+                    className="w-7 rounded-t-sm bg-[rgb(var(--primary-medium))]"
                     style={{ height: `${Math.max(opt.pct * 0.9, 12)}px` }}
                   />
-                  <span className="text-[10px] text-[#8FA99B]">{opt.pct}%</span>
+                  <span className="text-[10px] text-pv-muted">{opt.pct}%</span>
                 </div>
               ))}
             </div>

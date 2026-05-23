@@ -7,10 +7,14 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import {
+  applyThemeClass,
+  persistTheme,
+  resolveInitialTheme,
+  type Theme,
+} from '@/lib/theme'
 
-export type Theme = 'light' | 'dark'
-
-const STORAGE_KEY = 'pulsevote-theme'
+export type { Theme } from '@/lib/theme'
 
 interface ThemeContextValue {
   theme: Theme
@@ -21,26 +25,12 @@ interface ThemeContextValue {
 
 export const ThemeContext = createContext<ThemeContextValue | null>(null)
 
-function getInitialTheme(): Theme {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored === 'dark' || stored === 'light') return stored
-  } catch {
-    /* ignore */
-  }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-}
-
-function applyTheme(theme: Theme) {
-  document.documentElement.classList.toggle('dark', theme === 'dark')
-}
-
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(getInitialTheme)
+  const [theme, setThemeState] = useState<Theme>(resolveInitialTheme)
 
   useEffect(() => {
-    applyTheme(theme)
-    localStorage.setItem(STORAGE_KEY, theme)
+    applyThemeClass(theme)
+    persistTheme(theme)
   }, [theme])
 
   const setTheme = useCallback((next: Theme) => {

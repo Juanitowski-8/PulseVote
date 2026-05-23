@@ -25,8 +25,8 @@ export function PulseVoteLogo({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className={cn(
-          'shrink-0 text-[#00F58A]',
-          glow && 'drop-shadow-[0_0_14px_rgba(0,245,138,0.2)]',
+          'shrink-0 text-pv-primary',
+          glow && 'drop-shadow-[0_0_14px_rgb(var(--primary)/0.25)]',
         )}
         aria-hidden
       >
@@ -85,7 +85,7 @@ export function PulseVoteBrand({ className, logoSize = 28, nameClassName }: Puls
       showText
       glow={false}
       className={cn('gap-2', className)}
-      textClassName={cn('text-[15px] font-semibold text-[#F3FFF8]', nameClassName)}
+      textClassName={cn('text-[15px] font-semibold text-pv-main', nameClassName)}
     />
   )
 }

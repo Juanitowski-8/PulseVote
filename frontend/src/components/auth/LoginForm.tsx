@@ -68,7 +68,7 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
       )}
 
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-[#F3FFF8]">
+        <Label htmlFor="email" className="text-pv-main">
           Email
         </Label>
         <Input
@@ -79,7 +79,7 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           aria-invalid={!!fieldErrors.email}
-          className="border-[#12382B] bg-[#0B241B] text-[#F3FFF8] placeholder:text-[#8FA99B]"
+          className="border-border bg-pv-surface-soft text-pv-main placeholder:text-pv-muted"
         />
         {fieldErrors.email && (
           <p className="text-xs text-destructive">{fieldErrors.email}</p>
@@ -87,7 +87,7 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-[#F3FFF8]">
+        <Label htmlFor="password" className="text-pv-main">
           Contraseña
         </Label>
         <Input
@@ -98,7 +98,7 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           aria-invalid={!!fieldErrors.password}
-          className="border-[#12382B] bg-[#0B241B] text-[#F3FFF8] placeholder:text-[#8FA99B]"
+          className="border-border bg-pv-surface-soft text-pv-main placeholder:text-pv-muted"
         />
         {fieldErrors.password && (
           <p className="text-xs text-destructive">{fieldErrors.password}</p>
@@ -116,26 +116,26 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
         )}
       </Button>
 
-      <div className="rounded-lg border border-[#12382B] bg-[#0B241B]/80 p-4">
-        <p className="mb-3 text-xs font-medium uppercase tracking-wide text-[#8FA99B]">
+      <div className="rounded-lg border border-border bg-pv-surface-soft/80 p-4">
+        <p className="mb-3 text-xs font-medium uppercase tracking-wide text-pv-muted">
           Cuentas de prueba
         </p>
         <div className="grid gap-2 sm:grid-cols-2">
           <button
             type="button"
-            className="rounded-lg border border-[#12382B] bg-[#071A14] px-3 py-2.5 text-left text-sm transition hover:border-[#00B86B]/50"
+            className="rounded-lg border border-border bg-pv-surface px-3 py-2.5 text-left text-sm transition hover:border-primary/50"
             onClick={() => fillDemo('admin@pulsevote.app', 'Admin123!')}
           >
-            <span className="font-medium text-[#F3FFF8]">Admin</span>
-            <span className="mt-0.5 block text-xs text-[#8FA99B]">admin@pulsevote.app</span>
+            <span className="font-medium text-pv-main">Admin</span>
+            <span className="mt-0.5 block text-xs text-pv-muted">admin@pulsevote.app</span>
           </button>
           <button
             type="button"
-            className="rounded-lg border border-[#12382B] bg-[#071A14] px-3 py-2.5 text-left text-sm transition hover:border-[#00B86B]/50"
+            className="rounded-lg border border-border bg-pv-surface px-3 py-2.5 text-left text-sm transition hover:border-primary/50"
             onClick={() => fillDemo('user@pulsevote.app', 'User123!')}
           >
-            <span className="font-medium text-[#F3FFF8]">Usuario</span>
-            <span className="mt-0.5 block text-xs text-[#8FA99B]">user@pulsevote.app</span>
+            <span className="font-medium text-pv-main">Usuario</span>
+            <span className="mt-0.5 block text-xs text-pv-muted">user@pulsevote.app</span>
           </button>
         </div>
       </div>

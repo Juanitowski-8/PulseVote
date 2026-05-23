@@ -9,7 +9,7 @@ const alertVariants = cva('relative w-full rounded-lg border p-4 text-sm', {
       destructive:
         'border-red-200 bg-red-50 text-red-800 dark:border-red-900/50 dark:bg-red-950/35 dark:text-red-200',
       success:
-        'border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-[#12382B] dark:bg-[#0B241B] dark:text-[#00F58A]',
+        'border-primary/25 bg-pv-surface-soft text-primary',
     },
   },
   defaultVariants: { variant: 'default' },

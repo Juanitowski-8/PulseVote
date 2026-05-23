@@ -8,6 +8,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { PulseVoteBrand } from '@/components/brand/PulseVoteLogo'
 import { RoleBadge } from '@/components/auth/RoleBadge'
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/utils/cn'
 
@@ -31,11 +32,14 @@ export function Sidebar() {
   return (
     <aside className="flex h-full w-64 flex-col border-r border-border bg-sidebar text-sidebar-foreground">
       <div className="border-b border-border px-5 py-5">
-        <PulseVoteBrand
-          logoSize={32}
-          className="gap-2.5"
-          nameClassName="text-base font-semibold text-sidebar-foreground"
-        />
+        <div className="flex items-start justify-between gap-2">
+          <PulseVoteBrand
+            logoSize={32}
+            className="min-w-0 gap-2.5"
+            nameClassName="text-base font-semibold text-sidebar-foreground"
+          />
+          <ThemeToggle className="h-9 w-9 shadow-none" />
+        </div>
         <p className="mt-1 pl-[2.75rem] text-xs text-sidebar-muted">Encuestas en vivo</p>
       </div>
 

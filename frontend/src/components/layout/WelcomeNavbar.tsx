@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { PulseVoteBrand } from '@/components/brand/PulseVoteLogo'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/utils/cn'
 
@@ -15,13 +16,13 @@ export function WelcomeNavbar() {
   const appPath = user?.role === 'ADMIN' ? '/admin/polls' : '/user/polls'
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#12382B]/80 bg-[#020D0A]/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-[76px] max-w-6xl items-center justify-between gap-8 px-5 sm:h-[84px] sm:px-8">
+    <header className="sticky top-0 z-50 border-b border-border/80 bg-pv-background/85 backdrop-blur-xl">
+      <div className="mx-auto flex h-[76px] max-w-6xl items-center justify-between gap-4 px-5 sm:h-[84px] sm:gap-8 sm:px-8">
         <Link to="/" className="shrink-0 transition-opacity hover:opacity-85">
           <PulseVoteBrand
             logoSize={36}
             className="gap-3"
-            nameClassName="text-lg font-semibold text-[#F3FFF8] sm:text-xl"
+            nameClassName="text-lg font-semibold text-pv-main sm:text-xl"
           />
         </Link>
 
@@ -30,14 +31,15 @@ export function WelcomeNavbar() {
             <a
               key={href}
               href={href}
-              className="text-base font-medium text-[#8FA99B] transition-colors hover:text-[#F3FFF8]"
+              className="text-base font-medium text-pv-muted transition-colors hover:text-pv-main"
             >
               {label}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <ThemeToggle />
           {isAuthenticated ? (
             <Link to={appPath} className="landing-btn-primary h-11 px-6 text-[15px]">
               Entrar a la app
@@ -46,7 +48,7 @@ export function WelcomeNavbar() {
             <>
               <Link
                 to="/login"
-                className="hidden h-11 items-center px-4 text-base font-medium text-[#8FA99B] transition-colors hover:text-[#F3FFF8] sm:inline-flex"
+                className="hidden h-11 items-center px-4 text-base font-medium text-pv-muted transition-colors hover:text-pv-main sm:inline-flex"
               >
                 Iniciar sesión
               </Link>
