@@ -89,6 +89,8 @@
     .led-sun-core,
     .led-code-stream,
     .led-horizon,
+    .landing-base-gradient,
+    .landing-green-wash,
     .landing-neon-mesh,
     .landing-neon-blob,
     .landing-neon-core,
@@ -117,9 +119,9 @@
     @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
   }
 
-  /* ——— Landing premium (paleta fija, siempre oscura) ——— */
+  /* ——— Landing premium (base verde luminosa, no negro) ——— */
   .landing-page {
-    background-color: #030303;
+    background-color: #062818;
     color: #f3fff8;
   }
 
@@ -197,12 +199,37 @@
   }
 
   /* ——— Landing: neón premium + grain + movimiento ——— */
+  .landing-base-gradient {
+    background: linear-gradient(
+      145deg,
+      #0a4a32 0%,
+      #0d5c3d 22%,
+      #083d28 48%,
+      #0f6b47 72%,
+      #062818 100%
+    );
+    background-size: 200% 200%;
+    animation: landing-base-shift 18s ease-in-out infinite alternate;
+  }
+
+  .landing-green-wash {
+    background: radial-gradient(
+      ellipse 120% 90% at 50% 35%,
+      rgba(120, 255, 160, 0.28) 0%,
+      rgba(0, 200, 120, 0.12) 45%,
+      rgba(6, 40, 24, 0.05) 100%
+    );
+    animation: landing-wash-pulse 14s ease-in-out infinite;
+  }
+
   .landing-neon-mesh {
+    mix-blend-mode: screen;
+    opacity: 0.95;
     background:
-      radial-gradient(ellipse 90% 70% at 8% 12%, rgba(198, 255, 46, 0.42) 0%, transparent 52%),
-      radial-gradient(ellipse 85% 65% at 94% 92%, rgba(0, 255, 163, 0.34) 0%, transparent 54%),
-      radial-gradient(ellipse 55% 45% at 50% 48%, rgba(0, 245, 138, 0.12) 0%, transparent 62%),
-      radial-gradient(ellipse 40% 30% at 72% 18%, rgba(132, 255, 120, 0.14) 0%, transparent 55%);
+      radial-gradient(ellipse 100% 80% at 5% 8%, rgba(210, 255, 90, 0.75) 0%, rgba(0, 255, 160, 0.25) 40%, transparent 68%),
+      radial-gradient(ellipse 95% 75% at 96% 94%, rgba(80, 255, 200, 0.65) 0%, rgba(0, 220, 140, 0.2) 42%, transparent 70%),
+      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0, 255, 180, 0.35) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 40% at 78% 12%, rgba(180, 255, 120, 0.4) 0%, transparent 58%);
     animation: landing-neon-mesh-flow 22s ease-in-out infinite alternate;
   }
 
@@ -215,9 +242,10 @@
   .landing-neon-blob-tl {
     background: radial-gradient(
       circle at 45% 45%,
-      rgba(210, 255, 80, 0.55) 0%,
-      rgba(0, 255, 148, 0.28) 35%,
-      transparent 68%
+      rgba(230, 255, 120, 0.85) 0%,
+      rgba(0, 255, 170, 0.45) 38%,
+      rgba(0, 160, 100, 0.15) 62%,
+      transparent 78%
     );
     animation: landing-neon-drift-tl 16s ease-in-out infinite;
   }
@@ -225,32 +253,44 @@
   .landing-neon-blob-br {
     background: radial-gradient(
       circle at 50% 50%,
-      rgba(0, 255, 180, 0.48) 0%,
-      rgba(0, 200, 120, 0.22) 38%,
-      transparent 70%
+      rgba(100, 255, 210, 0.8) 0%,
+      rgba(0, 255, 180, 0.42) 36%,
+      rgba(0, 180, 110, 0.18) 60%,
+      transparent 78%
     );
     animation: landing-neon-drift-br 19s ease-in-out infinite;
   }
 
   .landing-neon-blob-mid {
-    left: 30%;
     background: radial-gradient(
       circle,
-      rgba(0, 245, 138, 0.2) 0%,
-      transparent 65%
+      rgba(0, 255, 200, 0.45) 0%,
+      rgba(0, 200, 130, 0.2) 50%,
+      transparent 72%
     );
     filter: blur(100px);
     animation: landing-neon-drift-mid 14s ease-in-out infinite;
   }
 
+  .landing-neon-blob-tr {
+    background: radial-gradient(
+      circle,
+      rgba(200, 255, 100, 0.5) 0%,
+      transparent 70%
+    );
+    filter: blur(70px);
+    animation: landing-neon-drift-tr 20s ease-in-out infinite;
+  }
+
   .landing-neon-core {
     background: radial-gradient(
-      ellipse 100% 80% at 50% 50%,
-      rgba(0, 255, 170, 0.14) 0%,
-      rgba(0, 245, 138, 0.06) 40%,
-      transparent 72%
+      ellipse 100% 85% at 50% 50%,
+      rgba(180, 255, 200, 0.45) 0%,
+      rgba(0, 255, 170, 0.22) 45%,
+      transparent 75%
     );
-    filter: blur(48px);
+    filter: blur(56px);
+    mix-blend-mode: screen;
     animation: landing-neon-core-pulse 10s ease-in-out infinite;
   }
 
@@ -258,9 +298,9 @@
     background: linear-gradient(
       118deg,
       transparent 0%,
-      rgba(198, 255, 46, 0.04) 38%,
-      rgba(0, 255, 180, 0.12) 50%,
-      rgba(198, 255, 46, 0.04) 62%,
+      rgba(220, 255, 120, 0.12) 38%,
+      rgba(0, 255, 200, 0.28) 50%,
+      rgba(220, 255, 120, 0.12) 62%,
       transparent 100%
     );
     background-size: 280% 280%;
@@ -271,15 +311,16 @@
   .landing-neon-rim {
     background: linear-gradient(
       180deg,
-      rgba(0, 255, 160, 0.08) 0%,
+      rgba(160, 255, 200, 0.25) 0%,
+      rgba(0, 255, 160, 0.08) 40%,
       transparent 100%
     );
     animation: landing-neon-rim-pulse 8s ease-in-out infinite;
   }
 
   .landing-grain {
-    opacity: 0.45;
-    mix-blend-mode: overlay;
+    opacity: 0.22;
+    mix-blend-mode: soft-light;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-size: 160px 160px;
     animation: landing-grain-shift 6s steps(8) infinite;
@@ -287,10 +328,10 @@
 
   .landing-vignette {
     background: radial-gradient(
-      ellipse 75% 65% at 50% 42%,
+      ellipse 90% 80% at 50% 45%,
       transparent 0%,
-      rgba(2, 2, 2, 0.35) 55%,
-      rgba(2, 2, 2, 0.92) 100%
+      rgba(4, 50, 32, 0.15) 70%,
+      rgba(3, 35, 22, 0.45) 100%
     );
   }
 
@@ -307,6 +348,39 @@
       0 0 0 1px rgba(0, 245, 138, 0.06),
       0 24px 48px rgba(0, 0, 0, 0.45),
       0 0 60px rgba(0, 245, 138, 0.04);
+  }
+
+  @keyframes landing-base-shift {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 100% 100%;
+    }
+  }
+
+  @keyframes landing-wash-pulse {
+    0%,
+    100% {
+      opacity: 0.75;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+  }
+
+  @keyframes landing-neon-drift-tr {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translate(-8%, 6%) scale(1.1);
+      opacity: 1;
+    }
   }
 
   @keyframes landing-neon-mesh-flow {
