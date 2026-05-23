@@ -1,0 +1,234 @@
+import type { Role } from '@prisma/client'
+import { prisma } from '../config/prisma'
+import { AppError } from '../utils/AppError'
+import type { PollResults } from '../types/poll.types'
+import type { createPollSchema } from '../schemas/poll.schema'
+import type { z } from 'zod'
+
+type CreatePollInput = z.infer<typeof createPollSchema>
+type UpdatePollInput = CreatePollInput
+
+async function buildPollResults(pollId: string): Promise<PollResults> {
+  const poll = await prisma.poll.findUnique({
+    where: { id: pollId },
+    include: {
+      options: {
+        include: { _count: { select: { votes: true } } },
+      },
+      _count: { select: { votes: true } },
+    },
+  })
+
+  if (!poll) {
+    throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
+  }
+
+  const totalVotes = poll._count.votes
+
+  return {
+    pollId: poll.id,
+    question: poll.question,
+    totalVotes,
+    updatedAt: poll.updatedAt,
+    options: poll.options.map((opt) => ({
+      optionId: opt.id,
+      text: opt.text,
+      votes: opt._count.votes,
+      percentage: totalVotes === 0 ? 0 : (opt._count.votes / totalVotes) * 100,
+    })),
+  }
+}
+
+function mapPollWithCounts(
+  poll: {
+    id: string
+    question: string
+    description: string | null
+    isActive: boolean
+    createdById: string
+    createdAt: Date
+    updatedAt: Date
+    options: Array<{ id: string; text: string; pollId: string; _count: { votes: number } }>
+    _count: { votes: number }
+  },
+  hasVoted?: boolean,
+) {
+  return {
+    id: poll.id,
+    question: poll.question,
+    description: poll.description,
+    isActive: poll.isActive,
+    createdById: poll.createdById,
+    createdAt: poll.createdAt,
+    updatedAt: poll.updatedAt,
+    totalVotes: poll._count.votes,
+    hasVoted: hasVoted ?? false,
+    options: poll.options.map((o) => ({
+      id: o.id,
+      text: o.text,
+      pollId: o.pollId,
+      voteCount: o._count.votes,
+    })),
+  }
+}
+
+const pollInclude = {
+  options: {
+    include: { _count: { select: { votes: true } } },
+  },
+  _count: { select: { votes: true } },
+} as const
+
+export const pollService = {
+  async listPolls(role: Role, userId: string, activeOnly?: boolean) {
+    const where =
+      role === 'USER' || activeOnly
+        ? { isActive: true }
+        : {}
+
+    const polls = await prisma.poll.findMany({
+      where,
+      include: pollInclude,
+      orderBy: { createdAt: 'desc' },
+    })
+
+    const votedPollIds =
+      role === 'USER'
+        ? new Set(
+            (
+              await prisma.vote.findMany({
+                where: { userId },
+                select: { pollId: true },
+              })
+            ).map((v) => v.pollId),
+          )
+        : null
+
+    return polls.map((p) =>
+      mapPollWithCounts(p, votedPollIds ? votedPollIds.has(p.id) : undefined),
+    )
+  },
+
+  async getPollById(id: string, role: Role, userId: string) {
+    const poll = await prisma.poll.findUnique({
+      where: { id },
+      include: pollInclude,
+    })
+
+    if (!poll) {
+      throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
+    }
+
+    if (role === 'USER' && !poll.isActive) {
+      const voted = await prisma.vote.findUnique({
+        where: { userId_pollId: { userId, pollId: id } },
+      })
+      if (!voted) {
+        throw new AppError('Encuesta no disponible', 404, 'POLL_NOT_FOUND')
+      }
+    }
+
+    const hasVoted = await prisma.vote.findUnique({
+      where: { userId_pollId: { userId, pollId: id } },
+    })
+
+    return mapPollWithCounts(poll, !!hasVoted)
+  },
+
+  async createPoll(data: CreatePollInput, createdById: string) {
+    const poll = await prisma.poll.create({
+      data: {
+        question: data.question,
+        description: data.description ?? null,
+        isActive: data.isActive ?? true,
+        createdById,
+        options: {
+          create: data.options.map((o) => ({ text: o.text })),
+        },
+      },
+      include: pollInclude,
+    })
+
+    return mapPollWithCounts(poll)
+  },
+
+  async updatePoll(id: string, data: UpdatePollInput) {
+    const existing = await prisma.poll.findUnique({
+      where: { id },
+      include: { options: true },
+    })
+
+    if (!existing) {
+      throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
+    }
+
+    // Actualiza opciones existentes por id; crea nuevas sin id
+    await prisma.$transaction(async (tx) => {
+      await tx.poll.update({
+        where: { id },
+        data: {
+          question: data.question,
+          description: data.description ?? null,
+          isActive: data.isActive ?? true,
+        },
+      })
+
+      const incomingIds = data.options.filter((o) => o.id).map((o) => o.id!)
+      const toDelete = existing.options.filter((o) => !incomingIds.includes(o.id))
+
+      for (const opt of toDelete) {
+        await tx.pollOption.delete({ where: { id: opt.id } })
+      }
+
+      for (const opt of data.options) {
+        if (opt.id) {
+          await tx.pollOption.update({
+            where: { id: opt.id },
+            data: { text: opt.text },
+          })
+        } else {
+          await tx.pollOption.create({
+            data: { text: opt.text, pollId: id },
+          })
+        }
+      }
+    })
+
+    const updated = await prisma.poll.findUnique({
+      where: { id },
+      include: pollInclude,
+    })
+
+    return mapPollWithCounts(updated!)
+  },
+
+  async deletePoll(id: string) {
+    const existing = await prisma.poll.findUnique({ where: { id } })
+    if (!existing) {
+      throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
+    }
+    await prisma.poll.delete({ where: { id } })
+  },
+
+  async getResultsAdmin(pollId: string) {
+    return buildPollResults(pollId)
+  },
+
+  async getResults(pollId: string, role: Role, userId: string) {
+    const poll = await prisma.poll.findUnique({ where: { id: pollId } })
+    if (!poll) {
+      throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
+    }
+
+    if (role === 'USER') {
+      const voted = await prisma.vote.findUnique({
+        where: { userId_pollId: { userId, pollId } },
+      })
+      if (!voted && !poll.isActive) {
+        throw new AppError('No autorizado', 403, 'FORBIDDEN')
+      }
+    }
+
+    return buildPollResults(pollId)
+  },
+}

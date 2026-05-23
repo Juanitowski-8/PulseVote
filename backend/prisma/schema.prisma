@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  polls Poll[] @relation("PollCreator")
+  votes Vote[]
+}
+
+model Poll {
+  id          String   @id @default(cuid())
+  question    String
+  description String?
+  isActive    Boolean  @default(true)
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  createdBy User         @relation("PollCreator", fields: [createdById], references: [id])
+  options   PollOption[]
+  votes     Vote[]
+}
+
+model PollOption {
+  id        String   @id @default(cuid())
+  text      String
+  pollId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  poll  Poll   @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  votes Vote[]
+}
+
+model Vote {
+  id        String   @id @default(cuid())
+  userId    String
+  pollId    String
+  optionId  String
+  createdAt DateTime @default(now())
+
+  user   User       @relation(fields: [userId], references: [id])
+  poll   Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  option PollOption @relation(fields: [optionId], references: [id])
+
+  // Un usuario solo puede votar una vez por encuesta
+  @@unique([userId, pollId])
+}

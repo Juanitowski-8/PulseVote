@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: pulsevote-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pulsevote_user
+      POSTGRES_PASSWORD: pulsevote_password
+      POSTGRES_DB: pulsevote
+    ports:
+      - '5433:5432'
+    volumes:
+      - pulsevote_pg_data:/var/lib/postgresql/data
+
+volumes:
+  pulsevote_pg_data:
