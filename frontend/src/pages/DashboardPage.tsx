@@ -32,6 +32,10 @@ export function DashboardPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const pollFromUrl = searchParams.get('poll')
 
+  const handlePollTick = useCallback(() => {
+    pollService.simulateLiveTick()
+  }, [])
+
   const summaryFetcher = useCallback(async () => {
     return pollService.getDashboardSummary()
   }, [])
@@ -46,7 +50,7 @@ export function DashboardPage() {
   } = usePolling<DashboardSummary>({
     fetcher: summaryFetcher,
     intervalMs: 3000,
-    onTick: () => pollService.simulateLiveTick(),
+    onTick: handlePollTick,
   })
 
   const [selectedPollId, setSelectedPollId] = useState<string>('')
@@ -77,7 +81,7 @@ export function DashboardPage() {
     fetcher: resultsFetcher,
     intervalMs: 3000,
     enabled: !!selectedPollId,
-    onTick: () => pollService.simulateLiveTick(),
+    onTick: handlePollTick,
   })
 
   const handlePollChange = (id: string) => {

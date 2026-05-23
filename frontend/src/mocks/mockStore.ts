@@ -2,7 +2,8 @@ import { INITIAL_POLLS } from '@/mocks/initialPolls'
 import type { Poll, PollFormData, PollResults, DashboardSummary } from '@/types/poll'
 import type { Vote } from '@/types/poll'
 
-const STORAGE_KEY = 'verdicta_mock_data'
+const STORAGE_KEY = 'pulsevote_mock_data'
+const LEGACY_STORAGE_KEY = 'verdicta_mock_data'
 
 interface MockData {
   polls: Poll[]
@@ -15,7 +16,15 @@ function generateId(prefix: string) {
 
 function loadData(): MockData {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
+    let raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) {
+      const legacy = localStorage.getItem(LEGACY_STORAGE_KEY)
+      if (legacy) {
+        localStorage.setItem(STORAGE_KEY, legacy)
+        localStorage.removeItem(LEGACY_STORAGE_KEY)
+        raw = legacy
+      }
+    }
     if (raw) {
       return JSON.parse(raw) as MockData
     }

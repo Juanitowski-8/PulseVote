@@ -102,7 +102,7 @@ PulseVote/
 
 - Servicios **no parsean** por completo el envelope `{ success, message, data }` del backend en auth.
 - `authService.me()` espera `User` plano; backend devuelve envelope.
-- Keys en `localStorage`: `verdicta_token` / `verdicta_user` (nombre legacy).
+- Keys en `localStorage`: `pulsevote_token` / `pulsevote_user` (migración automática desde `verdicta_*` si existían).
 - Dashboard polling en mock **simula** votos aleatorios; con API real deben ser datos reales.
 - Componentes legacy aún en repo sin uso en landing actual: `DaybreakHeroVisual`, `LivePreviewMock` (sustituidos por diseño premium).
 - Sin tests, sin Storybook, sin i18n.
@@ -244,7 +244,7 @@ export const USE_MOCKS = import.meta.env.VITE_USE_MOCKS !== 'false'
 | Tema | Frontend | Backend |
 |------|----------|---------|
 | Auth login/me | Objeto plano esperado | Envelope `{ success, data }` |
-| Marca en storage | `verdicta_*` | N/A |
+| Marca en storage | `pulsevote_*` (mocks: `pulsevote_mock_data`) | N/A |
 | Polling dashboard | Simula votos en mock | Datos reales vía API |
 
 ---

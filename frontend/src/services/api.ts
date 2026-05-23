@@ -67,16 +67,42 @@ export function unwrapData<T>(response: AxiosResponse<unknown>): T {
   return body as T
 }
 
+function extractApiErrorMessage(data: unknown): string | null {
+  if (!data || typeof data !== 'object') return null
+  const body = data as ApiErrorBody & { message?: string }
+  if (typeof body.error?.message === 'string' && body.error.message.trim()) {
+    return body.error.message
+  }
+  if (typeof body.message === 'string' && body.message.trim()) {
+    return body.message
+  }
+  return null
+}
+
 export function getErrorMessage(error: unknown, fallback = 'Ocurrió un error inesperado'): string {
   if (axios.isAxiosError(error)) {
-    const data = error.response?.data as ApiErrorBody | undefined
-    if (data?.error?.message) return data.error.message
-    if (error.response?.status === 409) {
-      return 'Ya has votado en esta encuesta.'
+    const apiMessage = extractApiErrorMessage(error.response?.data)
+    if (apiMessage) return apiMessage
+
+    const status = error.response?.status
+    if (status === 409) return 'Ya has votado en esta encuesta.'
+    if (status === 401) return 'Sesión expirada o credenciales inválidas.'
+    if (status === 403) return 'No tienes permiso para realizar esta acción.'
+    if (status === 404) return 'No se encontró el recurso solicitado.'
+    if (status === 400) return 'Datos inválidos. Revisa el formulario e intenta de nuevo.'
+
+    if (!error.response) {
+      return 'No se pudo conectar con el servidor. Comprueba que el backend esté activo en el puerto 3000.'
     }
-    return error.message ?? fallback
+
+    return fallback
   }
-  if (error instanceof Error) return error.message
+  if (error instanceof Error) {
+    if (error.message === 'Network Error') {
+      return 'No se pudo conectar con el servidor. Comprueba que el backend esté activo.'
+    }
+    return error.message
+  }
   return fallback
 }
 

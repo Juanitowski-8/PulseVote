@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { getErrorMessage } from '@/services/api'
 
 interface UsePollingOptions<T> {
   fetcher: () => Promise<T>
@@ -19,29 +20,34 @@ export function usePolling<T>({
   const [lastUpdated, setLastUpdated] = useState<string | null>(null)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const fetcherRef = useRef(fetcher)
+  const onTickRef = useRef(onTick)
 
   fetcherRef.current = fetcher
+  onTickRef.current = onTick
 
   const refresh = useCallback(async (silent = false) => {
     if (!silent) setIsLoading(true)
     else setIsRefreshing(true)
 
     try {
-      onTick?.()
+      onTickRef.current?.()
       const result = await fetcherRef.current()
       setData(result)
       setLastUpdated(new Date().toISOString())
       setError(null)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al actualizar datos')
+      setError(getErrorMessage(err, 'No se pudieron actualizar los datos.'))
     } finally {
       setIsLoading(false)
       setIsRefreshing(false)
     }
-  }, [onTick])
+  }, [])
 
   useEffect(() => {
-    if (!enabled) return
+    if (!enabled) {
+      setIsLoading(false)
+      return
+    }
 
     void refresh(false)
     const id = window.setInterval(() => void refresh(true), intervalMs)
