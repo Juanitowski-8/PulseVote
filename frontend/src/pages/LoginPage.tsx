@@ -1,12 +1,18 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { LoginForm } from '@/components/auth/LoginForm'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/hooks/useAuth'
 
+interface LoginLocationState {
+  preset?: 'admin' | 'user'
+}
+
 export function LoginPage() {
   const { login, error, clearError, isAuthenticated, user } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const preset = (location.state as LoginLocationState | null)?.preset
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -25,11 +31,15 @@ export function LoginPage() {
       <CardHeader className="text-center sm:text-left">
         <CardTitle className="text-xl font-semibold text-neutral-900">Iniciar sesión</CardTitle>
         <CardDescription className="text-neutral-600">
-          Accede para gestionar encuestas o participar en las activas.
+          {preset === 'admin'
+            ? 'Accede al panel de administración para crear encuestas y ver el dashboard.'
+            : preset === 'user'
+              ? 'Accede para votar en las encuestas activas.'
+              : 'Accede para gestionar encuestas o participar en las activas.'}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <LoginForm onSubmit={handleLogin} error={error} />
+        <LoginForm onSubmit={handleLogin} error={error} preset={preset} />
       </CardContent>
     </Card>
   )

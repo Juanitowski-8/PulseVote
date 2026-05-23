@@ -1,24 +1,39 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Loader2 } from 'lucide-react'
 
+const DEMO_CREDENTIALS = {
+  admin: { email: 'admin@pulsevote.app', password: 'Admin123!' },
+  user: { email: 'user@pulsevote.app', password: 'User123!' },
+} as const
+
 interface LoginFormProps {
   onSubmit: (email: string, password: string) => Promise<void>
   error?: string | null
+  preset?: 'admin' | 'user'
 }
 
 function validateEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
-export function LoginForm({ onSubmit, error }: LoginFormProps) {
+export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (preset && DEMO_CREDENTIALS[preset]) {
+      const { email: e, password: p } = DEMO_CREDENTIALS[preset]
+      setEmail(e)
+      setPassword(p)
+      setFieldErrors({})
+    }
+  }, [preset])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
