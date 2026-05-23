@@ -10,10 +10,8 @@ export type PulseVoteLogoProps = {
 }
 
 /**
- * Isotipo PulseVote — lectura clara en 3 capas:
- * 1) Arcos superiores = señal en vivo (pulse)
- * 2) Check central = voto confirmado
- * 3) Barras inferiores = resultados / encuesta
+ * Isotipo minimalista: hoja de encuesta.
+ * Hoja estilizada + líneas de formulario + marca de voto.
  */
 export function PulseVoteLogo({
   className,
@@ -24,7 +22,6 @@ export function PulseVoteLogo({
 }: PulseVoteLogoProps) {
   const uid = useId().replace(/:/g, '')
   const gradientId = `pv-grad-${uid}`
-  const glowId = `pv-glow-${uid}`
 
   return (
     <div className={cn('flex items-center gap-3', className)}>
@@ -36,82 +33,57 @@ export function PulseVoteLogo({
         xmlns="http://www.w3.org/2000/svg"
         className={cn(
           'shrink-0',
-          glow && 'drop-shadow-[0_0_12px_rgba(0,245,138,0.16)]',
+          glow && 'drop-shadow-[0_0_10px_rgba(0,245,138,0.14)]',
         )}
         aria-hidden
       >
         <defs>
-          <linearGradient id={gradientId} x1="24" y1="16" x2="96" y2="104">
+          <linearGradient id={gradientId} x1="30" y1="20" x2="90" y2="100">
             <stop offset="0%" stopColor="#00F58A" />
-            <stop offset="50%" stopColor="#00B86B" />
+            <stop offset="55%" stopColor="#00B86B" />
             <stop offset="100%" stopColor="#006B45" />
           </linearGradient>
-          {glow && (
-            <filter
-              id={glowId}
-              x="-25%"
-              y="-25%"
-              width="150%"
-              height="150%"
-              colorInterpolationFilters="sRGB"
-            >
-              <feGaussianBlur stdDeviation="1.8" result="blur" />
-              <feColorMatrix
-                in="blur"
-                type="matrix"
-                values="0 0 0 0 0  0 0 0 0 0.9  0 0 0 0 0.5  0 0 0 0.22 0"
-                result="glow"
-              />
-              <feMerge>
-                <feMergeNode in="glow" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          )}
         </defs>
 
-        <g filter={glow ? `url(#${glowId})` : undefined}>
-          {/* Marco — lectura como icono de app */}
-          <rect
-            x="8"
-            y="8"
-            width="104"
-            height="104"
-            rx="24"
-            fill="#071A14"
-            stroke={`url(#${gradientId})`}
-            strokeWidth="2.5"
-          />
+        <rect
+          x="10"
+          y="10"
+          width="100"
+          height="100"
+          rx="22"
+          fill="#071A14"
+          stroke={`url(#${gradientId})`}
+          strokeWidth="2"
+          strokeOpacity="0.7"
+        />
 
-          {/* Pulse / tiempo real */}
-          <g
-            stroke={`url(#${gradientId})`}
-            strokeWidth="6"
-            strokeLinecap="round"
-            fill="none"
-            opacity="0.85"
-          >
-            <path d="M26 56C26 30 42 14 60 14C78 14 94 30 94 56" />
-            <path d="M38 58C38 40 48 28 60 28C72 28 82 40 82 58" />
-          </g>
+        {/* Hoja / ficha de encuesta */}
+        <path
+          d="M38 34C38 34 42 28 60 28C78 28 82 34 82 34V88C82 88 78 94 60 94C42 94 38 88 38 88V34Z"
+          fill={`url(#${gradientId})`}
+          fillOpacity="0.12"
+        />
+        <path
+          d="M42 38C42 38 46 32 60 32C74 32 78 38 78 38V84C78 84 74 90 60 90C46 90 42 84 42 84V38Z"
+          stroke={`url(#${gradientId})`}
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
 
-          {/* Voto confirmado */}
-          <path
-            d="M40 54L54 74L88 42"
-            stroke={`url(#${gradientId})`}
-            strokeWidth="10"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
+        {/* Líneas de encuesta */}
+        <line x1="48" y1="48" x2="72" y2="48" stroke={`url(#${gradientId})`} strokeWidth="3" strokeLinecap="round" opacity="0.55" />
+        <line x1="48" y1="58" x2="68" y2="58" stroke={`url(#${gradientId})`} strokeWidth="3" strokeLinecap="round" opacity="0.4" />
+        <line x1="48" y1="68" x2="64" y2="68" stroke={`url(#${gradientId})`} strokeWidth="3" strokeLinecap="round" opacity="0.3" />
 
-          {/* Resultados de encuesta */}
-          <g fill={`url(#${gradientId})`}>
-            <rect x="32" y="84" width="16" height="20" rx="4" />
-            <rect x="52" y="72" width="16" height="32" rx="4" />
-            <rect x="72" y="56" width="16" height="48" rx="4" />
-          </g>
-        </g>
+        {/* Voto / selección */}
+        <circle cx="52" cy="78" r="5" stroke={`url(#${gradientId})`} strokeWidth="2" fill="none" opacity="0.5" />
+        <path
+          d="M62 76L66 80L76 70"
+          stroke={`url(#${gradientId})`}
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
 
       {showText && (
