@@ -1,9 +1,13 @@
 import { findMockUser } from '@/mocks/users'
-import { api, USE_MOCKS } from '@/services/api'
+import {
+  api,
+  TOKEN_KEY,
+  USER_KEY,
+  USE_MOCKS,
+  unwrapData,
+} from '@/services/api'
+import type { ApiSuccessResponse } from '@/types/api'
 import type { AuthResponse, AuthSession, LoginCredentials, User } from '@/types/auth'
-
-const TOKEN_KEY = 'verdicta_token'
-const USER_KEY = 'verdicta_user'
 
 function delay(ms = 400) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -43,7 +47,8 @@ export const authService = {
       return response
     }
 
-    const { data } = await api.post<AuthResponse>('/auth/login', credentials)
+    const res = await api.post<ApiSuccessResponse<AuthResponse>>('/auth/login', credentials)
+    const data = unwrapData<AuthResponse>(res)
     saveSession(data)
     return data
   },
@@ -56,8 +61,13 @@ export const authService = {
       return session.user
     }
 
-    const { data } = await api.get<User>('/auth/me')
-    return data
+    const res = await api.get<ApiSuccessResponse<User>>('/auth/me')
+    const user = unwrapData<User>(res)
+    const token = localStorage.getItem(TOKEN_KEY)
+    if (token) {
+      localStorage.setItem(USER_KEY, JSON.stringify(user))
+    }
+    return user
   },
 
   logout() {

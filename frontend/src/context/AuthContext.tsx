@@ -30,17 +30,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const session = getStoredSession()
-    if (session) {
+    const init = async () => {
+      const session = getStoredSession()
+      if (!session) {
+        setIsLoading(false)
+        return
+      }
       setUser(session.user)
       setToken(session.token)
-      authService.me().then(setUser).catch(() => {
+      try {
+        const freshUser = await authService.me()
+        setUser(freshUser)
+      } catch {
         authService.logout()
         setUser(null)
         setToken(null)
-      })
+      } finally {
+        setIsLoading(false)
+      }
     }
-    setIsLoading(false)
+    void init()
   }, [])
 
   const login = useCallback(async (credentials: LoginCredentials) => {

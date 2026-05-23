@@ -3,7 +3,7 @@ import type { User } from '@/types/auth'
 export const MOCK_USERS: Array<User & { password: string }> = [
   {
     id: 'usr_admin',
-    name: 'Admin Verdicta',
+    name: 'Admin PulseVote',
     email: 'admin@pulsevote.app',
     role: 'ADMIN',
     password: 'Admin123!',

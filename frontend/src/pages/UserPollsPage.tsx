@@ -30,17 +30,16 @@ export function UserPollsPage() {
   const [voteError, setVoteError] = useState<string | null>(null)
   const [voteSuccess, setVoteSuccess] = useState<string | null>(null)
   const [isVoting, setIsVoting] = useState(false)
-  const [votedPollIds, setVotedPollIds] = useState<Set<string>>(() => {
-    if (!user) return new Set()
-    return new Set(
-      polls.filter((p) => pollService.hasVoted(user.id, p.id)).map((p) => p.id),
-    )
-  })
+  const [votedPollIds, setVotedPollIds] = useState<Set<string>>(new Set())
 
   const refreshVotedState = useCallback(() => {
     if (!user) return
     setVotedPollIds(
-      new Set(polls.filter((p) => pollService.hasVoted(user.id, p.id)).map((p) => p.id)),
+      new Set(
+        polls
+          .filter((p) => pollService.hasVoted(user.id, p.id, p) || p.hasVoted)
+          .map((p) => p.id),
+      ),
     )
   }, [polls, user])
 
@@ -48,7 +47,11 @@ export function UserPollsPage() {
     refreshVotedState()
   }, [refreshVotedState])
 
-  const hasVoted = (pollId: string) => (user ? pollService.hasVoted(user.id, pollId) : false) || votedPollIds.has(pollId)
+  const hasVoted = (pollId: string) => {
+    if (votedPollIds.has(pollId)) return true
+    const poll = polls.find((p) => p.id === pollId)
+    return user ? pollService.hasVoted(user.id, pollId, poll) : false
+  }
 
   const openVoteDialog = (poll: Poll) => {
     setSelectedPoll(poll)
