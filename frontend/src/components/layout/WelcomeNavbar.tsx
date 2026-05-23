@@ -16,39 +16,46 @@ export function WelcomeNavbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#12382B]/80 bg-[#020D0A]/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-[60px] max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
+      <div className="mx-auto flex h-[76px] max-w-6xl items-center justify-between gap-8 px-5 sm:h-[84px] sm:px-8">
         <Link to="/" className="shrink-0 transition-opacity hover:opacity-85">
-          <PulseVoteBrand logoSize={26} />
+          <PulseVoteBrand
+            logoSize={36}
+            className="gap-3"
+            nameClassName="text-lg font-semibold text-[#F3FFF8] sm:text-xl"
+          />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
+        <nav className="hidden items-center gap-10 md:flex" aria-label="Principal">
           {navLinks.map(({ href, label }) => (
             <a
               key={href}
               href={href}
-              className="text-sm text-[#8FA99B] transition-colors hover:text-[#F3FFF8]"
+              className="text-base font-medium text-[#8FA99B] transition-colors hover:text-[#F3FFF8]"
             >
               {label}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-3 sm:gap-4">
           {isAuthenticated ? (
-            <Link to={appPath} className="landing-btn-primary h-9 px-4 text-sm">
+            <Link to={appPath} className="landing-btn-primary h-11 px-6 text-[15px]">
               Entrar a la app
             </Link>
           ) : (
             <>
               <Link
                 to="/login"
-                className="hidden h-9 items-center px-3 text-sm text-[#8FA99B] transition-colors hover:text-[#F3FFF8] sm:inline-flex"
+                className="hidden h-11 items-center px-4 text-base font-medium text-[#8FA99B] transition-colors hover:text-[#F3FFF8] sm:inline-flex"
               >
                 Iniciar sesión
               </Link>
-              <Link to="/login" className={cn('landing-btn-primary h-9 gap-1 px-4 text-sm')}>
+              <Link
+                to="/login"
+                className={cn('landing-btn-primary h-11 gap-1.5 px-6 text-[15px]')}
+              >
                 Comenzar
-                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+                <ArrowUpRight className="h-4 w-4" aria-hidden />
               </Link>
             </>
           )}
