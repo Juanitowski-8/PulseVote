@@ -71,3 +71,19 @@ curl -s -X POST http://localhost:3000/api/polls/<POLL_ID>/vote \
 | Poll inactiva | 400 | `POLL_NOT_ACTIVE` |
 | Opción de otra encuesta | 400 | `INVALID_OPTION` |
 | Segundo voto misma encuesta | 409 | `ALREADY_VOTED` |
+
+## Dashboard
+
+Requiere `Authorization: Bearer <token>`. Roles: **ADMIN** y **USER**.
+
+```bash
+# Resumen (métricas según rol)
+curl -s http://localhost:3000/api/dashboard/summary \
+  -H "Authorization: Bearer <TOKEN>"
+
+# Resultados agregados de una encuesta (polling cada 3s en el frontend)
+curl -s http://localhost:3000/api/dashboard/polls/<POLL_ID>/results \
+  -H "Authorization: Bearer <TOKEN>"
+```
+
+Respuesta: `{ "success": true, "data": { ... } }`. Sin datos sensibles (`passwordHash`, etc.).

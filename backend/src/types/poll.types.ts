@@ -8,22 +8,9 @@ export interface PollResultOption {
 export interface PollResults {
   pollId: string
   question: string
+  description: string | null
+  isActive: boolean
   totalVotes: number
   options: PollResultOption[]
-  updatedAt: Date
-}
-
-export interface DashboardSummary {
-  totalPolls: number
-  totalVotes: number
-  activePolls: number
-  averageParticipation: number
-  polls: Array<{
-    id: string
-    question: string
-    isActive: boolean
-    totalVotes: number
-    updatedAt: Date
-  }>
   updatedAt: Date
 }

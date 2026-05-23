@@ -7,7 +7,7 @@ import { pollIdParamSchema } from '../schemas/poll.schema'
 
 const router = Router()
 
-router.use(authenticate, authorizeRoles('ADMIN'))
+router.use(authenticate, authorizeRoles('ADMIN', 'USER'))
 
 router.get('/summary', dashboardController.summary)
 router.get(

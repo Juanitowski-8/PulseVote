@@ -28,6 +28,8 @@ async function buildPollResults(pollId: string): Promise<PollResults> {
   return {
     pollId: poll.id,
     question: poll.question,
+    description: poll.description,
+    isActive: poll.isActive,
     totalVotes,
     updatedAt: poll.updatedAt,
     options: poll.options.map((opt) => ({
