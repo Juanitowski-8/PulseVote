@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import {
   Activity,
@@ -7,7 +7,6 @@ import {
   Radio,
   Users,
 } from 'lucide-react'
-import { PollResultsChart } from '@/components/dashboard/PollResultsChart'
 import { RecentActivityCard } from '@/components/dashboard/RecentActivityCard'
 import { StatsCard } from '@/components/dashboard/StatsCard'
 import { PageHeader } from '@/components/layout/PageHeader'
@@ -27,6 +26,12 @@ import { usePolling } from '@/hooks/usePolling'
 import { pollService } from '@/services/pollService'
 import { formatNumber, formatPercentage, formatRelativeTime } from '@/utils/formatters'
 import type { DashboardSummary, PollResults } from '@/types/poll'
+
+const PollResultsChart = lazy(() =>
+  import('@/components/dashboard/PollResultsChart').then((m) => ({
+    default: m.PollResultsChart,
+  })),
+)
 
 export function DashboardPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -161,7 +166,9 @@ export function DashboardPage() {
             <ErrorState message={resultsError} />
           ) : results ? (
             <>
-              <PollResultsChart results={results} />
+              <Suspense fallback={<LoadingState message="Cargando gráfica..." />}>
+                <PollResultsChart results={results} />
+              </Suspense>
               <Card>
                 <CardHeader>
                   <CardTitle className="text-base">Detalle de resultados</CardTitle>

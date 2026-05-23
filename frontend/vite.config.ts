@@ -13,6 +13,28 @@ export default defineConfig({
   server: {
     port: 5173,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return
+
+          if (id.includes('recharts') || id.includes('d3-') || id.includes('victory-vendor')) {
+            return 'charts'
+          }
+
+          if (
+            id.includes('react-dom') ||
+            id.includes('react-router') ||
+            id.includes('/react/') ||
+            id.includes('scheduler')
+          ) {
+            return 'react-vendor'
+          }
+        },
+      },
+    },
+  },
   test: {
     globals: false,
     environment: 'jsdom',
