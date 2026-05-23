@@ -4,7 +4,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { WelcomeNavbar } from '@/components/layout/WelcomeNavbar'
 import { HeroDashboardPreview } from '@/components/welcome/HeroDashboardPreview'
 import { HowItWorks } from '@/components/welcome/HowItWorks'
-import { LandingAmbient } from '@/components/welcome/LandingAmbient'
+import { AnimatedPremiumBackground } from '@/components/layout/AnimatedPremiumBackground'
 import { RoleEntryCards } from '@/components/welcome/RoleEntryCards'
 import { LoadingState } from '@/components/states/LoadingState'
 import { useAuth } from '@/hooks/useAuth'
@@ -21,18 +21,21 @@ export function WelcomePage() {
 
   if (isLoading) {
     return (
-      <div className="landing-page flex min-h-screen items-center justify-center">
-        <LoadingState message="Cargando..." />
+      <div className="landing-page relative flex min-h-screen items-center justify-center overflow-hidden">
+        <AnimatedPremiumBackground />
+        <div className="relative z-10">
+          <LoadingState message="Cargando..." />
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="landing-page relative flex min-h-screen flex-col text-[#F3FFF8]">
-      <LandingAmbient />
+    <div className="landing-page relative flex min-h-screen flex-col overflow-hidden text-[#F3FFF8]">
+      <AnimatedPremiumBackground />
       <WelcomeNavbar />
 
-      <main className="flex-1">
+      <main className="relative z-10 flex-1">
         <section
           id="producto"
           className="relative mx-auto max-w-6xl px-4 pb-20 pt-14 sm:px-6 sm:pb-28 sm:pt-20"
@@ -65,10 +68,6 @@ export function WelcomePage() {
           </div>
 
           <div className="relative mt-16 sm:mt-20">
-            <div
-              className="pointer-events-none absolute -inset-x-8 top-1/2 h-1/2 -translate-y-1/4 bg-[radial-gradient(ellipse_at_center,rgba(0,245,138,0.06),transparent_70%)]"
-              aria-hidden
-            />
             <HeroDashboardPreview />
           </div>
         </section>
@@ -91,7 +90,7 @@ export function WelcomePage() {
         </section>
       </main>
 
-      <footer className="border-t border-[#12382B] py-8 text-center text-xs text-[#8FA99B]">
+      <footer className="relative z-10 border-t border-[#12382B] py-8 text-center text-xs text-[#8FA99B]">
         PulseVote · Encuestas en tiempo real
       </footer>
     </div>
