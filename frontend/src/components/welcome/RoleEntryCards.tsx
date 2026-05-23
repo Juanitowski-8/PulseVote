@@ -10,6 +10,7 @@ const roles: Array<{
   actions: string[]
   cta: string
   preset: 'admin' | 'user'
+  href?: string
 }> = [
   {
     role: 'ADMIN',
@@ -26,8 +27,9 @@ const roles: Array<{
     title: 'Soy participante',
     description: 'Accede a las encuestas activas, vota una sola vez y consulta si ya participaste.',
     actions: ['Ver encuestas activas', 'Votar de forma segura', 'Confirmación de voto único'],
-    cta: 'Entrar como usuario',
+    cta: 'Crear cuenta y votar',
     preset: 'user',
+    href: '/register',
   },
 ]
 
@@ -40,12 +42,12 @@ export function RoleEntryCards() {
             ¿Qué quieres hacer?
           </h2>
           <p className="mt-3 text-pv-muted">
-            Elige tu rol e inicia sesión para entrar directo a tu espacio.
+            Regístrate como participante o inicia sesión como administrador.
           </p>
         </div>
 
         <div className="grid gap-5 md:grid-cols-2">
-          {roles.map(({ icon: Icon, title, description, actions, cta, preset }) => (
+          {roles.map(({ icon: Icon, title, description, actions, cta, preset, href }) => (
             <article
               key={preset}
               className="landing-surface-card flex flex-col p-6 transition-colors hover:border-primary/35"
@@ -64,8 +66,8 @@ export function RoleEntryCards() {
                 ))}
               </ul>
               <Link
-                to="/login"
-                state={{ preset }}
+                to={href ?? '/login'}
+                state={href ? undefined : { preset }}
                 className="landing-btn-primary mt-6 inline-flex h-10 w-full items-center justify-center text-sm"
               >
                 {cta}

@@ -53,7 +53,7 @@ export function WelcomeNavbar() {
                 Iniciar sesión
               </Link>
               <Link
-                to="/login"
+                to="/register"
                 className={cn('landing-btn-primary h-11 gap-1.5 px-6 text-[15px]')}
               >
                 Comenzar

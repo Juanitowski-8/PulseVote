@@ -404,6 +404,7 @@ Error:
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
+| POST | `/api/auth/register` | Crear cuenta (rol `USER`) |
 | POST | `/api/auth/login` | Iniciar sesión |
 | GET | `/api/auth/me` | Usuario autenticado |
 

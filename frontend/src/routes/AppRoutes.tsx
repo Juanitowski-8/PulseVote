@@ -11,6 +11,9 @@ const WelcomePage = lazy(() =>
 const LoginPage = lazy(() =>
   import('@/pages/LoginPage').then((m) => ({ default: m.LoginPage })),
 )
+const RegisterPage = lazy(() =>
+  import('@/pages/RegisterPage').then((m) => ({ default: m.RegisterPage })),
+)
 const AdminPollsPage = lazy(() =>
   import('@/pages/AdminPollsPage').then((m) => ({ default: m.AdminPollsPage })),
 )
@@ -58,6 +61,14 @@ export function AppRoutes() {
           element={
             <LazyPage message="Preparando acceso...">
               <LoginPage />
+            </LazyPage>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <LazyPage message="Preparando registro...">
+              <RegisterPage />
             </LazyPage>
           }
         />

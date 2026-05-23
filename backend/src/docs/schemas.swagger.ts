@@ -15,6 +15,24 @@
  *           format: password
  *           example: Admin123!
  *
+ *     RegisterRequest:
+ *       type: object
+ *       required: [name, email, password]
+ *       properties:
+ *         name:
+ *           type: string
+ *           minLength: 2
+ *           example: María García
+ *         email:
+ *           type: string
+ *           format: email
+ *           example: maria@ejemplo.com
+ *         password:
+ *           type: string
+ *           format: password
+ *           minLength: 8
+ *           example: MiClave123
+ *
  *     AuthUser:
  *       type: object
  *       properties:

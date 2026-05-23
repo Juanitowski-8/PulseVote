@@ -56,8 +56,8 @@ export function WelcomePage() {
               </p>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-                <Link to="/login" className="landing-btn-primary h-11 px-7 text-[15px]">
-                  Comenzar ahora
+                <Link to="/register" className="landing-btn-primary h-11 px-7 text-[15px]">
+                  Crear cuenta
                   <ArrowUpRight className="h-4 w-4" aria-hidden />
                 </Link>
                 <Link to="/login" className="landing-btn-secondary h-11 px-7 text-[15px]">
@@ -85,7 +85,7 @@ export function WelcomePage() {
               Listo para entrar
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-pv-muted sm:text-base">
-              Inicia sesión con las cuentas de demo o las credenciales de tu organización.
+              Regístrate para votar o inicia sesión con las cuentas de demo de tu organización.
             </p>
             <Link to="/login" className="landing-btn-primary mt-8 inline-flex h-11 px-8 text-[15px]">
               Iniciar sesión

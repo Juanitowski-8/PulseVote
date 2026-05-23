@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
@@ -6,58 +6,45 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Loader2 } from 'lucide-react'
 
-const DEMO_CREDENTIALS = {
-  admin: { email: 'admin@pulsevote.app', password: 'Admin123!' },
-  user: { email: 'user@pulsevote.app', password: 'User123!' },
-} as const
-
-interface LoginFormProps {
-  onSubmit: (email: string, password: string) => Promise<void>
+interface RegisterFormProps {
+  onSubmit: (name: string, email: string, password: string) => Promise<void>
   error?: string | null
-  preset?: 'admin' | 'user'
 }
 
 function validateEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
-export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
+export function RegisterForm({ onSubmit, error }: RegisterFormProps) {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({})
+  const [fieldErrors, setFieldErrors] = useState<{
+    name?: string
+    email?: string
+    password?: string
+  }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
-
-  useEffect(() => {
-    if (preset && DEMO_CREDENTIALS[preset]) {
-      const { email: e, password: p } = DEMO_CREDENTIALS[preset]
-      setEmail(e)
-      setPassword(p)
-      setFieldErrors({})
-    }
-  }, [preset])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const errors: { email?: string; password?: string } = {}
+    const errors: { name?: string; email?: string; password?: string } = {}
+    if (!name.trim()) errors.name = 'El nombre es obligatorio'
+    else if (name.trim().length < 2) errors.name = 'Mínimo 2 caracteres'
     if (!email.trim()) errors.email = 'El email es obligatorio'
     else if (!validateEmail(email)) errors.email = 'Introduce un email válido'
     if (!password) errors.password = 'La contraseña es obligatoria'
+    else if (password.length < 8) errors.password = 'Mínimo 8 caracteres'
 
     setFieldErrors(errors)
     if (Object.keys(errors).length > 0) return
 
     setIsSubmitting(true)
     try {
-      await onSubmit(email.trim(), password)
+      await onSubmit(name.trim(), email.trim(), password)
     } finally {
       setIsSubmitting(false)
     }
-  }
-
-  const fillDemo = (demoEmail: string, demoPassword: string) => {
-    setEmail(demoEmail)
-    setPassword(demoPassword)
-    setFieldErrors({})
   }
 
   return (
@@ -67,6 +54,25 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
+
+      <div className="space-y-2">
+        <Label htmlFor="name" className="text-pv-main">
+          Nombre
+        </Label>
+        <Input
+          id="name"
+          type="text"
+          autoComplete="name"
+          placeholder="Tu nombre"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          aria-invalid={!!fieldErrors.name}
+          className="border-border bg-pv-surface-soft text-pv-main placeholder:text-pv-muted"
+        />
+        {fieldErrors.name && (
+          <p className="text-xs text-destructive">{fieldErrors.name}</p>
+        )}
+      </div>
 
       <div className="space-y-2">
         <Label htmlFor="email" className="text-pv-main">
@@ -94,8 +100,8 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
         <Input
           id="password"
           type="password"
-          autoComplete="current-password"
-          placeholder="••••••••"
+          autoComplete="new-password"
+          placeholder="Mínimo 8 caracteres"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           aria-invalid={!!fieldErrors.password}
@@ -110,43 +116,19 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
         {isSubmitting ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-            Iniciando sesión...
+            Creando cuenta...
           </>
         ) : (
-          'Iniciar sesión'
+          'Crear cuenta'
         )}
       </Button>
 
       <p className="text-center text-sm text-pv-muted">
-        ¿No tienes cuenta?{' '}
-        <Link to="/register" className="font-medium text-primary hover:underline">
-          Regístrate gratis
+        ¿Ya tienes cuenta?{' '}
+        <Link to="/login" className="font-medium text-primary hover:underline">
+          Iniciar sesión
         </Link>
       </p>
-
-      <div className="rounded-lg border border-border bg-pv-surface-soft/80 p-4">
-        <p className="mb-3 text-xs font-medium uppercase tracking-wide text-pv-muted">
-          Cuentas de prueba
-        </p>
-        <div className="grid gap-2 sm:grid-cols-2">
-          <button
-            type="button"
-            className="rounded-lg border border-border bg-pv-surface px-3 py-2.5 text-left text-sm transition hover:border-primary/50"
-            onClick={() => fillDemo('admin@pulsevote.app', 'Admin123!')}
-          >
-            <span className="font-medium text-pv-main">Admin</span>
-            <span className="mt-0.5 block text-xs text-pv-muted">admin@pulsevote.app</span>
-          </button>
-          <button
-            type="button"
-            className="rounded-lg border border-border bg-pv-surface px-3 py-2.5 text-left text-sm transition hover:border-primary/50"
-            onClick={() => fillDemo('user@pulsevote.app', 'User123!')}
-          >
-            <span className="font-medium text-pv-main">Usuario</span>
-            <span className="mt-0.5 block text-xs text-pv-muted">user@pulsevote.app</span>
-          </button>
-        </div>
-      </div>
     </form>
   )
 }

@@ -8,7 +8,7 @@ import {
 } from 'react'
 import { authService, getStoredSession } from '@/services/authService'
 import { getErrorMessage } from '@/services/api'
-import type { LoginCredentials, User } from '@/types/auth'
+import type { LoginCredentials, RegisterCredentials, User } from '@/types/auth'
 
 interface AuthContextValue {
   user: User | null
@@ -16,6 +16,7 @@ interface AuthContextValue {
   isLoading: boolean
   isAuthenticated: boolean
   login: (credentials: LoginCredentials) => Promise<User>
+  register: (credentials: RegisterCredentials) => Promise<User>
   logout: () => void
   error: string | null
   clearError: () => void
@@ -66,6 +67,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  const register = useCallback(async (credentials: RegisterCredentials) => {
+    setError(null)
+    try {
+      const response = await authService.register(credentials)
+      setUser(response.user)
+      setToken(response.token)
+      return response.user
+    } catch (err) {
+      const message = getErrorMessage(err, 'Error al crear la cuenta')
+      setError(message)
+      throw err
+    }
+  }, [])
+
   const logout = useCallback(() => {
     authService.logout()
     setUser(null)
@@ -80,11 +95,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isLoading,
       isAuthenticated: !!user && !!token,
       login,
+      register,
       logout,
       error,
       clearError: () => setError(null),
     }),
-    [user, token, isLoading, login, logout, error],
+    [user, token, isLoading, login, register, logout, error],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

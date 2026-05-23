@@ -14,6 +14,36 @@
  *             schema:
  *               $ref: '#/components/schemas/HealthResponse'
  *
+ * /auth/register:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Register
+ *     description: Creates a new USER account. Returns JWT and profile (same shape as login).
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RegisterRequest'
+ *     responses:
+ *       201:
+ *         description: Account created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthResponse'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       409:
+ *         description: Email already registered
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         $ref: '#/components/responses/InternalError'
+ *
  * /auth/login:
  *   post:
  *     tags: [Auth]

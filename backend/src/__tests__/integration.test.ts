@@ -12,6 +12,8 @@ import {
 const app = createApp()
 
 const TEST_POLL_PREFIX = '[TEST] '
+const TEST_REGISTER_EMAIL = 'integration-register@pulsevote.test'
+const TEST_REGISTER_PASSWORD = 'RegisterTest123!'
 
 let adminToken = ''
 let userToken = ''
@@ -23,6 +25,9 @@ describe('PulseVote API — integration', () => {
     if (testPollId) {
       await prisma.poll.delete({ where: { id: testPollId } }).catch(() => undefined)
     }
+    await prisma.user
+      .deleteMany({ where: { email: TEST_REGISTER_EMAIL } })
+      .catch(() => undefined)
     await prisma.$disconnect()
   })
 
@@ -33,6 +38,48 @@ describe('PulseVote API — integration', () => {
       status: 'ok',
       service: 'pulsevote-api',
     })
+  })
+
+  it('POST /api/auth/register — creates USER and returns token', async () => {
+    await prisma.user.deleteMany({ where: { email: TEST_REGISTER_EMAIL } }).catch(() => undefined)
+
+    const res = await request(app)
+      .post('/api/auth/register')
+      .send({
+        name: 'Usuario Integración',
+        email: TEST_REGISTER_EMAIL,
+        password: TEST_REGISTER_PASSWORD,
+      })
+      .expect(201)
+
+    expect(res.body.success).toBe(true)
+    expect(res.body.data.user.role).toBe('USER')
+    expect(res.body.data.user.email).toBe(TEST_REGISTER_EMAIL)
+    expect(res.body.data.token).toBeTruthy()
+  })
+
+  it('POST /api/auth/register — duplicate email returns 409', async () => {
+    const res = await request(app)
+      .post('/api/auth/register')
+      .send({
+        name: 'Otro nombre',
+        email: TEST_REGISTER_EMAIL,
+        password: TEST_REGISTER_PASSWORD,
+      })
+      .expect(409)
+
+    expect(res.body.success).toBe(false)
+    expect(res.body.error?.code).toBe('EMAIL_ALREADY_EXISTS')
+  })
+
+  it('POST /api/auth/login — registered user can sign in', async () => {
+    const res = await request(app)
+      .post('/api/auth/login')
+      .send({ email: TEST_REGISTER_EMAIL, password: TEST_REGISTER_PASSWORD })
+      .expect(200)
+
+    expect(res.body.data.user.email).toBe(TEST_REGISTER_EMAIL)
+    expect(res.body.data.token).toBeTruthy()
   })
 
   it('POST /api/auth/login — admin returns token and role ADMIN', async () => {
