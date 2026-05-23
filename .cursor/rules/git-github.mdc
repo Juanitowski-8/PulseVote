@@ -1,5 +1,5 @@
 ---
-description: Commits y push siempre al repo GitHub de PulseVote
+description: Verificar, commit y push siempre al repo GitHub de PulseVote
 alwaysApply: true
 ---
 
@@ -11,19 +11,37 @@ Repositorio remoto único:
 - **Remoto:** `origin` → `https://github.com/Juanitowski-8/PulseVote.git`
 - **Rama:** `main`
 
-## Después de cada cambio de código o docs
+## Flujo obligatorio después de cada acción o prompt con cambios
+
+**Orden estricto: verificar → commit → push.** No commitear sin verificar antes.
+
+### 1. Verificar que funciona
+
+Según lo que se haya tocado:
+
+- **Frontend:** `cd frontend && npm run build` (debe terminar sin errores).
+- **Backend:** `cd backend && npm run build` (debe terminar sin errores).
+- Si el cambio es solo docs/CSS menor, al menos confirmar que no hay errores obvios en los archivos editados.
+- Si algo falla, **corregir primero** y volver a verificar. No hacer commit hasta que pase.
+
+### 2. Commit
 
 1. `git status` y `git diff` para revisar qué se modificó.
-2. **Commit** en `main` con mensaje claro (estilo del repo: `feat(frontend):`, `fix(backend):`, `docs:`, etc.).
-3. **`git push origin main`** inmediatamente después del commit, salvo que el usuario pida no subir.
+2. **Commit** en `main` con mensaje claro (`feat(frontend):`, `fix(backend):`, `docs:`, etc.).
+3. No commitear `.env`, claves ni credenciales.
 
-No dejar trabajo solo en local: GitHub debe reflejar el historial actual.
+### 3. Push
+
+- **`git push origin main`** inmediatamente después del commit exitoso.
+- Confirmar que `main` queda al día con `origin/main`.
+
+No dejar trabajo solo en local: GitHub debe reflejar el historial actual y el código verificado.
 
 ## Prohibido sin pedirlo explícito
 
 - Cambiar `git config` o el remoto `origin`.
 - `push --force` a `main`.
-- Commitear `.env`, claves o credenciales.
+- Commit o push sin haber verificado builds cuando hubo cambios de código.
 
 ## Si el push falla
 
