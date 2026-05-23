@@ -2,6 +2,8 @@
 
 Encuestas en tiempo real — monorepo frontend + backend.
 
+📋 **Estado detallado del proyecto:** [docs/ESTADO-SISTEMA.md](docs/ESTADO-SISTEMA.md)
+
 ## Terminal en Windows (PowerShell)
 
 **No uses `\` al final de línea** (eso es de Linux/bash). En PowerShell:
