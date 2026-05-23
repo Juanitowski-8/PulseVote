@@ -11,8 +11,10 @@ export default function App() {
       <ThemeProvider>
         <PremiumLedBackground />
         <AuthProvider>
-          <AppRoutes />
-          <ThemeToggle />
+          <div className="relative z-10 min-h-screen">
+            <AppRoutes />
+            <ThemeToggle />
+          </div>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

@@ -2,11 +2,10 @@ import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { WelcomeNavbar } from '@/components/layout/WelcomeNavbar'
-import { DaybreakHeroVisual } from '@/components/welcome/DaybreakHeroVisual'
+import { HeroDashboardPreview } from '@/components/welcome/HeroDashboardPreview'
 import { HowItWorks } from '@/components/welcome/HowItWorks'
-import { LivePreviewMock } from '@/components/welcome/LivePreviewMock'
+import { LandingAmbient } from '@/components/welcome/LandingAmbient'
 import { RoleEntryCards } from '@/components/welcome/RoleEntryCards'
-import { Button } from '@/components/ui/button'
 import { LoadingState } from '@/components/states/LoadingState'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -29,84 +28,48 @@ export function WelcomePage() {
   }
 
   return (
-    <div className="landing-page relative flex min-h-screen flex-col">
+    <div className="landing-page relative flex min-h-screen flex-col text-[#F3FFF8]">
+      <LandingAmbient />
       <WelcomeNavbar />
 
       <main className="flex-1">
-        {/* Hero — estilo Daybreak (oscuro) / clásico (día) */}
         <section
           id="producto"
-          className="relative mx-auto max-w-6xl overflow-hidden px-4 pb-40 pt-16 sm:px-6 sm:pt-24 sm:pb-48"
+          className="relative mx-auto max-w-6xl px-4 pb-20 pt-14 sm:px-6 sm:pb-28 sm:pt-20"
         >
-          {/* Vista oscura: centrada tipo OpenAI */}
-          <div className="relative z-10 hidden flex-col items-center text-center dark:flex">
-            <h1 className="text-gradient-daybreak text-6xl font-semibold tracking-tight sm:text-7xl md:text-8xl">
-              PulseVote
+          <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+            <span className="landing-badge">Real-time polling platform</span>
+
+            <h1 className="mt-8 text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl">
+              <span className="landing-brand-text">PulseVote</span>
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-neutral-300 sm:text-xl">
+
+            <p className="mt-6 max-w-xl text-lg font-medium leading-snug text-[#F3FFF8] sm:text-xl">
               Encuestas en tiempo real para equipos que deciden con datos.
             </p>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-neutral-400">
-              Los administradores crean encuestas, los usuarios votan, y un dashboard muestra los
-              resultados actualizándose en vivo a medida que llegan votos.
+
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#8FA99B]">
+              Crea encuestas, recibe votos y analiza resultados en vivo desde un dashboard claro y
+              profesional.
             </p>
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
-              <Button
-                asChild
-                className="h-11 rounded-full bg-white px-8 text-base font-medium text-black hover:bg-neutral-200"
-              >
-                <Link to="/login">
-                  Comenzar ahora
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                className="led-button-outline h-11 rounded-full border px-8 text-base text-white"
-              >
-                <Link to="/login">Iniciar sesión</Link>
-              </Button>
+
+            <div className="mt-10 flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center">
+              <Link to="/login" className="landing-btn-primary h-11 px-8 text-[15px]">
+                Comenzar ahora
+                <ArrowUpRight className="h-4 w-4" aria-hidden />
+              </Link>
+              <Link to="/login" className="landing-btn-secondary h-11 px-8 text-[15px]">
+                Iniciar sesión
+              </Link>
             </div>
           </div>
 
-          <div className="hidden dark:block">
-            <DaybreakHeroVisual />
-          </div>
-
-          {/* Vista clara: dos columnas */}
-          <div className="relative z-10 grid items-center gap-12 dark:hidden lg:grid-cols-2 lg:gap-16">
-            <div className="text-center lg:text-left">
-              <p className="mb-4 inline-flex items-center rounded-full border border-emerald-200/80 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-800">
-                Sistema web full-stack · Tiempo real
-              </p>
-              <h1 className="text-4xl font-semibold tracking-tight text-neutral-900 sm:text-[2.75rem] sm:leading-[1.12]">
-                Encuestas en vivo para equipos que deciden con datos
-              </h1>
-              <p className="mt-6 text-base leading-relaxed text-neutral-600 sm:text-lg">
-                <strong className="font-medium text-neutral-900">PulseVote</strong> es un sistema
-                web de encuestas en tiempo real: los administradores crean encuestas, los usuarios
-                votan, y un dashboard muestra los resultados actualizándose en vivo.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-                <Button
-                  asChild
-                  className="h-11 rounded-full bg-neutral-900 px-8 text-base font-medium text-white hover:bg-neutral-800"
-                >
-                  <Link to="/login">Comenzar ahora</Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="h-11 rounded-full border-neutral-300 bg-white px-8 text-base text-neutral-800 hover:bg-neutral-50"
-                >
-                  <Link to="/login">Iniciar sesión</Link>
-                </Button>
-              </div>
-            </div>
-            <div className="flex justify-center lg:justify-end">
-              <LivePreviewMock />
-            </div>
+          <div className="relative mt-16 sm:mt-20">
+            <div
+              className="pointer-events-none absolute -inset-x-8 top-1/2 h-1/2 -translate-y-1/4 bg-[radial-gradient(ellipse_at_center,rgba(0,245,138,0.06),transparent_70%)]"
+              aria-hidden
+            />
+            <HeroDashboardPreview />
           </div>
         </section>
 
@@ -117,21 +80,18 @@ export function WelcomePage() {
           <RoleEntryCards />
         </div>
 
-        <section className="relative border-t border-neutral-200/80 bg-neutral-900 px-4 py-14 text-center text-white dark:border-emerald-500/25 dark:bg-black/30 sm:px-6">
-          <h2 className="text-xl font-semibold sm:text-2xl">Listo para entrar</h2>
-          <p className="mx-auto mt-3 max-w-lg text-sm text-neutral-400 sm:text-base">
+        <section className="border-t border-[#12382B] px-4 py-16 text-center sm:px-6 sm:py-20">
+          <h2 className="text-2xl font-semibold tracking-tight text-[#F3FFF8]">Listo para entrar</h2>
+          <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-[#8FA99B] sm:text-base">
             Inicia sesión con las cuentas de demo o las credenciales de tu organización.
           </p>
-          <Button
-            asChild
-            className="mt-8 h-11 rounded-full bg-white px-8 text-base font-medium text-black hover:bg-neutral-200"
-          >
-            <Link to="/login">Iniciar sesión</Link>
-          </Button>
+          <Link to="/login" className="landing-btn-primary mt-8 inline-flex h-11 px-8 text-[15px]">
+            Iniciar sesión
+          </Link>
         </section>
       </main>
 
-      <footer className="relative border-t border-neutral-200/80 py-6 text-center text-xs text-neutral-500 dark:border-emerald-500/15 dark:bg-transparent dark:text-neutral-500">
+      <footer className="border-t border-[#12382B] py-8 text-center text-xs text-[#8FA99B]">
         PulseVote · Encuestas en tiempo real
       </footer>
     </div>

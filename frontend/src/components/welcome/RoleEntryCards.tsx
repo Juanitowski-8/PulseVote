@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { Check, Shield, Users } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import type { Role } from '@/types/auth'
 
 const roles: Array<{
@@ -34,42 +33,38 @@ const roles: Array<{
 
 export function RoleEntryCards() {
   return (
-    <section className="relative border-t border-neutral-200/80 dark:border-emerald-500/20 dark:bg-transparent">
-      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mb-10 text-center">
-          <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100">
-            ¿Qué quieres hacer?
-          </h2>
-          <p className="mt-3 text-neutral-600 dark:text-neutral-400">
+    <section className="relative border-t border-[#12382B]">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+        <div className="mb-12 text-center">
+          <h2 className="text-2xl font-semibold tracking-tight text-[#F3FFF8]">¿Qué quieres hacer?</h2>
+          <p className="mt-3 text-[#8FA99B]">
             Elige tu rol e inicia sesión para entrar directo a tu espacio.
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-5 md:grid-cols-2">
           {roles.map(({ icon: Icon, title, description, actions, cta, preset }) => (
-            <article
-              key={preset}
-              className="led-glass-card flex flex-col rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-emerald-400/30 dark:bg-black/50 dark:hover:border-[#4dff91]/50 dark:hover:shadow-[0_0_30px_rgba(77,255,145,0.15)]"
-            >
-              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950">
-                <Icon className="h-5 w-5 text-emerald-800 dark:text-emerald-400" aria-hidden />
+            <article key={preset} className="landing-surface-card flex flex-col p-6 transition-colors hover:border-[#00B86B]/40">
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-[#12382B] bg-[#0B241B]">
+                <Icon className="h-5 w-5 text-[#00B86B]" aria-hidden />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{description}</p>
-              <ul className="mt-4 space-y-2">
+              <h3 className="text-xl font-semibold text-[#F3FFF8]">{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#8FA99B]">{description}</p>
+              <ul className="mt-5 space-y-2.5">
                 {actions.map((action) => (
-                  <li key={action} className="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
-                    <Check className="h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden />
+                  <li key={action} className="flex items-center gap-2.5 text-sm text-[#F3FFF8]/90">
+                    <Check className="h-3.5 w-3.5 shrink-0 text-[#00B86B]" aria-hidden />
                     {action}
                   </li>
                 ))}
               </ul>
-              <Button
-                asChild
-                className="mt-6 h-10 w-full rounded-full bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
+              <Link
+                to="/login"
+                state={{ preset }}
+                className="landing-btn-primary mt-6 inline-flex h-10 w-full items-center justify-center text-sm"
               >
-                <Link to="/login" state={{ preset }}>{cta}</Link>
-              </Button>
+                {cta}
+              </Link>
             </article>
           ))}
         </div>

@@ -26,40 +26,32 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="relative border-t border-neutral-200/80 bg-white dark:border-emerald-500/20 dark:bg-transparent">
-      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mb-12 text-center">
-          <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-3xl">
+    <section className="relative border-t border-[#12382B]">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+        <div className="mb-14 text-center">
+          <h2 className="text-2xl font-semibold tracking-tight text-[#F3FFF8] sm:text-3xl">
             ¿Cómo funciona?
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-neutral-600 dark:text-neutral-400">
+          <p className="mx-auto mt-3 max-w-2xl text-[#8FA99B]">
             Un flujo simple en tres pasos: crear, votar y ver resultados en tiempo real.
           </p>
         </div>
 
-        <ol className="grid gap-6 md:grid-cols-3">
-          {steps.map(({ step, icon: Icon, title, description, role }, index) => (
-            <li key={step} className="relative">
-              {index < steps.length - 1 && (
-                <span
-                  className="absolute right-0 top-12 hidden h-px w-6 translate-x-full bg-neutral-200 dark:bg-neutral-700 md:block lg:w-10"
-                  aria-hidden
-                />
-              )}
-              <article className="led-glass-card flex h-full flex-col rounded-2xl border border-neutral-200/80 bg-[#fafafa] p-6 dark:border-emerald-400/25 dark:bg-black/40">
+        <ol className="grid gap-5 md:grid-cols-3">
+          {steps.map(({ step, icon: Icon, title, description, role }) => (
+            <li key={step}>
+              <article className="landing-surface-card flex h-full flex-col p-6">
                 <div className="mb-4 flex items-center justify-between">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+                  <span className="text-xs font-medium uppercase tracking-wider text-[#00B86B]">
                     {role === 'LIVE' ? 'Tiempo real' : `Rol ${role}`}
                   </span>
-                  <span className="font-mono text-sm text-neutral-400 dark:text-neutral-500">{step}</span>
+                  <span className="font-mono text-sm text-[#8FA99B]">{step}</span>
                 </div>
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-neutral-900 text-white dark:bg-emerald-500/20 dark:ring-1 dark:ring-emerald-500/30">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-[#12382B] bg-[#0B241B] text-[#00F58A]">
                   <Icon className="h-5 w-5" aria-hidden />
                 </div>
-                <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">{title}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
-                  {description}
-                </p>
+                <h3 className="text-lg font-semibold text-[#F3FFF8]">{title}</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-[#8FA99B]">{description}</p>
               </article>
             </li>
           ))}

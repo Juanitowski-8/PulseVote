@@ -3,13 +3,13 @@ import { WelcomeNavbar } from '@/components/layout/WelcomeNavbar'
 
 export function AuthLayout() {
   return (
-    <div className="landing-page flex min-h-screen flex-col dark:bg-black">
+    <div className="landing-page relative flex min-h-screen flex-col">
       <WelcomeNavbar />
       <div className="flex flex-1 flex-col items-center justify-center px-4 py-10 sm:py-14">
         <div className="mb-6 w-full max-w-md text-center">
           <Link
             to="/"
-            className="text-sm text-neutral-500 transition-colors hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
+            className="text-sm text-[#8FA99B] transition-colors hover:text-[#F3FFF8]"
           >
             ← Volver al inicio
           </Link>
