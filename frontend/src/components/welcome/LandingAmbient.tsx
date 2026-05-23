@@ -1,24 +1,30 @@
-/** Fondo landing — auroras verdes suaves, grain cinematográfico y movimiento lento */
+/** Fondo premium — neón verde, grain cinematográfico y movimiento fluido */
 export function LandingAmbient() {
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#030303]" aria-hidden>
-      {/* Base con ligero degradado central */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_40%,#0a120e_0%,#030303_55%,#020202_100%)]" />
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#020202]" aria-hidden>
+      {/* Base profunda */}
+      <div className="absolute inset-0 bg-[#020202]" />
 
-      {/* Nebulosa superior izquierda (estilo referencia pricing) */}
-      <div className="landing-glow-tl absolute -left-[15%] -top-[20%] h-[70vmin] w-[70vmin] rounded-full" />
+      {/* Mesh neón animado (capa principal, estilo referencia) */}
+      <div className="landing-neon-mesh absolute inset-0" />
 
-      {/* Nebulosa inferior derecha */}
-      <div className="landing-glow-br absolute -bottom-[25%] -right-[10%] h-[75vmin] w-[75vmin] rounded-full" />
+      {/* Blobs neón grandes con blur */}
+      <div className="landing-neon-blob landing-neon-blob-tl absolute -left-[20%] -top-[28%] h-[85vmin] w-[85vmin]" />
+      <div className="landing-neon-blob landing-neon-blob-br absolute -bottom-[32%] -right-[18%] h-[90vmin] w-[90vmin]" />
+      <div className="landing-neon-blob landing-neon-blob-mid absolute left-[30%] top-[42%] h-[55vmin] w-[55vmin]" />
 
-      {/* Halo central muy tenue */}
-      <div className="landing-glow-center absolute left-1/2 top-[38%] h-[50vmin] w-[50vmin] -translate-x-1/2 rounded-full" />
+      {/* Núcleo brillante detrás del hero */}
+      <div className="landing-neon-core absolute left-1/2 top-[42%] h-[42vmin] w-[min(90vw,720px)] -translate-x-1/2" />
 
-      {/* Textura grain */}
+      {/* Barrido de luz diagonal */}
+      <div className="landing-neon-sweep absolute inset-0" />
+
+      {/* Halo de borde superior (rim light) */}
+      <div className="landing-neon-rim absolute inset-x-0 top-0 h-[40vh]" />
+
+      {/* Grain + viñeta */}
       <div className="landing-grain absolute inset-0" />
-
-      {/* Viñeta para profundidad */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_75%_at_50%_45%,transparent_35%,#030303_100%)]" />
+      <div className="landing-vignette absolute inset-0" />
     </div>
   )
 }

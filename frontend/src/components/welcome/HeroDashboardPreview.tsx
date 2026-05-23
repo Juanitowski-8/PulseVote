@@ -19,7 +19,7 @@ export function HeroDashboardPreview() {
         {stats.map(({ label, value, hint, icon: Icon }) => (
           <div
             key={label}
-            className="rounded-xl border border-[#12382B] bg-[#071A14] px-4 py-3.5"
+            className="landing-surface-card px-4 py-3.5"
           >
             <div className="flex items-center justify-between gap-2">
               <p className="text-xs font-medium text-[#8FA99B]">{label}</p>
@@ -31,7 +31,7 @@ export function HeroDashboardPreview() {
         ))}
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-[#12382B] bg-[#071A14] shadow-[0_24px_80px_-32px_rgba(0,0,0,0.65)]">
+      <div className="landing-surface-card overflow-hidden rounded-2xl shadow-[0_32px_100px_-24px_rgba(0,245,138,0.12)]">
         <div className="flex items-center justify-between border-b border-[#12382B] px-5 py-3.5">
           <div>
             <p className="text-[11px] font-medium uppercase tracking-wider text-[#8FA99B]">
