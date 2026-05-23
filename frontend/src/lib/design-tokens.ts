@@ -1,10 +1,10 @@
 /** Tokens PulseVote — sincronizados con variables CSS en `index.css`. */
 export const PV_COLORS = {
   light: {
-    bg: '#F7FBF8',
+    bg: '#FAFDFB',
     surface: '#FFFFFF',
-    surfaceSoft: '#EEF8F1',
-    border: '#D6E7DC',
+    surfaceSoft: '#ECF8F1',
+    border: '#00A86B',
     primary: '#008F5A',
     primaryMedium: '#00A86B',
     primaryDark: '#005F3D',

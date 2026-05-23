@@ -4,7 +4,7 @@ import { AnimatedPremiumBackground } from '@/components/layout/AnimatedPremiumBa
 import { WelcomeNavbar } from '@/components/layout/WelcomeNavbar'
 export function AuthLayout() {
   return (
-    <div className="landing-page relative flex min-h-screen flex-col">
+    <div className="landing-page flex min-h-screen flex-col">
       <AnimatedPremiumBackground />
       <WelcomeNavbar />
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 py-10 sm:py-14">

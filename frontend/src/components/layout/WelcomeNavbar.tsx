@@ -16,7 +16,7 @@ export function WelcomeNavbar() {
   const appPath = user?.role === 'ADMIN' ? '/admin/polls' : '/user/polls'
 
   return (
-    <header className="sticky top-0 z-50 border-b border-pv/50 bg-pv-background/30 backdrop-blur-xl dark:border-pv/40 dark:bg-pv-background/25">
+    <header className="landing-navbar sticky top-0 z-50 backdrop-blur-xl">
       <div className="mx-auto flex h-[76px] max-w-6xl items-center justify-between gap-4 px-5 sm:h-[84px] sm:gap-8 sm:px-8">
         <Link to="/" className="shrink-0 transition-opacity hover:opacity-85">
           <PulseVoteBrand

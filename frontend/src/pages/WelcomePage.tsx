@@ -21,7 +21,7 @@ export function WelcomePage() {
 
   if (isLoading) {
     return (
-      <div className="landing-page relative flex min-h-screen items-center justify-center overflow-hidden">
+      <div className="landing-page flex min-h-screen items-center justify-center overflow-hidden">
         <AnimatedPremiumBackground />
         <div className="relative z-10">
           <LoadingState message="Cargando..." />
@@ -31,7 +31,7 @@ export function WelcomePage() {
   }
 
   return (
-    <div className="landing-page relative flex min-h-screen flex-col overflow-hidden">
+    <div className="landing-page flex min-h-screen flex-col overflow-hidden">
       <AnimatedPremiumBackground />
       <WelcomeNavbar />
 

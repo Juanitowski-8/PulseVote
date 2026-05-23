@@ -38,7 +38,7 @@ export function HeroDashboardPreview() {
               ¿Cómo actualizar resultados en vivo?
             </p>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-pv bg-pv-surface-soft px-2.5 py-1 text-[11px] font-medium text-pv-primary">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-pv-surface-soft px-2.5 py-1 text-[11px] font-medium text-pv-primary shadow-sm shadow-primary/10">
             <span className="h-1.5 w-1.5 rounded-full bg-[rgb(var(--primary))]" aria-hidden />
             En vivo
           </span>
@@ -54,7 +54,7 @@ export function HeroDashboardPreview() {
                     {opt.pct}% · {opt.votes}
                   </span>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-pv-surface-soft">
+                <div className="h-2 overflow-hidden rounded-full border border-primary/15 bg-pv-surface-soft">
                   <div
                     className="h-full rounded-full bg-[rgb(var(--primary-medium))]"
                     style={{ width: `${opt.pct}%` }}
@@ -64,7 +64,7 @@ export function HeroDashboardPreview() {
             ))}
           </div>
 
-          <div className="hidden rounded-xl border border-pv bg-pv-surface-soft p-4 sm:flex sm:flex-col sm:justify-between">
+          <div className="hidden rounded-xl border border-primary/35 bg-pv-surface-soft p-4 shadow-inner shadow-primary/5 sm:flex sm:flex-col sm:justify-between">
             <p className="text-xs font-medium text-pv-muted">Distribución</p>
             <div className="mt-3 flex items-end justify-center gap-2">
               {pollOptions.map((opt) => (
