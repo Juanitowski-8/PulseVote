@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://github.com/Juanitowski-8/PulseVote">Repositorio</a>
   ·
-  <a href="#cómo-correr-el-proyecto-localmente">Cómo correr</a>
+  <a href="#cómo-correr-el-proyecto-desde-cero">Cómo correr</a>
   ·
   <a href="#flujo-principal-para-probar">Flujo de prueba</a>
   ·
@@ -44,7 +44,7 @@
 ## Tabla de contenido
 
 - [Requisitos previos](#requisitos-previos)
-- [Cómo correr el proyecto localmente](#cómo-correr-el-proyecto-localmente)
+- [Cómo correr el proyecto desde cero](#cómo-correr-el-proyecto-desde-cero)
 - [Usuarios de prueba](#usuarios-de-prueba)
 - [Estructura del código](#estructura-del-código)
 - [Roles, privacidad y registro](#roles-privacidad-y-registro)
@@ -55,6 +55,7 @@
 - [Endpoints principales](#endpoints-principales)
 - [Tests y builds](#tests-y-builds)
 - [Trade-offs y mejoras futuras](#trade-offs-y-mejoras-futuras)
+- [Uso de IA](#uso-de-ia)
 - [Troubleshooting](#troubleshooting)
 - [Documentación adicional](#documentación-adicional)
 - [Estado del proyecto](#estado-del-proyecto)
@@ -74,23 +75,17 @@
 
 ---
 
-## Cómo correr el proyecto localmente
+## Cómo correr el proyecto desde cero
 
-### Los 3 servicios que deben estar activos
-
-PulseVote **no** es un solo comando: necesitas **tres procesos a la vez** mientras pruebas.
+PulseVote **no** es un solo comando: necesitas **tres servicios activos a la vez** mientras pruebas.
 
 | Servicio | Puerto | Comando | Descripción |
 |----------|--------|---------|-------------|
-| **PostgreSQL** | **5433** | `docker compose up -d` | Base de datos (único servicio en Docker) |
-| **Backend** | **3000** | `cd backend && npm run dev` | API REST Express + Prisma |
-| **Frontend** | **5173** | `cd frontend && npm run dev` | App React (Vite, `strictPort: true`) |
+| **PostgreSQL** | **5433** | `docker compose up -d` | Base de datos local |
+| **Backend API** | **3000** | `cd backend && npm run dev` | API REST |
+| **Frontend** | **5173** | `cd frontend && npm run dev` | Aplicación web |
 
-**Importante:**
-
-1. **Docker Compose solo levanta PostgreSQL.** No ejecuta el backend ni el frontend.
-2. **Backend y frontend van en terminales separadas** (o en la raíz con `npm run dev:backend` / `npm run dev:frontend` si ya hiciste `npm install` en la raíz).
-3. **No cierres esas terminales** mientras evalúas; si paras el backend o la BD, la app dejará de responder.
+> **Docker solo levanta PostgreSQL.** El backend y el frontend deben ejecutarse en **terminales separadas** (o con `npm run dev:backend` / `npm run dev:frontend` desde la raíz del monorepo, con Docker en otra terminal). No cierres esas terminales mientras evalúas.
 
 ### Orden recomendado (paso a paso)
 
@@ -405,11 +400,37 @@ Con `VITE_USE_MOCKS=true` la app usa datos en `localStorage` y **no** requiere b
 | GET | `/api/dashboard/summary` |
 | GET | `/api/dashboard/polls/:id/results` |
 
+### Formato de respuesta
+
+Los endpoints principales usan un **envelope estándar**: `{ success, message, data }`. Los errores usan un formato consistente: `{ success: false, message, error }`.
+
+Ejemplo de éxito:
+
+```json
+{
+  "success": true,
+  "message": "Polls retrieved successfully",
+  "data": []
+}
+```
+
+Ejemplo de error:
+
+```json
+{
+  "success": false,
+  "message": "Ya has votado en esta encuesta",
+  "error": { "code": "ALREADY_VOTED", "message": "Ya has votado en esta encuesta" }
+}
+```
+
+> `GET /api/health` responde un JSON simple de estado (`status`, `service`) sin el envelope anterior; el resto de la API protegida sigue el contrato estándar.
+
 ---
 
 ## Tests y builds
 
-Existen **tests automatizados** (Vitest). No es solo prueba manual.
+El proyecto incluye **tests automatizados** con Vitest (integración en backend, componentes y rutas en frontend).
 
 ### Backend
 
@@ -453,6 +474,15 @@ npm run build         # build de ambos workspaces
 
 Cada decisión prioriza **entregar la prueba técnica de forma estable y explicable**, no producción a escala.
 
+| Área | Decisión actual | Mejora futura |
+|------|-----------------|---------------|
+| Tiempo real | Polling cada 3 s | WebSocket o SSE |
+| Auth | JWT simple | Refresh tokens |
+| Infra local | Docker solo PostgreSQL | Compose con API/FE o deploy |
+| **Tests** | **Tests automatizados básicos en backend y frontend** | **E2E con Playwright** |
+| Deploy | Solo local / npm | CI/CD + hosting |
+| Privacidad admin | Scope por `createdById` | Organizaciones / equipos |
+
 ### Polling cada 3 segundos (en lugar de WebSocket)
 
 - **Por qué:** Cumple el requisito de actualización automática del dashboard sin recargar la página, con arquitectura simple y sin gestionar conexiones persistentes.
@@ -468,10 +498,10 @@ Cada decisión prioriza **entregar la prueba técnica de forma estable y explica
 - **Por qué:** La evaluación local suele asumir `npm run dev` en FE/BE; Docker reduce fricción solo en la BD.
 - **Mejora futura:** `docker compose` con servicios API y frontend, o imagen única para demo.
 
-### Tests automatizados básicos (sin E2E completo)
+### Tests automatizados (backend + frontend)
 
 - **Por qué:** Tests de integración (Supertest) y unitarios (RTL) validan contratos y reglas críticas (roles, 409, scope admin) con poco mantenimiento.
-- **Mejora futura:** E2E con Playwright (login → crear poll → votar → ver dashboard).
+- **Mejora futura:** **E2E con Playwright** (flujo completo en navegador: login → crear encuesta → votar → dashboard). Los tests actuales se mantienen; E2E se suma encima.
 
 ### Sin deploy productivo en este repositorio
 
@@ -487,6 +517,12 @@ Cada decisión prioriza **entregar la prueba técnica de forma estable y explica
 
 - **Por qué:** Privacidad entre administradores sin tablas de organización extra.
 - **Mejora futura:** Organizaciones/equipos y permisos granulares.
+
+---
+
+## Uso de IA
+
+IA se usó como apoyo para estructura inicial, componentes UI, validaciones y borradores de documentación. El código fue **revisado y probado manualmente**: builds, tests (`npm run test`), flujo admin/user, Swagger y [CHECKLIST-ENTREGA.md](CHECKLIST-ENTREGA.md). Las decisiones de arquitectura (capas, roles, voto único en BD, scope admin) están implementadas y se pueden explicar en entrevista con [GUIA-ENTREVISTA.md](GUIA-ENTREVISTA.md).
 
 ---
 
