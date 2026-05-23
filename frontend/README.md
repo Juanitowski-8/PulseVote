@@ -1,4 +1,21 @@
-# React + TypeScript + Vite
+# PulseVote — Frontend
+
+React + TypeScript + Vite + Tailwind.
+
+## Scripts
+
+| Comando | Descripción |
+|---------|-------------|
+| `npm run dev` | Desarrollo en http://localhost:5173 |
+| `npm run build` | Build de producción |
+| `npm run test` | Tests unitarios (Vitest + Testing Library) |
+| `npm run test:watch` | Tests en modo watch |
+
+Copia `.env.example` a `.env` y usa `VITE_USE_MOCKS=false` para API real.
+
+---
+
+# React + TypeScript + Vite (plantilla Vite)
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
