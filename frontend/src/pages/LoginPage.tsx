@@ -27,10 +27,10 @@ export function LoginPage() {
   }
 
   return (
-    <Card className="border-neutral-200/80 bg-white shadow-lg shadow-neutral-200/50">
+    <Card className="border-neutral-200/80 bg-white shadow-lg shadow-neutral-200/50 dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
       <CardHeader className="text-center sm:text-left">
-        <CardTitle className="text-xl font-semibold text-neutral-900">Iniciar sesión</CardTitle>
-        <CardDescription className="text-neutral-600">
+        <CardTitle className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">Iniciar sesión</CardTitle>
+        <CardDescription className="text-neutral-600 dark:text-neutral-400">
           {preset === 'admin'
             ? 'Accede al panel de administración para crear encuestas y ver el dashboard.'
             : preset === 'user'

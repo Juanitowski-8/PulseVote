@@ -101,7 +101,7 @@ export function LoginForm({ onSubmit, error, preset }: LoginFormProps) {
 
       <Button
         type="submit"
-        className="h-10 w-full rounded-full bg-neutral-900 text-white hover:bg-neutral-800"
+        className="h-10 w-full rounded-full bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-emerald-600 dark:hover:bg-emerald-500"
         disabled={isSubmitting}
       >
         {isSubmitting ? (

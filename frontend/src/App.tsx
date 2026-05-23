@@ -1,13 +1,18 @@
 import { BrowserRouter } from 'react-router-dom'
+import { ThemeToggle } from '@/components/layout/ThemeToggle'
 import { AuthProvider } from '@/context/AuthContext'
+import { ThemeProvider } from '@/context/ThemeContext'
 import { AppRoutes } from '@/routes/AppRoutes'
 
 export default function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppRoutes />
+          <ThemeToggle />
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   )
 }

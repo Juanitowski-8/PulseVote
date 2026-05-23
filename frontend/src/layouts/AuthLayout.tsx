@@ -7,7 +7,10 @@ export function AuthLayout() {
       <WelcomeNavbar />
       <div className="flex flex-1 flex-col items-center justify-center px-4 py-10 sm:py-14">
         <div className="mb-6 w-full max-w-md text-center">
-          <Link to="/" className="text-sm text-neutral-500 transition-colors hover:text-neutral-800">
+          <Link
+            to="/"
+            className="text-sm text-neutral-500 transition-colors hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
+          >
             ← Volver al inicio
           </Link>
         </div>

@@ -8,10 +8,13 @@ export function WelcomeNavbar() {
   const appPath = user?.role === 'ADMIN' ? '/admin/polls' : '/user/polls'
 
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-200/80 bg-[#fafafa]/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-neutral-200/80 bg-[#fafafa]/80 backdrop-blur-md dark:border-neutral-800 dark:bg-[#0a0a0a]/90">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-2 text-neutral-900 transition-opacity hover:opacity-80">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-900 text-sm font-bold text-white">
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-neutral-900 transition-opacity hover:opacity-80 dark:text-neutral-100"
+        >
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-900 text-sm font-bold text-white dark:bg-emerald-600">
             P
           </span>
           <span className="text-[15px] font-semibold tracking-tight">PulseVote</span>
@@ -21,18 +24,22 @@ export function WelcomeNavbar() {
           {isAuthenticated ? (
             <Button
               asChild
-              className="h-9 rounded-full bg-neutral-900 px-5 text-sm font-medium text-white hover:bg-neutral-800"
+              className="h-9 rounded-full bg-neutral-900 px-5 text-sm font-medium text-white hover:bg-neutral-800 dark:bg-emerald-600 dark:hover:bg-emerald-500"
             >
               <Link to={appPath}>Entrar a la app</Link>
             </Button>
           ) : (
             <>
-              <Button asChild variant="ghost" className="h-9 text-sm text-neutral-600 hover:text-neutral-900">
+              <Button
+                asChild
+                variant="ghost"
+                className="h-9 text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+              >
                 <Link to="/login">Iniciar sesión</Link>
               </Button>
               <Button
                 asChild
-                className="h-9 rounded-full bg-neutral-900 px-5 text-sm font-medium text-white hover:bg-neutral-800"
+                className="h-9 rounded-full bg-neutral-900 px-5 text-sm font-medium text-white hover:bg-neutral-800 dark:bg-emerald-600 dark:hover:bg-emerald-500"
               >
                 <Link to="/login">Comenzar</Link>
               </Button>
