@@ -6,10 +6,15 @@ export type PulseVoteLogoProps = {
   showText?: boolean
   size?: number
   textClassName?: string
-  /** Glow sutil del isotipo (default: true en hero, false en navbar) */
   glow?: boolean
 }
 
+/**
+ * Isotipo PulseVote — lectura clara en 3 capas:
+ * 1) Arcos superiores = señal en vivo (pulse)
+ * 2) Check central = voto confirmado
+ * 3) Barras inferiores = resultados / encuesta
+ */
 export function PulseVoteLogo({
   className,
   showText = true,
@@ -18,8 +23,8 @@ export function PulseVoteLogo({
   glow = true,
 }: PulseVoteLogoProps) {
   const uid = useId().replace(/:/g, '')
-  const gradientId = `pulsevote-gradient-${uid}`
-  const glowId = `pulsevote-glow-${uid}`
+  const gradientId = `pv-grad-${uid}`
+  const glowId = `pv-glow-${uid}`
 
   return (
     <div className={cn('flex items-center gap-3', className)}>
@@ -31,30 +36,30 @@ export function PulseVoteLogo({
         xmlns="http://www.w3.org/2000/svg"
         className={cn(
           'shrink-0',
-          glow && 'drop-shadow-[0_0_14px_rgba(0,245,138,0.18)]',
+          glow && 'drop-shadow-[0_0_12px_rgba(0,245,138,0.16)]',
         )}
         aria-hidden
       >
         <defs>
-          <linearGradient id={gradientId} x1="20" y1="18" x2="98" y2="105">
+          <linearGradient id={gradientId} x1="24" y1="16" x2="96" y2="104">
             <stop offset="0%" stopColor="#00F58A" />
-            <stop offset="48%" stopColor="#00B86B" />
+            <stop offset="50%" stopColor="#00B86B" />
             <stop offset="100%" stopColor="#006B45" />
           </linearGradient>
           {glow && (
             <filter
               id={glowId}
-              x="-30%"
-              y="-30%"
-              width="160%"
-              height="160%"
+              x="-25%"
+              y="-25%"
+              width="150%"
+              height="150%"
               colorInterpolationFilters="sRGB"
             >
-              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feGaussianBlur stdDeviation="1.8" result="blur" />
               <feColorMatrix
                 in="blur"
                 type="matrix"
-                values="0 0 0 0 0  0 0 0 0 0.96  0 0 0 0 0.54  0 0 0 0.28 0"
+                values="0 0 0 0 0  0 0 0 0 0.9  0 0 0 0 0.5  0 0 0 0.22 0"
                 result="glow"
               />
               <feMerge>
@@ -65,24 +70,47 @@ export function PulseVoteLogo({
           )}
         </defs>
 
-        <g
-          stroke={`url(#${gradientId})`}
-          strokeWidth="8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          filter={glow ? `url(#${glowId})` : undefined}
-        >
-          <path d="M22 56C22 34 39 20 60 20C81 20 98 34 98 56" />
-          <path d="M22 68C34 64 33 52 34 45C36 32 47 26 60 26C76 26 88 38 88 55V66" />
-          <path d="M28 82C25 69 35 63 42 58C48 54 48 46 50 40C52 34 56 32 61 32C70 32 78 39 78 49V57" />
-          <path d="M43 96C35 82 39 70 50 65C58 61 60 53 60 45" />
-          <path d="M55 101C72 105 86 97 88 82C89 75 88 71 88 71" />
-          <path d="M98 68C93 65 90 63 88 60" />
-          <path d="M101 81C96 78 93 77 90 75" />
-          <path d="M54 82V68" />
-          <path d="M66 82V59" />
-          <path d="M78 82V49" />
-          <path d="M45 55L57 67L83 40" />
+        <g filter={glow ? `url(#${glowId})` : undefined}>
+          {/* Marco — lectura como icono de app */}
+          <rect
+            x="8"
+            y="8"
+            width="104"
+            height="104"
+            rx="24"
+            fill="#071A14"
+            stroke={`url(#${gradientId})`}
+            strokeWidth="2.5"
+          />
+
+          {/* Pulse / tiempo real */}
+          <g
+            stroke={`url(#${gradientId})`}
+            strokeWidth="6"
+            strokeLinecap="round"
+            fill="none"
+            opacity="0.85"
+          >
+            <path d="M26 56C26 30 42 14 60 14C78 14 94 30 94 56" />
+            <path d="M38 58C38 40 48 28 60 28C72 28 82 40 82 58" />
+          </g>
+
+          {/* Voto confirmado */}
+          <path
+            d="M40 54L54 74L88 42"
+            stroke={`url(#${gradientId})`}
+            strokeWidth="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+
+          {/* Resultados de encuesta */}
+          <g fill={`url(#${gradientId})`}>
+            <rect x="32" y="84" width="16" height="20" rx="4" />
+            <rect x="52" y="72" width="16" height="32" rx="4" />
+            <rect x="72" y="56" width="16" height="48" rx="4" />
+          </g>
         </g>
       </svg>
 
@@ -105,7 +133,7 @@ type PulseVoteBrandProps = {
   nameClassName?: string
 }
 
-export function PulseVoteBrand({ className, logoSize = 26, nameClassName }: PulseVoteBrandProps) {
+export function PulseVoteBrand({ className, logoSize = 28, nameClassName }: PulseVoteBrandProps) {
   return (
     <PulseVoteLogo
       size={logoSize}
