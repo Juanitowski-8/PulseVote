@@ -40,6 +40,20 @@ npm run prisma:seed
 
 `GET http://localhost:3000/api/health`
 
+## Swagger / OpenAPI
+
+Documentación interactiva (prueba técnica):
+
+**URL:** [http://localhost:3000/api/docs](http://localhost:3000/api/docs)
+
+1. Abre `/api/docs` en el navegador.
+2. **POST /auth/login** con `admin@pulsevote.app` / `Admin123!` (o user).
+3. Copia `data.token` de la respuesta.
+4. Clic en **Authorize** (candado), pega el token (sin prefijo `Bearer`).
+5. Prueba rutas protegidas (polls, vote, dashboard).
+
+Tags: Auth, Polls, Votes, Dashboard, Health.
+
 ## Votación — `POST /api/polls/:id/vote`
 
 Solo rol **USER**. Body: `{ "optionId": "<id-opcion>" }`.
