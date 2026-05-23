@@ -85,9 +85,7 @@
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Poll'
+ *               $ref: '#/components/schemas/PollListEnvelope'
  *       401:
  *         $ref: '#/components/responses/Unauthorized'
  *       500:
@@ -110,7 +108,7 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Poll'
+ *               $ref: '#/components/schemas/PollEnvelope'
  *       400:
  *         $ref: '#/components/responses/BadRequest'
  *       401:
@@ -134,7 +132,7 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Poll'
+ *               $ref: '#/components/schemas/PollEnvelope'
  *       401:
  *         $ref: '#/components/responses/Unauthorized'
  *       404:
@@ -161,7 +159,7 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Poll'
+ *               $ref: '#/components/schemas/PollEnvelope'
  *       400:
  *         $ref: '#/components/responses/BadRequest'
  *       401:
@@ -181,8 +179,12 @@
  *     parameters:
  *       - $ref: '#/components/parameters/PollId'
  *     responses:
- *       204:
+ *       200:
  *         description: Poll deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApiSuccessEnvelope'
  *       401:
  *         $ref: '#/components/responses/Unauthorized'
  *       403:
@@ -207,7 +209,7 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/PollResults'
+ *               $ref: '#/components/schemas/PollResultsEnvelope'
  *       401:
  *         $ref: '#/components/responses/Unauthorized'
  *       403:

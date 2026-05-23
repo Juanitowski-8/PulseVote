@@ -1,7 +1,7 @@
 import type { Response } from 'express'
 
-/** Respuesta estándar para endpoints de autenticación. */
-export function sendAuthSuccess<T>(
+/** Respuesta estándar `{ success, message, data }` para toda la API. */
+export function sendApiSuccess<T>(
   res: Response,
   message: string,
   data: T,
@@ -14,11 +14,17 @@ export function sendAuthSuccess<T>(
   })
 }
 
-export function sendSuccess<T>(res: Response, data: T, statusCode = 200) {
-  res.status(statusCode).json(data)
+/** Alias histórico (auth); mismo contrato que sendApiSuccess. */
+export function sendAuthSuccess<T>(
+  res: Response,
+  message: string,
+  data: T,
+  statusCode = 200,
+) {
+  sendApiSuccess(res, message, data, statusCode)
 }
 
-/** Respuesta estándar del dashboard y endpoints con envelope `{ success, data }`. */
+/** Respuesta estándar del dashboard `{ success, data }` (sin message). */
 export function sendDataSuccess<T>(res: Response, data: T, statusCode = 200) {
   res.status(statusCode).json({
     success: true,
@@ -34,6 +40,7 @@ export function sendError(
 ) {
   res.status(statusCode).json({
     success: false,
+    message,
     error: { code, message },
   })
 }

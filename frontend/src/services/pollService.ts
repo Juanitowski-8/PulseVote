@@ -95,7 +95,7 @@ export const pollService = {
       await delay()
       return mockStore.getAllPolls(activeOnly)
     }
-    const res = await api.get<ApiPoll[]>('/polls', {
+    const res = await api.get<ApiSuccessResponse<ApiPoll[]>>('/polls', {
       params: activeOnly ? { active: true } : undefined,
     })
     const data = unwrapData<ApiPoll[]>(res)
@@ -109,7 +109,7 @@ export const pollService = {
       if (!poll) throw new Error('Encuesta no encontrada')
       return poll
     }
-    const res = await api.get<ApiPoll>(`/polls/${id}`)
+    const res = await api.get<ApiSuccessResponse<ApiPoll>>(`/polls/${id}`)
     return mapPollFromApi(unwrapData<ApiPoll>(res))
   },
 
@@ -118,7 +118,7 @@ export const pollService = {
       await delay(500)
       return mockStore.createPoll(payload, 'usr_admin')
     }
-    const res = await api.post<ApiPoll>('/polls', buildPollPayload(payload))
+    const res = await api.post<ApiSuccessResponse<ApiPoll>>('/polls', buildPollPayload(payload))
     return mapPollFromApi(unwrapData<ApiPoll>(res))
   },
 
@@ -127,7 +127,7 @@ export const pollService = {
       await delay(500)
       return mockStore.updatePoll(id, payload)
     }
-    const res = await api.put<ApiPoll>(`/polls/${id}`, buildPollPayload(payload))
+    const res = await api.put<ApiSuccessResponse<ApiPoll>>(`/polls/${id}`, buildPollPayload(payload))
     return mapPollFromApi(unwrapData<ApiPoll>(res))
   },
 
@@ -173,7 +173,7 @@ export const pollService = {
       await delay(200)
       return mockStore.getPollResults(pollId)
     }
-    const res = await api.get<ApiPollResults>(`/polls/${pollId}/results`)
+    const res = await api.get<ApiSuccessResponse<ApiPollResults>>(`/polls/${pollId}/results`)
     return mapResultsFromApi(unwrapData<ApiPollResults>(res))
   },
 

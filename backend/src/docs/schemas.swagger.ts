@@ -267,12 +267,51 @@
  *           type: string
  *           example: pulsevote-api
  *
+ *     ApiSuccessEnvelope:
+ *       type: object
+ *       properties:
+ *         success:
+ *           type: boolean
+ *           example: true
+ *         message:
+ *           type: string
+ *         data:
+ *           description: Payload; null on delete
+ *
+ *     PollListEnvelope:
+ *       allOf:
+ *         - $ref: '#/components/schemas/ApiSuccessEnvelope'
+ *         - type: object
+ *           properties:
+ *             data:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Poll'
+ *
+ *     PollEnvelope:
+ *       allOf:
+ *         - $ref: '#/components/schemas/ApiSuccessEnvelope'
+ *         - type: object
+ *           properties:
+ *             data:
+ *               $ref: '#/components/schemas/Poll'
+ *
+ *     PollResultsEnvelope:
+ *       allOf:
+ *         - $ref: '#/components/schemas/ApiSuccessEnvelope'
+ *         - type: object
+ *           properties:
+ *             data:
+ *               $ref: '#/components/schemas/PollResults'
+ *
  *     ErrorResponse:
  *       type: object
  *       properties:
  *         success:
  *           type: boolean
  *           example: false
+ *         message:
+ *           type: string
  *         error:
  *           type: object
  *           properties:
