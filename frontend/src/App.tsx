@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom'
+import { PremiumLedBackground } from '@/components/layout/PremiumLedBackground'
 import { ThemeToggle } from '@/components/layout/ThemeToggle'
 import { AuthProvider } from '@/context/AuthContext'
 import { ThemeProvider } from '@/context/ThemeContext'
@@ -8,6 +9,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
+        <PremiumLedBackground />
         <AuthProvider>
           <AppRoutes />
           <ThemeToggle />

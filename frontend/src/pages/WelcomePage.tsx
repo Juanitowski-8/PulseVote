@@ -29,7 +29,7 @@ export function WelcomePage() {
   }
 
   return (
-    <div className="landing-page flex min-h-screen flex-col">
+    <div className="landing-page relative flex min-h-screen flex-col">
       <WelcomeNavbar />
 
       <main className="flex-1">
@@ -43,10 +43,10 @@ export function WelcomePage() {
             <h1 className="text-gradient-daybreak text-6xl font-semibold tracking-tight sm:text-7xl md:text-8xl">
               PulseVote
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-neutral-400 sm:text-xl">
+            <p className="mt-6 max-w-xl text-lg text-neutral-300 sm:text-xl">
               Encuestas en tiempo real para equipos que deciden con datos.
             </p>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-neutral-500">
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-neutral-400">
               Los administradores crean encuestas, los usuarios votan, y un dashboard muestra los
               resultados actualizándose en vivo a medida que llegan votos.
             </p>
@@ -63,7 +63,7 @@ export function WelcomePage() {
               <Button
                 asChild
                 variant="outline"
-                className="h-11 rounded-full border-white/25 bg-transparent px-8 text-base text-white hover:bg-white/10"
+                className="led-button-outline h-11 rounded-full border px-8 text-base text-white"
               >
                 <Link to="/login">Iniciar sesión</Link>
               </Button>
@@ -117,7 +117,7 @@ export function WelcomePage() {
           <RoleEntryCards />
         </div>
 
-        <section className="border-t border-neutral-200/80 bg-neutral-900 px-4 py-14 text-center text-white dark:border-white/10 dark:bg-black sm:px-6">
+        <section className="relative border-t border-neutral-200/80 bg-neutral-900 px-4 py-14 text-center text-white dark:border-emerald-500/25 dark:bg-black/30 sm:px-6">
           <h2 className="text-xl font-semibold sm:text-2xl">Listo para entrar</h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-neutral-400 sm:text-base">
             Inicia sesión con las cuentas de demo o las credenciales de tu organización.
@@ -131,7 +131,7 @@ export function WelcomePage() {
         </section>
       </main>
 
-      <footer className="border-t border-neutral-200/80 py-6 text-center text-xs text-neutral-500 dark:border-white/10 dark:bg-black dark:text-neutral-600">
+      <footer className="relative border-t border-neutral-200/80 py-6 text-center text-xs text-neutral-500 dark:border-emerald-500/15 dark:bg-transparent dark:text-neutral-500">
         PulseVote · Encuestas en tiempo real
       </footer>
     </div>

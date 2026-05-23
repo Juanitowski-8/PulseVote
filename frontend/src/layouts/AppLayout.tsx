@@ -8,7 +8,7 @@ export function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <div className="flex min-h-screen">
+    <div className="relative z-0 flex min-h-screen">
       <div
         className={cn(
           'fixed inset-y-0 left-0 z-50 transform transition-transform duration-200 lg:relative lg:translate-x-0',

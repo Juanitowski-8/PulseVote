@@ -26,7 +26,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="border-t border-neutral-200/80 bg-white dark:border-white/10 dark:bg-black">
+    <section className="relative border-t border-neutral-200/80 bg-white dark:border-emerald-500/20 dark:bg-transparent">
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="mb-12 text-center">
           <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-3xl">
@@ -46,7 +46,7 @@ export function HowItWorks() {
                   aria-hidden
                 />
               )}
-              <article className="flex h-full flex-col rounded-2xl border border-neutral-200/80 bg-[#fafafa] p-6 dark:border-white/10 dark:bg-neutral-950/80">
+              <article className="led-glass-card flex h-full flex-col rounded-2xl border border-neutral-200/80 bg-[#fafafa] p-6 dark:border-emerald-400/25 dark:bg-black/40">
                 <div className="mb-4 flex items-center justify-between">
                   <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                     {role === 'LIVE' ? 'Tiempo real' : `Rol ${role}`}

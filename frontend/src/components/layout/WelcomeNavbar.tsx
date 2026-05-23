@@ -19,7 +19,7 @@ export function WelcomeNavbar() {
       className={cn(
         'sticky top-0 z-50 border-b backdrop-blur-md',
         'border-neutral-200/80 bg-[#fafafa]/80',
-        'dark:border-white/10 dark:bg-black/80',
+        'dark:border-emerald-500/20 dark:bg-black/50',
       )}
     >
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">

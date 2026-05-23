@@ -34,7 +34,7 @@ const roles: Array<{
 
 export function RoleEntryCards() {
   return (
-    <section className="border-t border-neutral-200/80 dark:border-white/10 dark:bg-black">
+    <section className="relative border-t border-neutral-200/80 dark:border-emerald-500/20 dark:bg-transparent">
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="mb-10 text-center">
           <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100">
@@ -49,7 +49,7 @@ export function RoleEntryCards() {
           {roles.map(({ icon: Icon, title, description, actions, cta, preset }) => (
             <article
               key={preset}
-              className="flex flex-col rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-white/10 dark:bg-neutral-950/60 dark:hover:border-emerald-500/20 dark:hover:shadow-emerald-900/20"
+              className="led-glass-card flex flex-col rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-emerald-400/30 dark:bg-black/50 dark:hover:border-[#4dff91]/50 dark:hover:shadow-[0_0_30px_rgba(77,255,145,0.15)]"
             >
               <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950">
                 <Icon className="h-5 w-5 text-emerald-800 dark:text-emerald-400" aria-hidden />
