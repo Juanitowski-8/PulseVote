@@ -3,7 +3,7 @@ import { WelcomeNavbar } from '@/components/layout/WelcomeNavbar'
 
 export function AuthLayout() {
   return (
-    <div className="landing-page flex min-h-screen flex-col">
+    <div className="landing-page flex min-h-screen flex-col dark:bg-black">
       <WelcomeNavbar />
       <div className="flex flex-1 flex-col items-center justify-center px-4 py-10 sm:py-14">
         <div className="mb-6 w-full max-w-md text-center">

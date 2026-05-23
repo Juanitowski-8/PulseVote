@@ -26,7 +26,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="border-t border-neutral-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-950">
+    <section className="border-t border-neutral-200/80 bg-white dark:border-white/10 dark:bg-black">
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="mb-12 text-center">
           <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-3xl">
@@ -46,14 +46,14 @@ export function HowItWorks() {
                   aria-hidden
                 />
               )}
-              <article className="flex h-full flex-col rounded-2xl border border-neutral-200/80 bg-[#fafafa] p-6 dark:border-neutral-800 dark:bg-neutral-900">
+              <article className="flex h-full flex-col rounded-2xl border border-neutral-200/80 bg-[#fafafa] p-6 dark:border-white/10 dark:bg-neutral-950/80">
                 <div className="mb-4 flex items-center justify-between">
                   <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                     {role === 'LIVE' ? 'Tiempo real' : `Rol ${role}`}
                   </span>
                   <span className="font-mono text-sm text-neutral-400 dark:text-neutral-500">{step}</span>
                 </div>
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-neutral-900 text-white dark:bg-emerald-600">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-neutral-900 text-white dark:bg-emerald-500/20 dark:ring-1 dark:ring-emerald-500/30">
                   <Icon className="h-5 w-5" aria-hidden />
                 </div>
                 <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">{title}</h3>

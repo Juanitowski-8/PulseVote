@@ -35,27 +35,27 @@
   --radius-xl: 1rem;
 }
 
-/* Modo nocturno — variables globales */
+/* Modo nocturno — negro puro + acentos verdes (estilo Daybreak) */
 .dark {
-  --color-background: #0a100e;
-  --color-foreground: #e8f0ec;
-  --color-card: #121a16;
+  --color-background: #000000;
+  --color-foreground: #f0fdf4;
+  --color-card: #0a0a0a;
   --color-card-foreground: #e8f0ec;
-  --color-muted: #1a2420;
-  --color-muted-foreground: #94a89e;
-  --color-border: #2a3b34;
-  --color-input: #2a3b34;
+  --color-muted: #111111;
+  --color-muted-foreground: #a3a3a3;
+  --color-border: #262626;
+  --color-input: #262626;
   --color-primary: #10b981;
   --color-primary-foreground: #052e1f;
-  --color-secondary: #1a2420;
-  --color-secondary-foreground: #a7f3d0;
+  --color-secondary: #171717;
+  --color-secondary-foreground: #6ee7b7;
   --color-accent: #34d399;
   --color-accent-foreground: #ecfdf5;
   --color-ring: #10b981;
-  --color-sidebar: #060a09;
+  --color-sidebar: #000000;
   --color-sidebar-foreground: #d1e8df;
-  --color-sidebar-muted: #6b8f7d;
-  --color-sidebar-accent: #0d281f;
+  --color-sidebar-muted: #737373;
+  --color-sidebar-accent: #14532d;
 }
 
 @layer base {
@@ -75,9 +75,8 @@
   }
 
   .dark body {
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgb(16 185 129 / 0.12), transparent),
-      radial-gradient(ellipse 60% 40% at 100% 0%, rgb(11 107 82 / 0.08), transparent);
+    background-color: #000000;
+    background-image: none;
   }
 
   #root {
@@ -104,6 +103,22 @@
   }
 
   .dark .landing-page {
-    @apply bg-[#0a0a0a] text-neutral-100;
+    @apply bg-black text-neutral-100;
+  }
+
+  /* Título hero — gradiente verde tipo OpenAI Daybreak */
+  .text-gradient-daybreak {
+    background: linear-gradient(
+      180deg,
+      #a7f3d0 0%,
+      #34d399 22%,
+      #10b981 45%,
+      #047857 68%,
+      #022c22 88%,
+      #000000 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 }

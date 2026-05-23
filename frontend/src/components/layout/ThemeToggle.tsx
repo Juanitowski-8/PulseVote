@@ -20,7 +20,7 @@ export function ThemeToggle() {
         inApp ? 'left-4 lg:left-[17.5rem]' : 'left-4',
         'border-border bg-card text-foreground hover:scale-105 hover:shadow-xl',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-        'dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800',
+        'dark:border-white/20 dark:bg-black dark:text-emerald-300 dark:hover:bg-white/10',
       )}
       aria-label={theme === 'dark' ? 'Activar modo día' : 'Activar modo nocturno'}
       title={theme === 'dark' ? 'Modo día' : 'Modo nocturno'}
