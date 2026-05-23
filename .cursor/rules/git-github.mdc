@@ -1,0 +1,30 @@
+---
+description: Commits y push siempre al repo GitHub de PulseVote
+alwaysApply: true
+---
+
+# Git — PulseVote (Juanitowski-8)
+
+Repositorio remoto único:
+
+- **URL:** https://github.com/Juanitowski-8/PulseVote
+- **Remoto:** `origin` → `https://github.com/Juanitowski-8/PulseVote.git`
+- **Rama:** `main`
+
+## Después de cada cambio de código o docs
+
+1. `git status` y `git diff` para revisar qué se modificó.
+2. **Commit** en `main` con mensaje claro (estilo del repo: `feat(frontend):`, `fix(backend):`, `docs:`, etc.).
+3. **`git push origin main`** inmediatamente después del commit, salvo que el usuario pida no subir.
+
+No dejar trabajo solo en local: GitHub debe reflejar el historial actual.
+
+## Prohibido sin pedirlo explícito
+
+- Cambiar `git config` o el remoto `origin`.
+- `push --force` a `main`.
+- Commitear `.env`, claves o credenciales.
+
+## Si el push falla
+
+Informar el error (auth, red, permisos) y no asumir que el remoto está actualizado.
