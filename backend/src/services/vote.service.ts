@@ -21,16 +21,16 @@ export const voteService = {
     })
 
     if (!poll) {
-      throw new AppError('Poll not found', 404, 'POLL_NOT_FOUND')
+      throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
     }
 
     if (!poll.isActive) {
-      throw new AppError('Poll is not active', 400, 'POLL_NOT_ACTIVE')
+      throw new AppError('La encuesta no está activa', 400, 'POLL_NOT_ACTIVE')
     }
 
     const optionBelongsToPoll = poll.options.some((o) => o.id === optionId)
     if (!optionBelongsToPoll) {
-      throw new AppError('Option does not belong to this poll', 400, 'INVALID_OPTION')
+      throw new AppError('La opción no pertenece a esta encuesta', 400, 'INVALID_OPTION')
     }
 
     const existingVote = await prisma.vote.findUnique({
@@ -38,7 +38,7 @@ export const voteService = {
     })
 
     if (existingVote) {
-      throw new AppError('You have already voted in this poll', 409, 'ALREADY_VOTED')
+      throw new AppError('Ya has votado en esta encuesta', 409, 'ALREADY_VOTED')
     }
 
     let vote
@@ -51,7 +51,7 @@ export const voteService = {
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2002'
       ) {
-        throw new AppError('You have already voted in this poll', 409, 'ALREADY_VOTED')
+        throw new AppError('Ya has votado en esta encuesta', 409, 'ALREADY_VOTED')
       }
       throw error
     }

@@ -33,11 +33,11 @@ export function errorMiddleware(
           res,
           409,
           'ALREADY_VOTED',
-          'You have already voted in this poll',
+          'Ya has votado en esta encuesta',
         )
       }
 
-      return sendError(res, 409, 'DUPLICATE_ENTRY', 'Resource already exists')
+      return sendError(res, 409, 'DUPLICATE_ENTRY', 'El recurso ya existe')
     }
     if (err.code === 'P2025') {
       return sendError(res, 404, 'NOT_FOUND', 'Recurso no encontrado')

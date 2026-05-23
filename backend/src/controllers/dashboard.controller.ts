@@ -8,7 +8,7 @@ import { sendDataSuccess } from '../utils/response'
 export const dashboardController = {
   summary: asyncHandler(async (req: Request, res: Response) => {
     if (!req.user) {
-      throw new AppError('Unauthorized', 401, 'UNAUTHORIZED')
+      throw new AppError('No autenticado', 401, 'UNAUTHORIZED')
     }
 
     const data = await dashboardService.getSummary(req.user.role, req.user.id)
@@ -17,7 +17,7 @@ export const dashboardController = {
 
   pollResults: asyncHandler(async (req: Request, res: Response) => {
     if (!req.user) {
-      throw new AppError('Unauthorized', 401, 'UNAUTHORIZED')
+      throw new AppError('No autenticado', 401, 'UNAUTHORIZED')
     }
 
     const data = await dashboardService.getPollResults(getParamId(req.params.id))

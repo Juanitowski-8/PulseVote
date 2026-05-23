@@ -8,7 +8,7 @@ import { sendAuthSuccess } from '../utils/response'
 export const voteController = {
   vote: asyncHandler(async (req: Request, res: Response) => {
     if (!req.user) {
-      throw new AppError('Unauthorized', 401, 'UNAUTHORIZED')
+      throw new AppError('No autenticado', 401, 'UNAUTHORIZED')
     }
 
     const { optionId } = req.body as { optionId: string }

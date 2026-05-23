@@ -139,7 +139,7 @@ export const dashboardService = {
     })
 
     if (!poll) {
-      throw new AppError('Poll not found', 404, 'POLL_NOT_FOUND')
+      throw new AppError('Encuesta no encontrada', 404, 'POLL_NOT_FOUND')
     }
 
     const results = await pollService.getPollResults(pollId)
